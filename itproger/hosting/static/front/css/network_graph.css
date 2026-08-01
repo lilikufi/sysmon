@@ -1965,6 +1965,18 @@
   padding: 8px;
 }
 
+/* Flat map background matching the shared page background. */
+.map-page .network-graph,
+.map-page .network-graph > .backfeater,
+.map-page #tree-container {
+  background: #181a1b;
+  background-image: none;
+}
+
+.map-page .network-graph::before {
+  display: none;
+}
+
 @media (max-width: 1250px) {
   .map-page .backheader {
     grid-template-columns: 290px minmax(0, 1fr) auto;
