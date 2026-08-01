@@ -1351,8 +1351,8 @@
 
 .map-tools-cluster {
   position: fixed;
-  top: calc(var(--map-header-height) + 12px);
-  left: 20px;
+  top: calc(var(--map-header-height) + 0px);
+  left: 3px;
   z-index: 10005;
   display: flex;
   flex-direction: column;
@@ -1360,8 +1360,8 @@
   width: 180px;
   max-height: calc(100vh - var(--map-header-height) - 24px);
   padding: 6px;
-  background: rgba(18, 23, 29, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  border: 0;
   border-radius: 21px;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(14px);
@@ -1729,7 +1729,7 @@
   min-height: 42px;
   padding: 0 16px;
   color: #eaf7ff;
-  background: rgba(255, 255, 255, 0.075);
+  background: rgb(18 23 40);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 21px;
   box-sizing: border-box;
