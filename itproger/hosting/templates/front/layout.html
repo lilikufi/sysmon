@@ -117,9 +117,6 @@
         <a href="http://0.0.0.0:8000/admin/" class="dropdown-item">
             <span>Admin</span>
         </a>
-        <a href="{% url 'service' %}" class="dropdown-item">
-            <span>Хосты</span>
-        </a>
         {% endif %}
     </div>
 </div>
@@ -156,21 +153,19 @@
         </div>
         {% block user %}
         <div class="box">
-
-<!--            <a href="{% url 'password_change' %}" ><img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" /></a>-->
-<!--            <img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" href="{% url 'password_change' %}"/>-->
-            <div class="exit_block">
+            <div class="profile-menu">
+                <button class="profile-toggle" id="profileToggle" type="button" aria-label="Профиль" aria-expanded="false" aria-controls="profileDropdown">
+                    <img class="user" src="{% static 'front/img/user1.svg' %}" alt="Профиль" />
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
                 {% if user.is_authenticated %}
-                <a class="login" href="{% url 'logout' %}">Выйти</a>
-
+                    <a href="{% url 'password_change' %}" class="profile-dropdown-item">Смена пароля</a>
+                    <a href="{% url 'logout' %}" class="profile-dropdown-item profile-logout">Выйти</a>
                 {% else %}
-                <a class="login" href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'login' %}" class="profile-dropdown-item">Войти</a>
                 {% endif %}
-<!--                <a href="{% url 'logout' %}"><img class="exit"  src="{% static 'front/img/exit.svg' %}" alt="alt text"/></a>-->
+                </div>
             </div>
-            <a href="{% url 'password_change' %}" ><img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" /></a>
-
-
         </div>
         {% endblock %}
 
@@ -193,24 +188,45 @@
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');
     const dropdownContent = document.getElementById('dropdownContent');
+    const profileToggle = document.getElementById('profileToggle');
+    const profileDropdown = document.getElementById('profileDropdown');
 
     // Открытие/закрытие меню по клику
-    menuToggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownContent.classList.toggle('show');
-    });
+    if (menuToggle && dropdownContent) {
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownContent.classList.toggle('show');
+            profileDropdown?.classList.remove('show');
+            profileToggle?.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    if (profileToggle && profileDropdown) {
+        profileToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = profileDropdown.classList.toggle('show');
+            profileToggle.setAttribute('aria-expanded', String(isOpen));
+            dropdownContent?.classList.remove('show');
+        });
+    }
 
     // Закрытие меню при клике вне его
     document.addEventListener('click', function(e) {
-        if (!dropdownContent.contains(e.target) && e.target !== menuToggle) {
+        if (dropdownContent && menuToggle && !dropdownContent.contains(e.target) && e.target !== menuToggle) {
             dropdownContent.classList.remove('show');
+        }
+        if (profileDropdown && profileToggle && !profileDropdown.contains(e.target) && !profileToggle.contains(e.target)) {
+            profileDropdown.classList.remove('show');
+            profileToggle.setAttribute('aria-expanded', 'false');
         }
     });
 
     // Закрытие меню при нажатии Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            dropdownContent.classList.remove('show');
+            dropdownContent?.classList.remove('show');
+            profileDropdown?.classList.remove('show');
+            profileToggle?.setAttribute('aria-expanded', 'false');
         }
     });
 });

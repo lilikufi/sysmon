@@ -39,12 +39,13 @@
 }
 
 .map-page .map-header-actions {
-  gap: 10px;
+  gap: 8px;
 }
 
 /* Search */
 .map-page .search-container {
-  gap: 8px;
+  gap: 0;
+  max-width: 260px;
 }
 
 .map-page .search-input {
@@ -53,8 +54,13 @@
   color: var(--design-text);
   background: var(--design-surface);
   border: 1px solid var(--design-border);
-  border-radius: var(--design-radius-md);
+  border-radius: 21px 0 0 21px;
+  border-right: 0;
   box-shadow: none;
+  font-family: "Roboto", Helvetica, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
 }
 
 .map-page .search-input::placeholder {
@@ -73,7 +79,7 @@
   height: var(--design-control-height);
   flex: 0 0 var(--design-control-height);
   padding: 0;
-  border-radius: var(--design-radius-sm);
+  border-radius: 0 21px 21px 0;
 }
 
 /* Position controls */
@@ -112,6 +118,19 @@
   border-radius: var(--design-radius-md);
 }
 
+.map-page .map-tools-cluster .filter-panel,
+.map-page .map-tools-cluster .glass-panel {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.map-page .map-tools-cluster .glass-panel {
+  border-top-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+}
+
 /* Dialogs and terminal use the same visual language. */
 .map-page .modal-content,
 .map-page .ssh-dropdown-content {
@@ -143,4 +162,3 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-

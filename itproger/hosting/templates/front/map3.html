@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title %}Network Graph{% endblock %}
+{% block title %}Карта сети{% endblock %}
 {% block page_class %}map-page{% endblock %}
 {% block search %}{% endblock %}
 
@@ -12,22 +12,10 @@
             <button id="searchBtn" class="search-btn" aria-label="Найти хост">
                 <img src="{% static 'front/img/search.svg' %}" alt="" width="16" height="16">
             </button>
-            <button id="clearSearch" class="clear-btn" style="display: none;" aria-label="Очистить поиск">
-                <img src="{% static 'front/img/close.svg' %}" alt="" width="12" height="12">
-            </button>
         </div>
         <div id="searchResults" class="search-results"></div>
     </div>
 
-    <div class="position-panel">
-        <div class="position-actions">
-            <button id="resetPositionsBtn" class="btn-position red" aria-label="Сбросить позиции" title="Сбросить позиции">Сбросить</button>
-            <button id="savePositionsBtn" class="btn-position green" aria-label="Сохранить все позиции" title="Сохранить все позиции">Сохранить</button>
-            <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Авто-расположение" title="Авто-расположение">Авто</button>
-        </div>
-        <div id="saveStatus" class="status-msg green" style="display: none;">✓ Позиции сохранены</div>
-        <div id="debugInfo" class="debug-info" style="display: none"></div>
-    </div>
 </div>
 {% endblock %}
 
@@ -1341,6 +1329,19 @@ function initSSHDropdown() {
 <div class="network-graph">
   <div class="backfeater">
       <div id="tree-container"></div>
+<aside class="map-tools-cluster" aria-label="Инструменты карты">
+<div class="map-mode-control">
+    <button id="mapModeBtn" class="map-mode-btn" type="button" aria-expanded="false" aria-controls="mapPositionPanel">Режим карты</button>
+    <div class="position-panel" id="mapPositionPanel">
+        <div class="position-actions">
+            <button id="resetPositionsBtn" class="btn-position red" aria-label="Сбросить позиции" title="Сбросить позиции">Сбросить</button>
+            <button id="savePositionsBtn" class="btn-position green" aria-label="Сохранить все позиции" title="Сохранить все позиции">Сохранить</button>
+            <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Авто-расположение" title="Авто-расположение">Авто</button>
+        </div>
+        <div id="saveStatus" class="status-msg green" style="display: none;">✓ Позиции сохранены</div>
+        <div id="debugInfo" class="debug-info" style="display: none"></div>
+    </div>
+</div>
 <div class="filter-panel" id="filterPanel">
               <div class="filter-header">
                   <span class="filter-title">Фильтры</span>
@@ -1411,6 +1412,18 @@ function initSSHDropdown() {
                   </div>
               </div>
                 </div>
+
+  <div class="glass-panel">
+    <div class="tool-info-label">Информация</div>
+    <div class="legend">
+      <div class="legend-item"><span class="dot green"></span><small>OK (сервисы: ok)</small></div>
+      <div class="legend-item"><span class="dot orange"></span><small>Критический</small></div>
+      <div class="legend-item"><span class="dot red"></span><small>Недоступен</small></div>
+      <div class="legend-item"><span class="dot cyan"></span><small>Узел Sysmon</small></div>
+      <div class="legend-item"><small>Перетаскивание: переместить и сохранить</small></div>
+    </div>
+  </div>
+</aside>
 
   </div>
 
@@ -1501,17 +1514,6 @@ function initSSHDropdown() {
     </div>
   </div>
 
-  <div class="glass-panel">
-    <div class="glass-title">Network Graph</div>
-    <div class="legend">
-      <div class="legend-item"><span class="dot green"></span><small>OK (сервисы: ok)</small></div>
-      <div class="legend-item"><span class="dot orange"></span><small>Критический</small></div>
-      <div class="legend-item"><span class="dot red"></span><small>Недоступен</small></div>
-      <div class="legend-item"><span class="dot cyan"></span><small>Узел Sysmon</small></div>
-      <div class="legend-item"><small>Клик: информация</small></div>
-      <div class="legend-item"><small>Перетаскивание: переместить и сохранить</small></div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -2499,7 +2501,6 @@ function highlightNode(node) {
 
 function clearSearch() {
     document.getElementById('nodeSearch').value = '';
-    document.getElementById('clearSearch').style.display = 'none';
     document.getElementById('searchResults').style.display = 'none';
     document.getElementById('searchResults').innerHTML = '';
 }
@@ -2553,7 +2554,6 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     if (query) {
         const results = searchNodes(query);
         displaySearchResults(results);
-        document.getElementById('clearSearch').style.display = 'block';
     }
 });
 
@@ -2562,7 +2562,6 @@ document.getElementById('nodeSearch').addEventListener('input', (e) => {
     if (query) {
         const results = searchNodes(query);
         displaySearchResults(results);
-        document.getElementById('clearSearch').style.display = 'block';
     } else {
         clearSearch();
     }
@@ -2581,9 +2580,13 @@ document.getElementById('nodeSearch').addEventListener('keypress', (e) => {
     }
 });
 
-document.getElementById('clearSearch').addEventListener('click', () => {
-    clearSearch();
-    clearHighlightEffect();
+const mapModeBtn = document.getElementById('mapModeBtn');
+const mapPositionPanel = document.getElementById('mapPositionPanel');
+
+mapModeBtn.addEventListener('click', () => {
+    const isOpen = mapModeBtn.getAttribute('aria-expanded') === 'true';
+    mapModeBtn.setAttribute('aria-expanded', String(!isOpen));
+    mapPositionPanel.hidden = isOpen;
 });
 
 // ============ МОДАЛЬНЫЕ ОКНА ============
