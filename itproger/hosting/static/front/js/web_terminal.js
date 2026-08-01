@@ -37,7 +37,7 @@ class WebTerminal {
                             <form class="terminal-login-form" id="sshLoginForm">
                                 <div class="terminal-input-group">
                                     <label>Host IP</label>
-                                    <input type="text" id="sshHost" placeholder="192.168.1.1" required readonly>
+                                    <input type="text" id="sshHost" placeholder="192.0.2.1" required readonly>
                                 </div>
                                 <div class="terminal-input-group">
                                     <label>Username</label>

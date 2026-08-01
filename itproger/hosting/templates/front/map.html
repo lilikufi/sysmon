@@ -425,7 +425,7 @@ document.getElementById('pin_host').addEventListener('click', function (e) {
 map.on('click', function (e) {
     if (isAddHostActive) { // Проверяем, активен ли режим добавления хоста
         var coords = e.latlng;
-        var ipaddr = prompt("Введите IP-адрес хоста:", "192.168.1.1"); // Запрос IP-адреса
+        var ipaddr = prompt("Введите IP-адрес хоста:", "192.0.2.1"); // Запрос IP-адреса
         if (ipaddr) {
             addHost(coords, ipaddr, map); // Добавляем хост
         }

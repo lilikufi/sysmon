@@ -143,17 +143,17 @@ class AnonymizeDemoDataTests(TestCase):
         admin = User.objects.create_superuser(
             username='real-admin',
             password='unchanged-password',
-            email='admin@internal.example',
+            email='',
         )
         user = User.objects.create_user(
             username='real-user',
             password='unchanged-password',
-            email='user@internal.example',
+            email='',
         )
-        first_host = Host.objects.create(ipaddr='10.0.0.10', hostname='real-server')
-        second_host = Host.objects.create(ipaddr='10.0.0.20', hostname='real-switch')
+        first_host = Host.objects.create(ipaddr='192.0.2.10', hostname='example-server')
+        second_host = Host.objects.create(ipaddr='192.0.2.20', hostname='example-switch')
         NodePosition.objects.create(ipaddr=first_host.ipaddr, x=10, y=20)
-        NodePosition.objects.create(ipaddr='10.0.0.99', x=30, y=40)
+        NodePosition.objects.create(ipaddr='192.0.2.99', x=30, y=40)
 
         call_command('anonymize_demo_data', seed=42, verbosity=0)
 
@@ -184,8 +184,8 @@ class AnonymizeDemoDataTests(TestCase):
                 any(ipaddress.ip_address(address) in network for network in documentation_networks)
             )
 
-        self.assertNotEqual(first_host.hostname, 'real-server')
-        self.assertNotEqual(second_host.hostname, 'real-switch')
+        self.assertNotEqual(first_host.hostname, 'example-server')
+        self.assertNotEqual(second_host.hostname, 'example-switch')
         self.assertEqual(
             NodePosition.objects.filter(
                 ipaddr__in=[first_host.ipaddr, second_host.ipaddr]
