@@ -55,11 +55,7 @@ CELERY_BEAT_SCHEDULE = {
 INSTALLED_APPS = [
     # 'hosting.apps.HostingConfig',
     'hosting',
-    # 'payroll',
-    # 'payslip_analyzer',
-    # 'analyzer',
     'channels',
-    'news',
     'main',
     'rest_framework',
     'django.contrib.admin',

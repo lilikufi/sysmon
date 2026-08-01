@@ -20,7 +20,6 @@
             <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Удалить</button></form>
             <a href="{% url 'host-update' el.id %}"  class="btn btn-info">Редактировать</a>
 
-<!--            <a href="{% url 'news-detail' el.id %}" class="btn btn-warning">Подробнее</a>-->
         </div>
     </div>
     {% endfor %}

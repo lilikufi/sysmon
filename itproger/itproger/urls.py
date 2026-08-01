@@ -22,11 +22,8 @@ from django.urls import path, include
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   # path('', include('main.urls')),
-                  # path('news/', include('news.urls')),
                   path('', include('hosting.urls')),
                   path('accounts/', include('accounts.urls')),
-                  # path('payroll/', include('payroll.urls')),
-                  # path('payslip_analyzer/', include('payslip_analyzer.urls')),
                   # path('API/clooect$','Hosting.views.collect'),
                   # path('API/gethost\.json$', 'hosting.views.gethost')
 

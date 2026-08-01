@@ -1352,7 +1352,7 @@
 .map-tools-cluster {
   position: fixed;
   top: calc(var(--map-header-height) + 0px);
-  left: 3px;
+  right: 3px;
   z-index: 10005;
   display: flex;
   flex-direction: column;
