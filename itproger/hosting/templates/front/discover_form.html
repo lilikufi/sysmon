@@ -1,0 +1,164 @@
+<!-- templates/front/discover_form.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Автоматическое обнаружение сети</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" id="discoveryForm">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="start_ip">Начальный IP адрес</label>
+                    <input type="text"
+                           class="form-control"
+                           id="start_ip"
+                           name="start_ip"
+                           placeholder="192.168.1.1"
+                           required
+                           pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
+                    <small class="form-text text-muted">
+                        IP адрес устройства, с которого начнется обнаружение сети
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="community">SNMP Community</label>
+                    <input type="text"
+                           class="form-control"
+                           id="community"
+                           name="community"
+                           value="public">
+                    <small class="form-text text-muted">
+                        SNMP community string для доступа к устройствам
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="max_hops">Максимальное количество переходов</label>
+                    <input type="number"
+                           class="form-control"
+                           id="max_hops"
+                           name="max_hops"
+                           value="3"
+                           min="1"
+                           max="10">
+                    <small class="form-text text-muted">
+                        Глубина обнаружения сети (количество уровней от начального устройства)
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="max_devices">Максимальное количество устройств</label>
+                    <input type="number"
+                           class="form-control"
+                           id="max_devices"
+                           name="max_devices"
+                           value="50"
+                           min="1"
+                           max="500">
+                    <small class="form-text text-muted">
+                        Ограничение на количество обнаруживаемых устройств
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="startBtn">
+                    <i class="fa fa-search"></i> Начать обнаружение
+                </button>
+
+                <a href="{% url 'service' %}" class="btn btn-secondary">
+                    <i class="fa fa-map"></i> Перейти к карте
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Прогресс обнаружения -->
+    <div class="card mt-4" id="progressCard" style="display: none;">
+        <div class="card-body">
+            <h5>Прогресс обнаружения</h5>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width: 0%"
+                     id="progressBar">
+                </div>
+            </div>
+            <p class="mt-2" id="progressText">Инициализация...</p>
+        </div>
+    </div>
+
+    <!-- Результаты обнаружения -->
+    <div class="card mt-4" id="resultsCard" style="display: none;">
+        <div class="card-body">
+            <h5>Результаты обнаружения</h5>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    let checkInterval;
+
+    $('#discoveryForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Показываем прогресс
+        $('#progressCard').show();
+        $('#startBtn').prop('disabled', true);
+
+        // Отправляем форму
+        $.ajax({
+            url: $(this).attr('action') || window.location.href,
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Запускаем проверку статуса
+                checkDiscoveryStatus();
+            },
+            error: function() {
+                alert('Ошибка при запуске обнаружения');
+                $('#startBtn').prop('disabled', false);
+                $('#progressCard').hide();
+            }
+        });
+    });
+
+    function checkDiscoveryStatus() {
+        checkInterval = setInterval(function() {
+            $.ajax({
+                url: '{% url "get_discovery_status" %}',
+                success: function(data) {
+                    updateProgress(data);
+
+                    if (data.status === 'completed') {
+                        clearInterval(checkInterval);
+                        onDiscoveryComplete(data);
+                    }
+                }
+            });
+        }, 2000);
+    }
+
+    function updateProgress(data) {
+        let progress = Math.min(data.hosts_discovered * 2, 100);
+        $('#progressBar').css('width', progress + '%');
+        $('#progressText').text('Обнаружено устройств: ' + data.hosts_discovered);
+    }
+
+    function onDiscoveryComplete(data) {
+        $('#progressCard').hide();
+        $('#resultsCard').show();
+        $('#resultsContent').html(
+            '<p class="text-success">Обнаружение завершено!</p>' +
+            '<p>Найдено устройств: ' + data.hosts_discovered + '</p>' +
+            '<a href="{% url "service" %}" class="btn btn-success">Перейти к карте сети</a>'
+        );
+        $('#startBtn').prop('disabled', false);
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'payroll/base.html' %}
+{% block title %}Загрузка квитанции - Анализ платежных ведомостей{% endblock %}
+{% block content %}
+<h1 class="page-title">📄 Загрузка квитанции</h1>
+<div class="grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Загрузить квитанцию</h3>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label">Период</label>
+                <div style="display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 1rem;">
+                    <input type="number" name="year" class="form-control" value="2025" placeholder="Год" min="2000" max="2100">
+                    <select name="month" class="form-control">
+                        <option value="1">Январь</option>
+                        <option value="2">Февраль</option>
+                        <option value="3">Март</option>
+                        <option value="4">Апрель</option>
+                        <option value="5">Май</option>
+                        <option value="6">Июнь</option>
+                        <option value="7">Июль</option>
+                        <option value="8">Август</option>
+                        <option value="9">Сентябрь</option>
+                        <option value="10" selected>Октябрь</option>
+                        <option value="11">Ноябрь</option>
+                        <option value="12">Декабрь</option>
+                    </select>
+                    <select name="half" class="form-control">
+                        <option value="1">Первая половина</option>
+                        <option value="2" selected>Вторая половина</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Файл квитанции (TXT, JPG, PNG, PDF)</label>
+                <div class="file-upload-area" id="dropZone">
+                    <input type="file" name="file" id="fileInput" class="file-input" accept=".txt,.jpg,.jpeg,.png,.pdf" required>
+                    <div id="dropText">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                        <p style="color: var(--neon-blue); font-weight: 500;">Перетащите файл сюда</p>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">или нажмите для выбора</p>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 1rem;">Поддерживаемые форматы: TXT, JPG, PNG, PDF</p>
+                    </div>
+                    <div id="fileName" style="display: none;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <p class="neon-text-green" id="selectedFileName"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success" style="width: 100%;">
+                🔍 Распознать и загрузить
+            </button>
+        </form>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">ℹ️ Информация</h3>
+        </div>
+        
+        <div style="padding: 1rem;">
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(0, 255, 136, 0.1); border-radius: 12px; border-left: 3px solid var(--neon-green);">
+                <h4 style="color: var(--neon-green); margin-bottom: 0.5rem;">📝 TXT формат (рекомендуется)</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Скопируйте текст расчётного листка в TXT файл. Система распознает таблицу с кодами и суммами.
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(0, 245, 255, 0.1); border-radius: 12px; border-left: 3px solid var(--neon-blue);">
+                <h4 style="color: var(--neon-blue); margin-bottom: 0.5rem;">🤖 OCR Распознавание</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Для изображений (JPG, PNG) используется OCR (Tesseract).
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 0, 255, 0.1); border-radius: 12px; border-left: 3px solid var(--neon-pink);">
+                <h4 style="color: var(--neon-pink); margin-bottom: 0.5rem;">📅 Две половины месяца</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Учитывается возможность получения аванса и зарплаты (два квитка за месяц).
+                </p>
+            </div>
+            
+            <div style="padding: 1rem; background: rgba(255, 255, 0, 0.1); border-radius: 12px; border-left: 3px solid var(--neon-yellow);">
+                <h4 style="color: var(--neon-yellow); margin-bottom: 0.5rem;">💡 Формат данных</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Система распознает формат:<br>
+                    <code style="color: var(--neon-blue);">| 10  4 | 20 | 29017.39 |</code><br>
+                    где: месяц, код, РВ, сумма
+                </p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 1rem 1rem;">
+            <a href="{% url 'payroll:manual_entry' %}" class="btn btn-primary" style="width: 100%;">
+                ✏️ Ручной ввод данных
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const dropText = document.getElementById('dropText');
+    const fileName = document.getElementById('fileName');
+    const selectedFileName = document.getElementById('selectedFileName');
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            fileInput.files = files;
+            showFileName(files[0].name);
+        }
+    });
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+            showFileName(fileInput.files[0].name);
+        }
+    });
+    function showFileName(name) {
+        dropText.style.display = 'none';
+        fileName.style.display = 'block';
+        selectedFileName.textContent = name;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'hosting/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'hosting/css/fire.css' %}">
+
+    <link rel="stylesheet" href="{%static '/main/css/css1/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/typescript_base.css' %}" />
+    <link rel="icon" href="main/img/favicon.ico" type="x-icon">
+
+    <script defer src="{% static 'main/js/_typescript.js' %}"></script>
+
+</head>
+<body>
+    <aside>
+        <h1>
+            <a href="{% url 'hosting_home' %} "><img src="{% static 'main/img/logo4.ico' %}" alt="logo"><span class="logo">SysMon</span></a>
+        </h1>
+
+        <h2>Навигация</h2>
+        <ul>
+            <a href="{% url 'hosting_home' %}"><li>Главная</li></a>
+<!--            <a href="{% url 'hosting_home' %}"><li>Хосты</li></a>-->
+            <a href="{% url 'hosting_fire' %}"><li>Мониторинг</li></a>
+
+            <a href="{% url 'hosting_create' %}"><li>Create</li></a>
+            <a href="{% url 'scan' %}"><li>Newmon</li></a>
+<!--            <a href="{% url 'front' %}"><li>Fire</li></a>-->
+        </ul>
+    </aside>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

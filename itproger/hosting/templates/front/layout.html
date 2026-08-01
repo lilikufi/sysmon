@@ -1,0 +1,219 @@
+{% load static %}
+
+
+<html lang="">
+<!--  This source code is exported from pxCode, you can get more document from https://www.pxcode.io  -->
+
+<head>
+    <link rel="icon" type="image/png" href="{% static 'front/img/favicon.png' %}">
+    <title> {% block title %}{% endblock %}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="{%static '/main/css/css1/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/common.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/fonts.css' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/headroom.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/UntitledPage.css' %}"/>
+    {% block extra_css %}{% endblock %}
+
+
+
+</head>
+<body class="flex-column">
+<style>
+    .tscan {
+    white-space: nowrap;
+
+}
+    .form-control5 {
+    background: none;
+    font: 400 14px/1.57 Open Sans, Helvetica, Arial, serif;
+    /* top: 140px; */
+    /* width: 360px; */
+    height: 30px;
+    padding: 14px 20px 14px 21px;
+    box-sizing: border-box;
+    border: 0.5px solid #ffffff6b;
+    border-radius: 24.4px;
+    color: #fff;
+    /* background: #cfcfcf66; */
+    outline: none;
+}
+.modal-back1 {
+    /* margin-right: 110px; */
+    opacity: 1;
+    width: 115px;
+    height: 30px;
+    border-radius: 12px 12px 12px 12px;
+    background: rgb(104 116 139 / 44%);
+    color: rgba(255, 250, 240, 0.84);
+    border-color: rgba(104, 116, 139, 0);
+    font: 400 14px/1.57 Roboto, Helvetica, Arial, serif
+}.modal-search {
+    /* margin-right: 110px; */
+    opacity: 1;
+    width: 115px;
+    height: 30px;
+    border-radius: 12px 12px 12px 12px;
+    background: rgb(104 116 139 / 44%);
+    color: #fffaf0;
+    border-color: rgba(104, 116, 139, 0);
+    font: 400 14px/1.57 Roboto, Helvetica, Arial, serif
+}
+
+</style>
+
+<script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const startIpInput = document.querySelector('input[name="search"]');
+
+                if (!startIpInput) {
+                    return;
+                }
+
+                startIpInput.addEventListener('input', function () {
+                    startIpInput.value = startIpInput.value.replace(/,/g, '.');
+                });
+
+            });
+        </script>
+<div class="untitled-page root {% block page_class %}{% endblock %}">
+<!--    TODO: увеличить шрифт-->
+<!--    TODO: заменить на грид и автолэйаут-->
+    {% block sidebar %}
+<div class="dropdown-menu-container">
+    <button class="dropdown-toggle" id="menuToggle">
+        <span class="menu-icon">☰</span>
+        <span class="menu-text">Меню</span>
+    </button>
+
+    <div class="dropdown-content" id="dropdownContent">
+        <a href="{% url 'create_host' %}" class="dropdown-item">
+            <img src="{% static 'front/img/host.svg' %}" alt=""/>
+            <span>Добавить хост</span>
+        </a>
+        <a href="{% url 'front' %}" class="dropdown-item">
+            <img src="{% static 'front/img/home.svg' %}" alt=""/>
+            <span>Логи Nagios</span>
+        </a>
+        <a href="{% url 'service' %}" class="dropdown-item">
+            <img src="{% static 'front/img/map.svg' %}" alt=""/>
+            <span>Карта</span>
+        </a>
+        <a href="{% url 'hosts' %}" class="dropdown-item">
+            <img src="{% static 'front/img/hosts.svg' %}" alt=""/>
+            <span>Хосты в нагиос</span>
+        </a>
+        <a href="{% url 'scan' %}" class="dropdown-item">
+            <img src="{% static 'front/img/scan.svg' %}" alt=""/>
+            <span>Сканирование</span>
+        </a>
+        <a href="/nagios/" class="dropdown-item">
+            <div class="Favicon-Icon favicon__icon"></div>
+            <span>Nagios</span>
+        </a>
+        {% if user.is_staff %}
+        <a href="http://0.0.0.0:8000/admin/" class="dropdown-item">
+            <span>Admin</span>
+        </a>
+        <a href="{% url 'service' %}" class="dropdown-item">
+            <span>Хосты</span>
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+    <div class="backheader">
+        <div class="header-brand">
+            <h3 class="subtitle">sysmon</h3>
+            <img class="logo" src="{% static 'front/img/logo.svg' %}" alt="alt text"/>
+
+        </div>
+        {% block header_actions %}{% endblock %}
+        {% block search %}
+         <form class="search " method="get">
+             <input type="text" class='form-control5 ' name="search"  required id="search"placeholder="Поиск по IP или имени хоста"
+                    value="{{ request.GET.search }}">
+             <button class="  modal-search" type="submit">Поиск</button>
+             <button class="  modal-back1" type="submit" name="reset" value="true">Сбросить</button>
+         </form>
+        {% endblock %}
+
+
+        <!--                <div>-->
+        <!--                    <img class="search" src="{% static 'front/img/search.svg' %}" alt="alt text"/>-->
+        <!--                    <div class="wrapper">-->
+        <!--                        <div class="wrapper1">Поиск</div>-->
+        <!--                    </div>-->
+        <!--                    <img class="filter" src="{% static 'front/img/filter.svg' %}" alt="alt text"/>-->
+        <!--                </div>-->
+
+        <div class="header-spacer">
+            <!--            <div class="backring"></div>-->
+            <!--            <img class="ring" src="{% static 'front/img/ring.svg' %}" alt="alt text"/>-->
+        </div>
+        {% block user %}
+        <div class="box">
+
+<!--            <a href="{% url 'password_change' %}" ><img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" /></a>-->
+<!--            <img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" href="{% url 'password_change' %}"/>-->
+            <div class="exit_block">
+                {% if user.is_authenticated %}
+                <a class="login" href="{% url 'logout' %}">Выйти</a>
+
+                {% else %}
+                <a class="login" href="{% url 'login' %}">Войти</a>
+                {% endif %}
+<!--                <a href="{% url 'logout' %}"><img class="exit"  src="{% static 'front/img/exit.svg' %}" alt="alt text"/></a>-->
+            </div>
+            <a href="{% url 'password_change' %}" ><img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text" /></a>
+
+
+        </div>
+        {% endblock %}
+
+    </div>
+
+    <div class="backfeater"></div>
+
+    <!---->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!--    </div>-->
+    <!--    <script type="text/javascript">-->
+    <!--        AOS.init();-->
+    <!--        new Sticky('.sticky-effect');-->
+    <!--    </script>-->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const dropdownContent = document.getElementById('dropdownContent');
+
+    // Открытие/закрытие меню по клику
+    menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownContent.classList.toggle('show');
+    });
+
+    // Закрытие меню при клике вне его
+    document.addEventListener('click', function(e) {
+        if (!dropdownContent.contains(e.target) && e.target !== menuToggle) {
+            dropdownContent.classList.remove('show');
+        }
+    });
+
+    // Закрытие меню при нажатии Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            dropdownContent.classList.remove('show');
+        }
+    });
+});
+</script>
+</body>
+</html>

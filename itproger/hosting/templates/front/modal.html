@@ -1,0 +1,118 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Создание хоста{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/modal.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<script src="https://unpkg.com/htmx.org@1.9.11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+<div class="untitled-page root">
+    <div class="backfeater" style="color:#cce5ff ">
+        <!--           value="{{ form.ipaddr.value }}">  для отображения данных из бд      -->
+        <div class="modal-container" id="modal-container">
+            <div class="modal">
+                <img class="cross" id="close" src="{% static 'front/img/cross.svg' %}" alt="alt text"/>
+                <div class="header1"></div>
+                <!--                <input type="text" class="place-name" placeholder="Введите имя хоста" value="" required>-->
+
+<!--                <div class="grid-check">-->
+                    <form method="post">
+                        {% csrf_token %}
+                        <!--                        {{ form.as_p }}-->
+                        <div class="form-ip">
+                            {{ form.hostname.errors }}
+                            <label for="{{ form.hostname.id_for_label }}">hostname:</label>
+                            <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
+                                   name="hostname"
+                                   placeholder="Введите имя хоста">
+                        </div>
+                         <div class="text1">Выбор служб для мониторинга</div>
+                        <div class="grid">
+                            <div>
+                                <label for="select-all">Выбрать все</label>
+                                <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">
+
+                            </div>
+                            <div></div>
+                            <div>
+                                {{ form.cpu_5_min.errors }}
+                                <label for="{{ form.cpu_5_min.id_for_label }}">CPU 5 Min:</label>
+                                {{ form.cpu_5_min }}
+                            </div>
+
+                            <div>
+                                {{ form.uptime.errors }}
+                                <label for="{{ form.uptime.id_for_label }}">Uptime:</label>
+                                {{ form.uptime }}
+                            </div>
+
+                            <div>
+                                {{ form.mem_free.errors }}
+                                <label for="{{ form.mem_free.id_for_label }}">Memory Free:</label>
+                                {{ form.mem_free }}
+                            </div>
+
+                            <div>
+                                {{ form.mem_used.errors }}
+                                <label for="{{ form.mem_used.id_for_label }}">Memory Used:</label>
+                                {{ form.mem_used }}
+                            </div>
+
+                            <div>
+                                {{ form.mem_util.errors }}
+                                <label for="{{ form.mem_util.id_for_label }}">Memory Utilization:</label>
+                                {{ form.mem_util }}
+                            </div>
+
+                        </div>
+
+                        <!--                        {{ form.ipaddr}}-->
+                        <!--                        <input type="hidden" id="id_ipaddr" name="ipaddr" value="">-->
+                        <!-- Скрытое поле для передачи IP-адреса -->
+                        <br>
+
+                        <span>{{ error }}</span>
+                        <div class="modal-footer">
+                            <button id="back" class="submit1  modal-back">Назад</button>
+                            <!--                            <button id="close" class="submit1 modal-create" type="submit">Создать хост</button>-->
+                            <button class="submit1 modal-create" type="submit">Создать хост</button>
+                        </div>
+                    </form>
+<!--                </div>-->
+            </div>
+        </div>
+
+        <script>
+            const modal_container = document.getElementById('modal-container');
+            const close = document.getElementById('close');
+
+            document.querySelectorAll('.plashki .alert').forEach(el => {
+                el.addEventListener('click', function () {
+                    const ip = this.querySelector('h3').textContent;
+                    document.querySelector('.header1').textContent = ip;
+                    modal_container.classList.add('show'); // Открываем модальное окно при клике на любую плашку
+                    document.getElementById('id_ipaddr').value = ip;
+                });
+            });
+
+            close.addEventListener('click', () => {
+                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Закрыть"
+            });
+            const back = document.getElementById('back');
+
+            back.addEventListener('click', () => {
+                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Назад"
+            });
+        </script>
+
+    </div>
+</div>
+
+{% endblock %}

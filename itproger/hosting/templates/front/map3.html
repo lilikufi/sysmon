@@ -1,0 +1,3081 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title %}Network Graph{% endblock %}
+{% block page_class %}map-page{% endblock %}
+{% block search %}{% endblock %}
+
+{% block header_actions %}
+<div class="map-header-actions">
+    <div class="search-panel">
+        <div class="search-container">
+            <input type="text" id="nodeSearch" placeholder="Поиск по имени или IP..." class="search-input">
+            <button id="searchBtn" class="search-btn" aria-label="Найти хост">
+                <img src="{% static 'front/img/search.svg' %}" alt="" width="16" height="16">
+            </button>
+            <button id="clearSearch" class="clear-btn" style="display: none;" aria-label="Очистить поиск">
+                <img src="{% static 'front/img/close.svg' %}" alt="" width="12" height="12">
+            </button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <div class="position-panel">
+        <div class="position-actions">
+            <button id="resetPositionsBtn" class="btn-position red" aria-label="Сбросить позиции" title="Сбросить позиции">Сбросить</button>
+            <button id="savePositionsBtn" class="btn-position green" aria-label="Сохранить все позиции" title="Сохранить все позиции">Сохранить</button>
+            <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Авто-расположение" title="Авто-расположение">Авто</button>
+        </div>
+        <div id="saveStatus" class="status-msg green" style="display: none;">✓ Позиции сохранены</div>
+        <div id="debugInfo" class="debug-info" style="display: none"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'front/css/network_graph.css' %}">
+<link rel="stylesheet" href="{% static 'front/css/web_terminal.css' %}">
+<link rel="stylesheet" href="{% static 'front/css/network_graph_theme.css' %}">
+{% endblock %}
+
+{% block content %}
+<script src="{% static 'front/js/d3.v6.min.js' %}"></script>
+<script src="{% static 'front/js/web_terminal.js' %}"></script>
+<style>
+    /* Добавьте в ваш CSS */
+.btn-position {
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  background: transparent;
+}
+.btn-position.red {
+  color: var(--neon-red);
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.btn-position.green {
+  color: var(--neon-green);
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.btn-position.cyan {
+  color: var(--neon-cyan);
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.status-msg { margin-top: 8px; font-size: 10px; }
+.status-msg.green { color: var(--neon-green); opacity: .8; }
+.debug-info { margin-top: 8px; font-size: 10px; color: var(--neon-cyan); opacity: .6; }
+#sshTerminalOutput {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,255,255,0.3) transparent;
+}
+
+#sshTerminalOutput::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sshTerminalOutput::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#sshTerminalOutput::-webkit-scrollbar-thumb {
+    background: rgba(0,255,255,0.3);
+    border-radius: 4px;
+}
+
+#sshTerminalOutput::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,255,255,0.5);
+}
+
+/* Syntax highlighting for common output */
+#sshTerminalOutput .error {
+    color: #ff5050;
+}
+
+#sshTerminalOutput .success {
+    color: #00ff88;
+}
+
+#sshTerminalOutput .warning {
+    color: #ffaa00;
+}
+
+#sshTerminalOutput .info {
+    color: #00ffff;
+}
+.terminal-help-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+}
+
+.terminal-help-content {
+    background: rgba(10,14,23,0.98);
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 500px;
+}
+
+.terminal-command {
+    display: flex;
+    gap: 12px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,255,136,0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 12px 0;
+}
+
+.terminal-command code {
+    flex: 1;
+    color: #00ff88;
+    font-family: monospace;
+}
+  /* SSH/PuTTY Dropdown Styles */
+.ssh-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.ssh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(138, 43, 226, 0.5);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.3));
+    color: #da70d6;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    width: 170px;
+    height: 50px;
+}
+
+.ssh-btn:hover {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.4), rgba(75, 0, 130, 0.5));
+    border-color: rgba(218, 112, 214, 0.8);
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+    transform: translateY(-2px);
+}
+
+.ssh-dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    min-width: 220px;
+    background: rgba(10, 14, 23, 0.98);
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    border-radius: 12px;
+    padding: 8px 0;
+    box-shadow: 0 -10px 40px rgba(138, 43, 226, 0.3);
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+}
+
+.ssh-dropdown-menu::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(138, 43, 226, 0.4);
+}
+
+.ssh-dropdown.active .ssh-dropdown-menu {
+    display: block;
+    animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.ssh-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: rgba(234, 247, 255, 0.9);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.ssh-dropdown-item:hover {
+    background: rgba(138, 43, 226, 0.2);
+    color: #da70d6;
+}
+
+.ssh-dropdown-item svg {
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.ssh-dropdown-item:hover svg {
+    opacity: 1;
+}
+
+.ssh-dropdown-divider {
+    height: 1px;
+    background: rgba(138, 43, 226, 0.3);
+    margin: 8px 0;
+}
+
+/* Toast notification for copy */
+.copy-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0, 255, 136, 0.9);
+    color: #0a0e17;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Обновление стилей action-buttons для flexbox */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+}
+</style>
+<script>function showToast(message, duration = 2000) {
+    const existingToast = document.querySelector('.copy-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// Копировать в буфер обмена
+async function copyToClipboard(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+        return true;
+    } catch (err) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            return true;
+        } catch (e) {
+            document.body.removeChild(textarea);
+            return false;
+        }
+    }
+}
+
+// Открыть SSH через сервер (работает на Linux и Windows)
+async function openSSHTerminal(ip, protocol = 'ssh') {
+    showToast(`Открытие ${protocol.toUpperCase()} соединения к ${ip}...`);
+
+    try {
+        const response = await fetch('/api/open-terminal/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                ip: ip,
+                protocol: protocol
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast(data.message || `${protocol.toUpperCase()} терминал открыт`);
+        } else {
+            showToast(data.message || 'Не удалось открыть терминал', 3000);
+            offerAlternatives(ip, protocol);
+        }
+    } catch (error) {
+        console.error('Error opening terminal:', error);
+        showToast('Ошибка подключения к серверу', 2000);
+        offerAlternatives(ip, protocol);
+    }
+}
+
+// Предложить альтернативные способы подключения
+function offerAlternatives(ip, protocol) {
+    const command = protocol === 'ssh' ? `ssh root@${ip}` : `telnet ${ip}`;
+
+    const modal = document.createElement('div');
+    modal.className = 'terminal-help-modal';
+    modal.innerHTML = `
+        <div class="terminal-help-content">
+            <h4>Подключение к ${ip}</h4>
+            <p>Выполните команду в терминале:</p>
+            <div class="terminal-command">
+                <code>${command}</code>
+                <button class="copy-cmd-btn" onclick="copyToClipboard('${command}').then(() => showToast('Команда скопирована'))">
+                    📋 Копировать
+                </button>
+            </div>
+            <div class="terminal-help-actions">
+                <button onclick="this.closest('.terminal-help-modal').remove()">Закрыть</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
+
+// Инициализация SSH dropdown ddddddd
+
+// ============ ПОЛНОЦЕННЫЙ SSH ТЕРМИНАЛ ============
+const simpleTerminal = {
+    currentIP: null,
+    socket: null,
+    terminal: null,
+    fitAddon: null,
+    isConnected: false,
+    xtermLoaded: false,
+    
+    // Загрузка xterm.js
+    loadXterm: function() {
+        return new Promise((resolve, reject) => {
+            if (this.xtermLoaded && window.Terminal && window.FitAddon) {
+                console.log('xterm.js already loaded');
+                resolve();
+                return;
+            }
+            
+            console.log('Loading xterm.js...');
+            
+            // CSS для xterm
+            if (!document.getElementById('xterm-css')) {
+                const css = document.createElement('link');
+                css.id = 'xterm-css';
+                css.rel = 'stylesheet';
+                css.href = 'https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css';
+                document.head.appendChild(css);
+            }
+            
+            // Загружаем xterm.js
+            const xtermScript = document.createElement('script');
+            xtermScript.src = 'https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js';
+            
+            xtermScript.onload = () => {
+                console.log('xterm.js loaded');
+                
+                // Загружаем fit addon
+                const fitScript = document.createElement('script');
+                fitScript.src = 'https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js';
+                
+                fitScript.onload = () => {
+                    console.log('xterm-addon-fit loaded');
+                    this.xtermLoaded = true;
+                    resolve();
+                };
+                
+                fitScript.onerror = () => reject(new Error('Failed to load xterm-addon-fit'));
+                document.head.appendChild(fitScript);
+            };
+            
+            xtermScript.onerror = () => reject(new Error('Failed to load xterm.js'));
+            document.head.appendChild(xtermScript);
+        });
+    },
+    
+    open: function(ip) {
+        console.log('=== Opening SSH Terminal for:', ip, '===');
+        this.currentIP = ip;
+        this.cleanup();
+        
+        // Создаём модальное окно
+        const modal = document.createElement('div');
+        modal.id = 'sshTerminalModal';
+        modal.innerHTML = `
+            <div class="ssh-modal-backdrop">
+                <div class="ssh-window">
+                    <!-- Заголовок окна -->
+                    <div class="ssh-titlebar">
+                        <div class="ssh-titlebar-buttons">
+                            <span class="ssh-btn-close" title="Close"></span>
+                            <span class="ssh-btn-minimize" title="Minimize"></span>
+                            <span class="ssh-btn-maximize" title="Maximize"></span>
+                        </div>
+                        <div class="ssh-titlebar-title">
+                            <span class="ssh-connection-status" id="sshConnStatus"></span>
+                            <span id="sshWindowTitle">SSH: ${ip}</span>
+                        </div>
+                        <div class="ssh-titlebar-actions">
+                            <button class="ssh-action-btn" id="sshBtnReconnect" style="display:none;">↻</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Область контента -->
+                    <div class="ssh-content">
+                        <!-- Форма логина -->
+                        <div class="ssh-login" id="sshLoginPanel">
+                            <div class="ssh-login-box">
+                                <div class="ssh-login-header">
+<!--                                    <div class="ssh-login-icon">🔐</div>-->
+                                    <h2>SSH Connection</h2>
+                                    <p>Connect to <strong>${ip}</strong></p>
+                                </div>
+                                
+                                <div class="ssh-form-group">
+                                    <label>Username</label>
+                                    <input type="text" id="sshInputUser" value="root" placeholder="root">
+                                </div>
+                                
+                                <div class="ssh-form-group">
+                                    <label>Password</label>
+                                    <input type="password" id="sshInputPass" placeholder="Enter password" autofocus>
+                                </div>
+                                
+                                <div class="ssh-form-row">
+                                    <div class="ssh-form-group ssh-form-small">
+                                        <label>Port</label>
+                                        <input type="number" id="sshInputPort" value="22">
+                                    </div>
+                                </div>
+                                
+                                <div class="ssh-error-box" id="sshErrorBox"></div>
+                                
+                                <button class="ssh-btn-connect" id="sshBtnConnect">
+                                    <span class="ssh-btn-text">Connect</span>
+                                    <span class="ssh-btn-loader" style="display:none;">⏳</span>
+                                </button>
+
+                            </div>
+                        </div>
+                        
+                        <!-- Терминал -->
+                        <div class="ssh-terminal-wrapper" id="sshTerminalPanel" style="display:none;">
+                            <div class="ssh-terminal-area" id="sshTerminalArea"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        this.injectStyles();
+        this.bindEvents();
+        
+        // Фокус на пароль
+        setTimeout(() => {
+            document.getElementById('sshInputPass')?.focus();
+        }, 100);
+    },
+    
+    injectStyles: function() {
+        if (document.getElementById('ssh-terminal-styles')) return;
+        
+        const style = document.createElement('style');
+        style.id = 'ssh-terminal-styles';
+        style.textContent = `
+            /* ===== МОДАЛЬНОЕ ОКНО ===== */
+            #sshTerminalModal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 99999;
+            }
+            
+            .ssh-modal-backdrop {
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: sshFadeIn 0.2s ease;
+            }
+            
+            @keyframes sshFadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            /* ===== ОКНО ТЕРМИНАЛА ===== */
+            .ssh-window {
+                width: 95%;
+                max-width: 1100px;
+                height: 85%;
+                max-height: 750px;
+                background: #1a1a2e;
+                border-radius: 10px;
+                box-shadow: 
+                    0 25px 80px rgba(0, 0, 0, 0.5),
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    0 0 60px rgba(0, 255, 255, 0.15);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                animation: sshSlideUp 0.3s ease;
+            }
+            
+            @keyframes sshSlideUp {
+                from { 
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.95);
+                }
+                to { 
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            
+            /* ===== ЗАГОЛОВОК ===== */
+            .ssh-titlebar {
+                height: 40px;
+                background: linear-gradient(180deg, #2d2d44 0%, #1f1f35 100%);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                align-items: center;
+                padding: 0 12px;
+                gap: 12px;
+                user-select: none;
+            }
+            
+            .ssh-titlebar-buttons {
+                display: flex;
+                gap: 8px;
+            }
+            
+            .ssh-titlebar-buttons span {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: opacity 0.2s;
+            }
+            
+            .ssh-titlebar-buttons span:hover {
+                opacity: 0.8;
+            }
+            
+            .ssh-btn-close { background: #ff5f56; }
+            .ssh-btn-minimize { background: #ffbd2e; }
+            .ssh-btn-maximize { background: #27ca40; }
+            
+            .ssh-titlebar-title {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                justify-content: center;
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 13px;
+                font-weight: 500;
+            }
+            
+            .ssh-connection-status {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #666;
+            }
+            
+            .ssh-connection-status.connecting {
+                background: #ffbd2e;
+                animation: sshPulse 1s infinite;
+            }
+            
+            .ssh-connection-status.connected {
+                background: #27ca40;
+                box-shadow: 0 0 8px #27ca40;
+            }
+            
+            .ssh-connection-status.error {
+                background: #ff5f56;
+            }
+            
+            @keyframes sshPulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.4; }
+            }
+            
+            .ssh-titlebar-actions {
+                width: 80px;
+                display: flex;
+                justify-content: flex-end;
+            }
+            
+            .ssh-action-btn {
+                background: rgba(255,255,255,0.1);
+                border: none;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+            
+            .ssh-action-btn:hover {
+                background: rgba(255,255,255,0.2);
+            }
+            
+            /* ===== ОБЛАСТЬ КОНТЕНТА ===== */
+            .ssh-content {
+                flex: 1;
+                display: flex;
+                overflow: hidden;
+                background: #0d0d1a;
+            }
+            
+            /* ===== ФОРМА ЛОГИНА ===== */
+            .ssh-login {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+            
+            .ssh-login-box {
+                width: 100%;
+                max-width: 380px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 16px;
+                padding: 32px;
+            }
+            
+            .ssh-login-header {
+                text-align: center;
+                margin-bottom: 28px;
+            }
+            
+            .ssh-login-icon {
+                font-size: 48px;
+                margin-bottom: 12px;
+            }
+            
+            .ssh-login-header h2 {
+                color: #00ffff;
+                font-size: 22px;
+                font-weight: 600;
+                margin: 0 0 8px 0;
+            }
+            
+            .ssh-login-header p {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 14px;
+                margin: 0;
+            }
+            
+            .ssh-login-header strong {
+                color: #00ff88;
+            }
+            
+            .ssh-form-group {
+                margin-bottom: 18px;
+            }
+            
+            .ssh-form-group label {
+                display: block;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 12px;
+                font-weight: 500;
+                margin-bottom: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .ssh-form-group input {
+                width: 100%;
+                padding: 12px 14px;
+                background: rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 8px;
+                color: #fff;
+                font-size: 14px;
+                font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+                box-sizing: border-box;
+                transition: all 0.2s;
+            }
+            
+            .ssh-form-group input:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+            }
+            
+            .ssh-form-group input::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+            
+            .ssh-form-row {
+                display: flex;
+                gap: 12px;
+            }
+            
+            .ssh-form-small {
+                width: 100px;
+            }
+            
+            .ssh-error-box {
+                color: #ff5f56;
+                font-size: 13px;
+                text-align: center;
+                min-height: 20px;
+                margin-bottom: 8px;
+            }
+            
+            .ssh-btn-connect {
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+                border: none;
+                border-radius: 8px;
+                color: white;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: all 0.2s;
+            }
+            
+            .ssh-btn-connect:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 206, 201, 0.35);
+            }
+            
+            .ssh-btn-connect:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none;
+            }
+            
+            .ssh-divider {
+                display: flex;
+                align-items: center;
+                margin: 24px 0;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 12px;
+            }
+            
+            .ssh-divider::before,
+            .ssh-divider::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .ssh-divider span {
+                padding: 0 12px;
+            }
+            
+            .ssh-copy-command {
+                display: flex;
+                gap: 8px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(0, 255, 136, 0.3);
+                border-radius: 8px;
+                padding: 10px 14px;
+                align-items: center;
+            }
+            
+            .ssh-copy-command code {
+                flex: 1;
+                color: #00ff88;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 13px;
+            }
+            
+            .ssh-copy-btn {
+                background: rgba(0, 255, 136, 0.15);
+                border: 1px solid rgba(0, 255, 136, 0.3);
+                color: #00ff88;
+                padding: 6px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+                transition: all 0.2s;
+            }
+            
+            .ssh-copy-btn:hover {
+                background: rgba(0, 255, 136, 0.25);
+            }
+            
+            /* ===== ТЕРМИНАЛ ===== */
+            .ssh-terminal-wrapper {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                background: #0a0a0f;
+            }
+            
+            .ssh-terminal-area {
+                flex: 1;
+                padding: 8px;
+                overflow: hidden;
+            }
+            
+            /* Переопределяем стили xterm */
+            .ssh-terminal-area .xterm {
+                height: 100% !important;
+            }
+            
+            .ssh-terminal-area .xterm-viewport {
+                background-color: #0a0a0f !important;
+            }
+            
+            .ssh-terminal-area .xterm-screen {
+                height: 100% !important;
+            }
+        `;
+        document.head.appendChild(style);
+    },
+    
+    bindEvents: function() {
+        const modal = document.getElementById('sshTerminalModal');
+        
+        // Закрытие
+        modal.querySelector('.ssh-btn-close').addEventListener('click', () => this.close());
+        modal.querySelector('.ssh-modal-backdrop').addEventListener('click', (e) => {
+            if (e.target.classList.contains('ssh-modal-backdrop')) this.close();
+        });
+        
+        // Escape
+        this._escHandler = (e) => {
+            if (e.key === 'Escape' && document.getElementById('sshTerminalModal')) {
+                this.close();
+            }
+        };
+        document.addEventListener('keydown', this._escHandler);
+        
+        // Подключение
+        document.getElementById('sshBtnConnect').addEventListener('click', () => this.connect());
+        document.getElementById('sshInputPass').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.connect();
+        });
+        
+        // Reconnect
+        document.getElementById('sshBtnReconnect').addEventListener('click', () => this.reconnect());
+        
+        // Копирование
+        document.getElementById('sshBtnCopy').addEventListener('click', async () => {
+            const user = document.getElementById('sshInputUser').value || 'root';
+            const cmd = `ssh ${user}@${this.currentIP}`;
+            await copyToClipboard(cmd);
+            showToast('Copied: ' + cmd);
+        });
+    },
+    
+    setStatus: function(status) {
+        const dot = document.getElementById('sshConnStatus');
+        const title = document.getElementById('sshWindowTitle');
+        
+        dot.className = 'ssh-connection-status';
+        
+        switch(status) {
+            case 'connecting':
+                dot.classList.add('connecting');
+                title.textContent = `Connecting to ${this.currentIP}...`;
+                break;
+            case 'connected':
+                dot.classList.add('connected');
+                title.textContent = `SSH: ${this.currentIP}`;
+                break;
+            case 'error':
+                dot.classList.add('error');
+                title.textContent = `Disconnected`;
+                break;
+            default:
+                title.textContent = `SSH: ${this.currentIP}`;
+        }
+    },
+    
+    connect: async function() {
+        const username = document.getElementById('sshInputUser').value || 'root';
+        const password = document.getElementById('sshInputPass').value;
+        const port = parseInt(document.getElementById('sshInputPort').value) || 22;
+        
+        const errorBox = document.getElementById('sshErrorBox');
+        const btn = document.getElementById('sshBtnConnect');
+        const btnText = btn.querySelector('.ssh-btn-text');
+        const btnLoader = btn.querySelector('.ssh-btn-loader');
+        
+        // Валидация
+        if (!password) {
+            errorBox.textContent = '⚠️ Password is required';
+            document.getElementById('sshInputPass').focus();
+            return;
+        }
+        
+        // UI: connecting
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline';
+        errorBox.textContent = '';
+        this.setStatus('connecting');
+        
+        try {
+            // Загружаем xterm.js
+            await this.loadXterm();
+            
+            // Подключаемся к WebSocket
+            await this.connectWebSocket(username, password, port);
+            
+        } catch (error) {
+            console.error('Connection failed:', error);
+            errorBox.textContent = '❌ ' + error.message;
+            this.setStatus('error');
+            btn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+        }
+    },
+    
+    connectWebSocket: function(username, password, port) {
+        return new Promise((resolve, reject) => {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const sessionId = 'ssh_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            const wsUrl = `${protocol}//${window.location.host}/ws/terminal/${sessionId}/`;
+            
+            console.log('Connecting WebSocket:', wsUrl);
+            
+            this.socket = new WebSocket(wsUrl);
+            
+            const timeout = setTimeout(() => {
+                this.socket.close();
+                reject(new Error('Connection timeout (10s)'));
+            }, 10000);
+            
+            this.socket.onopen = () => {
+                console.log('WebSocket opened, sending credentials...');
+                clearTimeout(timeout);
+                
+                this.socket.send(JSON.stringify({
+                    type: 'connect',
+                    host: this.currentIP,
+                    username: username,
+                    password: password,
+                    port: port,
+                    cols: 120,
+                    rows: 30
+                }));
+            };
+            
+            this.socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log('WS Message:', data.type);
+                
+                switch(data.type) {
+                    case 'connected':
+                        this.isConnected = true;
+                        this.setStatus('connected');
+                        this.showTerminal();
+                        showToast('✅ SSH Connected!');
+                        resolve();
+                        break;
+                        
+                    case 'output':
+                        if (this.terminal) {
+                            this.terminal.write(data.data);
+                        }
+                        break;
+                        
+                    case 'error':
+                        reject(new Error(data.message));
+                        break;
+                        
+                    case 'disconnected':
+                        this.handleDisconnect(data.message);
+                        break;
+                }
+            };
+            
+            this.socket.onerror = () => {
+                clearTimeout(timeout);
+                reject(new Error('WebSocket connection failed'));
+            };
+            
+            this.socket.onclose = () => {
+                clearTimeout(timeout);
+                if (this.isConnected) {
+                    this.handleDisconnect('Connection closed');
+                }
+            };
+        });
+    },
+    
+    showTerminal: function() {
+        console.log('=== SHOWING TERMINAL ===');
+        
+        // Скрываем форму логина
+        document.getElementById('sshLoginPanel').style.display = 'none';
+        
+        // Показываем терминал
+        const termPanel = document.getElementById('sshTerminalPanel');
+        termPanel.style.display = 'flex';
+        
+        // Показываем кнопку reconnect
+        document.getElementById('sshBtnReconnect').style.display = 'block';
+        
+        // Создаём xterm терминал
+        const termArea = document.getElementById('sshTerminalArea');
+        
+        console.log('Creating Terminal instance...');
+        console.log('Terminal class available:', typeof Terminal);
+        console.log('FitAddon available:', typeof FitAddon);
+        
+        this.terminal = new Terminal({
+            cursorBlink: true,
+            cursorStyle: 'block',
+            fontSize: 14,
+            fontFamily: '"JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace',
+            lineHeight: 1.2,
+            letterSpacing: 0,
+            theme: {
+                background: '#0a0a0f',
+                foreground: '#e0e0e0',
+                cursor: '#00ffff',
+                cursorAccent: '#000000',
+                selectionBackground: 'rgba(0, 255, 255, 0.3)',
+                black: '#000000',
+                red: '#ff5555',
+                green: '#50fa7b',
+                yellow: '#f1fa8c',
+                blue: '#6272a4',
+                magenta: '#ff79c6',
+                cyan: '#8be9fd',
+                white: '#f8f8f2',
+                brightBlack: '#6272a4',
+                brightRed: '#ff6e6e',
+                brightGreen: '#69ff94',
+                brightYellow: '#ffffa5',
+                brightBlue: '#d6acff',
+                brightMagenta: '#ff92df',
+                brightCyan: '#a4ffff',
+                brightWhite: '#ffffff'
+            },
+            allowTransparency: true,
+            scrollback: 10000,
+            convertEol: true
+        });
+        
+        // Fit addon
+        this.fitAddon = new FitAddon.FitAddon();
+        this.terminal.loadAddon(this.fitAddon);
+        
+        // Монтируем терминал
+        console.log('Opening terminal in container...');
+        this.terminal.open(termArea);
+        
+        // Подгоняем размер
+        setTimeout(() => {
+            console.log('Fitting terminal...');
+            this.fitAddon.fit();
+            this.terminal.focus();
+            
+            console.log('Terminal size:', this.terminal.cols, 'x', this.terminal.rows);
+            
+            // Отправляем размер на сервер
+            if (this.socket?.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({
+                    type: 'resize',
+                    cols: this.terminal.cols,
+                    rows: this.terminal.rows
+                }));
+            }
+        }, 50);
+        
+        // Обработка ввода
+        this.terminal.onData((data) => {
+            if (this.socket?.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({
+                    type: 'input',
+                    data: data
+                }));
+            }
+        });
+        
+        // Изменение размера окна
+        this._resizeHandler = () => {
+            if (this.fitAddon && this.terminal) {
+                this.fitAddon.fit();
+                if (this.socket?.readyState === WebSocket.OPEN) {
+                    this.socket.send(JSON.stringify({
+                        type: 'resize',
+                        cols: this.terminal.cols,
+                        rows: this.terminal.rows
+                    }));
+                }
+            }
+        };
+        window.addEventListener('resize', this._resizeHandler);
+        
+        console.log('Terminal setup complete!');
+    },
+    
+    handleDisconnect: function(message) {
+        this.isConnected = false;
+        this.setStatus('error');
+        document.getElementById('sshBtnReconnect').style.display = 'block';
+        
+        if (this.terminal) {
+            this.terminal.writeln('');
+            this.terminal.writeln('\x1b[31m━━━ ' + (message || 'Disconnected') + ' ━━━\x1b[0m');
+            this.terminal.writeln('\x1b[33mClick ↻ to reconnect\x1b[0m');
+        }
+    },
+    
+    reconnect: function() {
+        // Закрываем соединения
+        if (this.socket) {
+            this.socket.close();
+            this.socket = null;
+        }
+        if (this.terminal) {
+            this.terminal.dispose();
+            this.terminal = null;
+        }
+        
+        this.isConnected = false;
+        
+        // Показываем форму логина
+        document.getElementById('sshLoginPanel').style.display = 'flex';
+        document.getElementById('sshTerminalPanel').style.display = 'none';
+        document.getElementById('sshBtnReconnect').style.display = 'none';
+        
+        // Сбрасываем состояние формы
+        const btn = document.getElementById('sshBtnConnect');
+        btn.disabled = false;
+        btn.querySelector('.ssh-btn-text').style.display = 'inline';
+        btn.querySelector('.ssh-btn-loader').style.display = 'none';
+        
+        document.getElementById('sshErrorBox').textContent = '';
+        document.getElementById('sshInputPass').value = '';
+        document.getElementById('sshInputPass').focus();
+        
+        this.setStatus('disconnected');
+    },
+    
+    cleanup: function() {
+        if (this.socket) {
+            this.socket.close();
+            this.socket = null;
+        }
+        if (this.terminal) {
+            this.terminal.dispose();
+            this.terminal = null;
+        }
+        if (this._resizeHandler) {
+            window.removeEventListener('resize', this._resizeHandler);
+        }
+        if (this._escHandler) {
+            document.removeEventListener('keydown', this._escHandler);
+        }
+        
+        const modal = document.getElementById('sshTerminalModal');
+        if (modal) modal.remove();
+        
+        this.isConnected = false;
+        this.fitAddon = null;
+    },
+    
+    close: function() {
+        this.cleanup();
+        this.currentIP = null;
+    }
+};
+
+console.log('✅ simpleTerminal initialized');
+console.log('simpleTerminal object created:', typeof simpleTerminal);
+// ============ ИСПРАВЛЕННЫЙ initSSHDropdown ============
+function initSSHDropdown() {
+    const dropdown = document.getElementById('sshDropdown');
+    const button = document.getElementById('sshButton');
+
+    if (!dropdown || !button) {
+        console.warn('SSH dropdown not found');
+        return;
+    }
+
+    // ★ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: сохраняем IP в замыкании
+    let savedIP = null;
+
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Сохраняем IP при клике на кнопку (пока модалка открыта)
+        if (currentHost && currentHost.data && currentHost.data.ipaddr) {
+            savedIP = currentHost.data.ipaddr;
+            console.log('Saved IP:', savedIP);
+        }
+
+        dropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+
+    // Web Terminal
+    document.getElementById('sshOpenWebTerminal')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Получаем IP: сначала из currentHost, потом из savedIP
+        const ip = (currentHost?.data?.ipaddr) || savedIP;
+
+        console.log('Web Terminal clicked, IP:', ip);
+
+        if (ip) {
+            dropdown.classList.remove('active');
+            closeModal('hostModal');
+            simpleTerminal.open(ip);
+        } else {
+            showToast('Сначала выберите хост');
+        }
+    });
+
+    // PuTTY/SSH через сервер
+    document.getElementById('sshOpenPutty')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ip = (currentHost?.data?.ipaddr) || savedIP;
+        if (ip) {
+            openSSHTerminal(ip, 'ssh');
+            dropdown.classList.remove('active');
+        }
+    });
+
+    // Telnet
+    document.getElementById('sshOpenTelnet')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ip = (currentHost?.data?.ipaddr) || savedIP;
+        if (ip) {
+            openSSHTerminal(ip, 'telnet');
+            dropdown.classList.remove('active');
+        }
+    });
+
+    // Копировать команду
+    document.getElementById('sshCopyCommand')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const ip = (currentHost?.data?.ipaddr) || savedIP;
+        if (ip) {
+            await copyToClipboard(`ssh root@${ip}`);
+            showToast('Команда скопирована');
+            dropdown.classList.remove('active');
+        }
+    });
+
+    // Копировать IP
+    document.getElementById('sshCopyIp')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const ip = (currentHost?.data?.ipaddr) || savedIP;
+        if (ip) {
+            await copyToClipboard(ip);
+            showToast('IP скопирован: ' + ip);
+            dropdown.classList.remove('active');
+        }
+    });
+}</script>
+<div class="network-graph">
+  <div class="backfeater">
+      <div id="tree-container"></div>
+<div class="filter-panel" id="filterPanel">
+              <div class="filter-header">
+                  <span class="filter-title">Фильтры</span>
+                  <button class="filter-toggle-btn collapsed" id="filterToggle" title="Свернуть/развернуть">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                          <path d="M2 4l4 4 4-4H2z"/>
+                      </svg>
+                  </button>
+              </div>
+
+              <div class="filter-content collapsed" id="filterContent">
+                  <!-- Быстрые фильтры -->
+                  <div class="quick-filters">
+                      <button class="quick-filter-btn active" data-filter="all">Все</button>
+                      <button class="quick-filter-btn" data-filter="endpoints">Конечные</button>
+                      <button class="quick-filter-btn" data-filter="online">Online</button>
+                  </div>
+
+                  <div class="filter-divider"></div>
+
+                  <!-- Фильтры по типу устройств -->
+                  <div class="filter-group">
+                      <div class="filter-group-title">Типы устройств</div>
+                      <div id="deviceTypeFilters"></div>
+                  </div>
+
+                  <div class="filter-divider"></div>
+
+                  <!-- Фильтры по статусу -->
+                  <div class="filter-group">
+                      <div class="filter-group-title">Статус</div>
+                      <div id="statusFilters">
+                          <div class="filter-item active" data-status="all">
+                              <div class="filter-checkbox"></div>
+                              <div class="filter-icon icon-all">●</div>
+                              <span class="filter-label">Все статусы</span>
+                          </div>
+                          <div class="filter-item" data-status="online">
+                              <div class="filter-checkbox"></div>
+                              <div class="filter-icon" style="background: rgba(0,255,136,0.2); color: #00ff88;">●</div>
+                              <span class="filter-label">Online</span>
+                              <span class="filter-count" id="countOnline">0</span>
+                          </div>
+                          <div class="filter-item" data-status="offline">
+                              <div class="filter-checkbox"></div>
+                              <div class="filter-icon" style="background: rgba(255,80,80,0.2); color: #ff5050;">●</div>
+                              <span class="filter-label">Offline</span>
+                              <span class="filter-count" id="countOffline">0</span>
+                          </div>
+                          <div class="filter-item" data-status="warning">
+                              <div class="filter-checkbox"></div>
+                              <div class="filter-icon" style="background: rgba(255,170,0,0.2); color: #ffaa00;">●</div>
+                              <span class="filter-label">Warning/Critical</span>
+                              <span class="filter-count" id="countWarning">0</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Действия -->
+                  <div class="filter-actions">
+                      <button class="filter-btn" id="resetFilters">Сбросить</button>
+                      <button class="filter-btn primary" id="invertFilters">Инвертировать</button>
+                  </div>
+
+                  <!-- Статус фильтрации -->
+                  <div class="filter-status" id="filterStatus">
+                      Показано: <span id="visibleCount">0</span> из <span id="totalCount">0</span>
+                  </div>
+              </div>
+                </div>
+
+  </div>
+
+  <!-- Модальные окна -->
+  <div class="modal-overlay" id="hostModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Host Information</h3>
+        <button class="close-btn" id="closeHostModalBtn">X</button>
+      </div>
+      <div class="host-info" id="hostInfo"></div>
+      <div class="action-buttons">
+  <button class="ping-btn" id="pingButton">
+    <span>Ping Host</span>
+  </button>
+
+  <!-- Новая кнопка SSH/PuTTY с dropdown -->
+  <!-- В вашем шаблоне, замените dropdown на: -->
+
+<div class="ssh-dropdown" id="sshDropdown">
+    <button class="ssh-btn" id="sshButton">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px;">
+            <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/>
+            <path d="M7 7l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <line x1="12" y1="15" x2="17" y2="15" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span>Terminal</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left: 6px;">
+            <path d="M2 4l4 4 4-4H2z"/>
+        </svg>
+    </button>
+    <div class="ssh-dropdown-menu" id="sshDropdownMenu">
+        <!-- Web Terminal (основной вариант) -->
+        <a class="ssh-dropdown-item" id="sshOpenWebTerminal" href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M6 9l3 3-3 3M11 15h5" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+            Web Terminal (SSH)
+        </a>
+
+<!--        <div class="ssh-dropdown-divider"></div>-->
+
+        <!-- Telnet -->
+<!--        <a class="ssh-dropdown-item" id="sshOpenTelnet" href="#">-->
+<!--            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">-->
+<!--                <rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>-->
+<!--                <text x="12" y="13" font-size="8" text-anchor="middle" fill="currentColor">T</text>-->
+<!--            </svg>-->
+<!--            Web Terminal (Telnet)-->
+<!--        </a>-->
+
+        <div class="ssh-dropdown-divider"></div>
+
+        <a class="ssh-dropdown-item" id="sshCopyCommand" href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="9" y="9" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Copy SSH Command
+        </a>
+
+        <a class="ssh-dropdown-item" id="sshCopyIp" href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="9" y="9" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Copy IP Address
+        </a>
+    </div>
+</div>
+
+  <a class="edit-btn" id="editButton" href="#">
+    <span>Edit Host</span>
+  </a>
+</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="pingModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="pingTitle">Ping Process</h3>
+        <button class="close-btn" id="closePingModalBtn">X</button>
+      </div>
+      <div class="ping-output" id="pingOutput"></div>
+      <button class="ping-btn" id="closePingBtn" style="margin-top: 16px;">Close</button>
+    </div>
+  </div>
+
+  <div class="glass-panel">
+    <div class="glass-title">Network Graph</div>
+    <div class="legend">
+      <div class="legend-item"><span class="dot green"></span><small>OK (сервисы: ok)</small></div>
+      <div class="legend-item"><span class="dot orange"></span><small>Критический</small></div>
+      <div class="legend-item"><span class="dot red"></span><small>Недоступен</small></div>
+      <div class="legend-item"><span class="dot cyan"></span><small>Узел Sysmon</small></div>
+      <div class="legend-item"><small>Клик: информация</small></div>
+      <div class="legend-item"><small>Перетаскивание: переместить и сохранить</small></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ ИСХОДНЫЕ ДАННЫЕ ============
+const rawData = {{ tree|safe }};
+console.log("Raw data received:", rawData);
+console.log("Total hosts in data:", rawData.length);
+
+const POSITIONS_URL = '/api/graph/positions/';
+let currentHost = null;
+let pingInterval = null;
+let pingAbortController = null; // ← НОВОЕ: для отмены fetch
+let pingCount = 0;
+const maxPings = 10;
+let pingActive = false; // ← НОВОЕ: флаг активности ping
+
+let allNodes = [];
+let simulation = null;
+let highlightedNode = null;
+let highlightTimeout = null;
+let linkElements = null;
+let nodeElements = null;
+const HOST_UPDATE_URL_TEMPLATE = "{% url 'host-update' 0 %}".replace('0', '{id}');
+
+let positionsLoaded = false;
+let savedPositions = {};
+
+// ============ СОСТОЯНИЕ ФИЛЬТРОВ ============
+const filterState = {
+    deviceTypes: new Set(),
+    statusFilter: 'all',
+    quickFilter: 'all',
+    allDeviceTypes: new Set(),
+};
+
+// Маппинг типов устройств
+const DEVICE_TYPE_CONFIG = {
+    'servers': { icon: '🖥️', label: 'Серверы', class: 'icon-server', group: 'endpoints' },
+    'switches': { icon: '🖥️', label: 'Коммутаторы', class: 'icon-switch', group: 'network' },
+    'router': { icon: '📡', label: 'Маршрутизаторы', class: 'icon-router', group: 'network' },
+    'computers': { icon: '💻', label: 'Компьютеры', class: 'icon-computer', group: 'endpoints' },
+    'workstations': { icon: '🖥️', label: 'Рабочие станции', class: 'icon-computer', group: 'endpoints' },
+    'network-printers': { icon: '🖨️', label: 'Принтеры', class: 'icon-printer', group: 'endpoints' },
+    'printers': { icon: '🖨️', label: 'Принтеры', class: 'icon-printer', group: 'endpoints' },
+    'UPS': { icon: '🔋', label: 'ИБП', class: 'icon-ups', group: 'endpoints' },
+    'ups': { icon: '🔋', label: 'ИБП', class: 'icon-ups', group: 'endpoints' },
+    'firewall': { icon: '🛡️', label: 'Файрволы', class: 'icon-firewall', group: 'network' },
+    'firewalls': { icon: '🛡️', label: 'Файрволы', class: 'icon-firewall', group: 'network' },
+    'access_points': { icon: '📶', label: 'Точки доступа', class: 'icon-switch', group: 'network' },
+    'cameras': { icon: '📹', label: 'Камеры', class: 'icon-other', group: 'endpoints' },
+    'phones': { icon: '📞', label: 'IP-телефоны', class: 'icon-other', group: 'endpoints' },
+    'storage': { icon: '💾', label: 'Хранилища', class: 'icon-server', group: 'endpoints' },
+    'virtual': { icon: '☁️', label: 'Виртуальные', class: 'icon-server', group: 'endpoints' },
+    'unknown': { icon: '❓', label: 'Неизвестные', class: 'icon-other', group: 'other' },
+    'other': { icon: '📦', label: 'Другие', class: 'icon-other', group: 'other' },
+    'sysmon': { icon: '🌐', label: 'Sysmon', class: 'icon-all', group: 'system' },
+};
+
+function getDeviceTypeConfig(type) {
+    if (!type) return DEVICE_TYPE_CONFIG['unknown'];
+    const normalizedType = type.toLowerCase().replace(/[-_\s]/g, '');
+    for (const [key, config] of Object.entries(DEVICE_TYPE_CONFIG)) {
+        if (normalizedType.includes(key.toLowerCase().replace(/[-_\s]/g, ''))) {
+            return config;
+        }
+    }
+    return DEVICE_TYPE_CONFIG['other'];
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+const CSRF = getCookie('csrftoken');
+
+// ============ ИСПРАВЛЕННОЕ ПОСТРОЕНИЕ ГРАФА ============
+/**
+ * Строит плоский граф из данных (не дерево!)
+ * Возвращает объект { nodes: [], links: [] }
+ */
+function buildGraphData(data) {
+    const nodesMap = new Map();
+    const links = [];
+
+    // Шаг 1: Создаём все узлы
+    data.forEach(item => {
+        if (!item.ipaddr) {
+            console.warn("Item without ipaddr:", item);
+            return;
+        }
+
+        nodesMap.set(item.ipaddr, {
+            id: item.ipaddr,
+            data: item
+        });
+    });
+
+    console.log(`Created ${nodesMap.size} nodes from ${data.length} items`);
+
+    // Шаг 2: Создаём связи на основе parent и children
+    data.forEach(item => {
+        if (!item.ipaddr) return;
+
+        // Связь от parent к текущему узлу
+        if (item.parent && nodesMap.has(item.parent)) {
+            links.push({
+                source: item.parent,
+                target: item.ipaddr
+            });
+        }
+
+        // Связи от текущего узла к children
+        if (item.children && Array.isArray(item.children)) {
+            item.children.forEach(childIp => {
+                if (nodesMap.has(childIp)) {
+                    // Проверяем, нет ли уже такой связи (в обратном направлении)
+                    const exists = links.some(l =>
+                        (l.source === item.ipaddr && l.target === childIp) ||
+                        (l.source === childIp && l.target === item.ipaddr)
+                    );
+                    if (!exists) {
+                        links.push({
+                            source: item.ipaddr,
+                            target: childIp
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    // Удаляем дубликаты связей
+    const uniqueLinks = [];
+    const linkSet = new Set();
+    links.forEach(link => {
+        const key1 = `${link.source}|${link.target}`;
+        const key2 = `${link.target}|${link.source}`;
+        if (!linkSet.has(key1) && !linkSet.has(key2)) {
+            linkSet.add(key1);
+            uniqueLinks.push(link);
+        }
+    });
+
+    console.log(`Created ${uniqueLinks.length} unique links`);
+
+    // Проверяем "осиротевшие" узлы (без связей)
+    const connectedNodes = new Set();
+    uniqueLinks.forEach(link => {
+        connectedNodes.add(link.source);
+        connectedNodes.add(link.target);
+    });
+
+    const orphanNodes = [];
+    nodesMap.forEach((node, ip) => {
+        if (!connectedNodes.has(ip)) {
+            orphanNodes.push(ip);
+        }
+    });
+
+    if (orphanNodes.length > 0) {
+        console.warn(`Found ${orphanNodes.length} orphan nodes (no connections):`, orphanNodes);
+
+        // Подключаем осиротевших к первому узлу (sysmon или первый в списке)
+        const rootIp = data.find(d => d.ipaddr === 'sysmon')?.ipaddr || data[0]?.ipaddr;
+        if (rootIp) {
+            orphanNodes.forEach(ip => {
+                if (ip !== rootIp) {
+                    uniqueLinks.push({
+                        source: rootIp,
+                        target: ip
+                    });
+                    console.log(`Connected orphan ${ip} to ${rootIp}`);
+                }
+            });
+        }
+    }
+
+    return {
+        nodes: Array.from(nodesMap.values()),
+        links: uniqueLinks
+    };
+}
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+const svg = d3.select("#tree-container").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+const defs = svg.append("defs");
+defs.append("filter")
+    .attr("id", "glowSoft")
+    .attr("x", "-50%").attr("y", "-50%")
+    .attr("width", "200%").attr("height", "200%")
+    .html(`
+        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+        <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    `);
+
+defs.append("filter")
+    .attr("id", "glowStrong")
+    .attr("x", "-100%").attr("y", "-100%")
+    .attr("width", "300%").attr("height", "300%")
+    .html(`
+        <feGaussianBlur stdDeviation="4.5" result="blur"/>
+        <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    `);
+
+defs.append("filter")
+    .attr("id", "glowFound")
+    .attr("x", "-200%").attr("y", "-200%")
+    .attr("width", "500%").attr("height", "500%")
+    .html(`
+        <feGaussianBlur stdDeviation="8" result="blur"/>
+        <feFlood flood-color="#00ffff" flood-opacity="0.8"/>
+        <feComposite in2="blur" operator="in"/>
+        <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    `);
+
+const g = svg.append("g");
+const zoom = d3.zoom().scaleExtent([0.2, 3]).on("zoom", (event) => {
+    g.attr("transform", event.transform);
+});
+svg.call(zoom);
+
+// ============ СТРОИМ ГРАФ ИЗ ПЛОСКИХ ДАННЫХ ============
+const graphData = buildGraphData(rawData);
+const nodes = graphData.nodes;
+const links = graphData.links;
+allNodes = nodes;
+
+// Обновляем отладочную информацию
+document.getElementById('debugInfo').textContent =
+    `Узлов: ${nodes.length} | Связей: ${links.length} | Исходных: ${rawData.length}`;
+
+// ============ ФУНКЦИИ СОХРАНЕНИЯ ПОЗИЦИЙ ============
+
+async function loadPositionsFromServer() {
+    try {
+        const r = await fetch(POSITIONS_URL, { credentials: 'same-origin' });
+        if (!r.ok) return {};
+        const positions = await r.json();
+        console.log('Loaded positions from server:', Object.keys(positions).length);
+        return positions;
+    } catch (e) {
+        console.warn('Positions GET failed:', e);
+        return {};
+    }
+}
+
+function savePositionToServer(ipaddr, x, y) {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) {
+        console.warn('Invalid position for', ipaddr, x, y);
+        return Promise.resolve();
+    }
+
+    const payload = { ipaddr, x, y };
+
+    return fetch(POSITIONS_URL, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (response.ok) {
+            savedPositions[ipaddr] = { x, y };
+            console.log('Position saved for:', ipaddr);
+        }
+        return response;
+    })
+    .catch(e => {
+        console.warn('Position save failed for', ipaddr, e);
+    });
+}
+
+async function saveAllPositions() {
+    const saveStatus = document.getElementById('saveStatus');
+    const saveBtn = document.getElementById('savePositionsBtn');
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Сохранение...';
+
+    const promises = [];
+
+    nodes.forEach(n => {
+        const x = n.fx ?? n.x;
+        const y = n.fy ?? n.y;
+
+        if (Number.isFinite(x) && Number.isFinite(y)) {
+            promises.push(savePositionToServer(n.id, x, y));
+        }
+    });
+
+    try {
+        await Promise.all(promises);
+
+        saveStatus.style.display = 'block';
+        saveStatus.textContent = '✓ Все позиции сохранены';
+        saveStatus.style.color = 'rgba(0,255,136,0.8)';
+
+        setTimeout(() => {
+            saveStatus.style.display = 'none';
+        }, 3000);
+    } catch (e) {
+        saveStatus.style.display = 'block';
+        saveStatus.textContent = '✗ Ошибка сохранения';
+        saveStatus.style.color = 'rgba(255,100,100,0.8)';
+    }
+
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Сохранить все';
+}
+
+function resetAllPositions() {
+    if (!confirm('Сбросить все позиции? Узлы будут расположены автоматически.')) {
+        return;
+    }
+
+    nodes.forEach(n => {
+        n.fx = null;
+        n.fy = null;
+    });
+
+    savedPositions = {};
+    simulation.alpha(1).restart();
+
+    const saveStatus = document.getElementById('saveStatus');
+    saveStatus.style.display = 'block';
+    saveStatus.textContent = '↻ Позиции сброшены';
+    saveStatus.style.color = 'rgba(255,170,0,0.8)';
+
+    setTimeout(() => {
+        saveStatus.style.display = 'none';
+    }, 2000);
+}
+
+function autoArrange() {
+    nodes.forEach(n => {
+        n.fx = null;
+        n.fy = null;
+    });
+
+    simulation.alpha(1).restart();
+
+    simulation.on('end', () => {
+        nodes.forEach(n => {
+            n.fx = n.x;
+            n.fy = n.y;
+        });
+        saveAllPositions();
+    });
+
+    const saveStatus = document.getElementById('saveStatus');
+    saveStatus.style.display = 'block';
+    saveStatus.textContent = '⟳ Расположение узлов...';
+    saveStatus.style.color = 'rgba(0,255,255,0.8)';
+}
+
+function applyLoadedPositions(positions) {
+    let appliedCount = 0;
+
+    nodes.forEach(n => {
+        const p = positions[n.id];
+        if (p && Number.isFinite(p.x) && Number.isFinite(p.y)) {
+            n.fx = p.x;
+            n.fy = p.y;
+            n.x = p.x;
+            n.y = p.y;
+            n.vx = 0;
+            n.vy = 0;
+            appliedCount++;
+        }
+    });
+
+    console.log('Applied positions to', appliedCount, 'nodes');
+    return appliedCount;
+}
+
+// ============ ИНИЦИАЛИЗАЦИЯ ФИЛЬТРОВ ============
+function initializeFilters() {
+    const typeCounts = {};
+    let onlineCount = 0;
+    let offlineCount = 0;
+    let warningCount = 0;
+
+    allNodes.forEach(node => {
+        const type = node.data.device_type || 'unknown';
+        typeCounts[type] = (typeCounts[type] || 0) + 1;
+        filterState.allDeviceTypes.add(type);
+        filterState.deviceTypes.add(type);
+
+        if (node.data.status === false) {
+            offlineCount++;
+        } else {
+            onlineCount++;
+        }
+        if (node.data.status_serv === 'critical' || node.data.status_serv === 'warning') {
+            warningCount++;
+        }
+    });
+
+    document.getElementById('countOnline').textContent = onlineCount;
+    document.getElementById('countOffline').textContent = offlineCount;
+    document.getElementById('countWarning').textContent = warningCount;
+
+    const container = document.getElementById('deviceTypeFilters');
+    container.innerHTML = '';
+
+    const allItem = createFilterItem('all', {
+        icon: '📊',
+        label: 'Все устройства',
+        class: 'icon-all'
+    }, allNodes.length, true);
+    container.appendChild(allItem);
+
+    const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+
+    sortedTypes.forEach(([type, count]) => {
+        const config = getDeviceTypeConfig(type);
+        const item = createFilterItem(type, config, count, true);
+        container.appendChild(item);
+    });
+
+    updateFilterStatus();
+}
+
+function createFilterItem(type, config, count, isActive) {
+    const item = document.createElement('div');
+    item.className = `filter-item ${isActive ? 'active' : ''}`;
+    item.dataset.type = type;
+
+    item.innerHTML = `
+        <div class="filter-checkbox"></div>
+        <div class="filter-icon ${config.class}">${config.icon}</div>
+        <span class="filter-label">${config.label}</span>
+        <span class="filter-count">${count}</span>
+    `;
+
+    item.addEventListener('click', () => toggleDeviceTypeFilter(type, item));
+    return item;
+}
+
+function toggleDeviceTypeFilter(type, element) {
+    if (type === 'all') {
+        const allActive = filterState.deviceTypes.size === filterState.allDeviceTypes.size;
+
+        if (allActive) {
+            filterState.deviceTypes.clear();
+        } else {
+            filterState.allDeviceTypes.forEach(t => filterState.deviceTypes.add(t));
+        }
+
+        document.querySelectorAll('#deviceTypeFilters .filter-item').forEach(item => {
+            const itemType = item.dataset.type;
+            if (itemType === 'all') {
+                item.classList.toggle('active', !allActive);
+            } else {
+                item.classList.toggle('active', filterState.deviceTypes.has(itemType));
+            }
+        });
+    } else {
+        if (filterState.deviceTypes.has(type)) {
+            filterState.deviceTypes.delete(type);
+            element.classList.remove('active');
+        } else {
+            filterState.deviceTypes.add(type);
+            element.classList.add('active');
+        }
+
+        const allItem = document.querySelector('#deviceTypeFilters .filter-item[data-type="all"]');
+        if (allItem) {
+            allItem.classList.toggle('active',
+                filterState.deviceTypes.size === filterState.allDeviceTypes.size);
+        }
+    }
+
+    applyFilters();
+}
+
+function setupStatusFilters() {
+    document.querySelectorAll('#statusFilters .filter-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const status = item.dataset.status;
+
+            document.querySelectorAll('#statusFilters .filter-item').forEach(i =>
+                i.classList.remove('active'));
+
+            item.classList.add('active');
+
+            filterState.statusFilter = status;
+            applyFilters();
+        });
+    });
+}
+
+function setupQuickFilters() {
+    document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+
+            document.querySelectorAll('.quick-filter-btn').forEach(b =>
+                b.classList.remove('active'));
+
+            btn.classList.add('active');
+
+            filterState.quickFilter = filter;
+            applyQuickFilter(filter);
+        });
+    });
+}
+
+function applyQuickFilter(filter) {
+    filterState.allDeviceTypes.forEach(t => filterState.deviceTypes.add(t));
+    filterState.statusFilter = 'all';
+
+    switch (filter) {
+        case 'network':
+            filterState.deviceTypes.clear();
+            filterState.allDeviceTypes.forEach(type => {
+                const config = getDeviceTypeConfig(type);
+                if (config.group === 'network') {
+                    filterState.deviceTypes.add(type);
+                }
+            });
+            break;
+        case 'endpoints':
+            filterState.deviceTypes.clear();
+            filterState.allDeviceTypes.forEach(type => {
+                const config = getDeviceTypeConfig(type);
+                if (config.group === 'endpoints') {
+                    filterState.deviceTypes.add(type);
+                }
+            });
+            break;
+        case 'online':
+            filterState.statusFilter = 'online';
+            break;
+        case 'all':
+        default:
+            break;
+    }
+
+    updateFilterCheckboxes();
+    applyFilters();
+}
+
+function updateFilterCheckboxes() {
+    document.querySelectorAll('#deviceTypeFilters .filter-item').forEach(item => {
+        const type = item.dataset.type;
+        if (type === 'all') {
+            item.classList.toggle('active',
+                filterState.deviceTypes.size === filterState.allDeviceTypes.size);
+        } else {
+            item.classList.toggle('active', filterState.deviceTypes.has(type));
+        }
+    });
+
+    document.querySelectorAll('#statusFilters .filter-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.status === filterState.statusFilter);
+    });
+}
+
+function applyFilters() {
+    let visibleCount = 0;
+    const visibleNodeIds = new Set();
+
+    nodeElements.each(function(d) {
+        const isVisible = checkNodeVisibility(d);
+
+        d3.select(this).classed('filtered-out', !isVisible);
+
+        if (isVisible) {
+            visibleCount++;
+            visibleNodeIds.add(d.id);
+        }
+    });
+
+    linkElements.each(function(l) {
+        const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
+        const targetId = typeof l.target === 'object' ? l.target.id : l.target;
+
+        const sourceVisible = visibleNodeIds.has(sourceId);
+        const targetVisible = visibleNodeIds.has(targetId);
+
+        d3.select(this).classed('filtered-out', !(sourceVisible && targetVisible));
+    });
+
+    updateFilterStatus(visibleCount);
+}
+
+function checkNodeVisibility(node) {
+    const type = node.data.device_type || 'unknown';
+    const status = node.data.status;
+    const statusServ = node.data.status_serv;
+
+    if (!filterState.deviceTypes.has(type)) {
+        return false;
+    }
+
+    switch (filterState.statusFilter) {
+        case 'online':
+            if (status === false) return false;
+            break;
+        case 'offline':
+            if (status !== false) return false;
+            break;
+        case 'warning':
+            if (statusServ !== 'critical' && statusServ !== 'warning') return false;
+            break;
+        case 'all':
+        default:
+            break;
+    }
+
+    return true;
+}
+
+function updateFilterStatus(visibleCount = null) {
+    const total = allNodes.length;
+
+    if (visibleCount === null) {
+        visibleCount = allNodes.filter(n => checkNodeVisibility(n)).length;
+    }
+
+    document.getElementById('visibleCount').textContent = visibleCount;
+    document.getElementById('totalCount').textContent = total;
+
+    const statusEl = document.getElementById('filterStatus');
+    if (visibleCount < total) {
+        statusEl.classList.add('filtered');
+    } else {
+        statusEl.classList.remove('filtered');
+    }
+}
+
+function resetFilters() {
+    filterState.allDeviceTypes.forEach(t => filterState.deviceTypes.add(t));
+    filterState.statusFilter = 'all';
+    filterState.quickFilter = 'all';
+
+    document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === 'all');
+    });
+
+    updateFilterCheckboxes();
+    applyFilters();
+}
+
+function invertFilters() {
+    const newSelection = new Set();
+    filterState.allDeviceTypes.forEach(type => {
+        if (!filterState.deviceTypes.has(type)) {
+            newSelection.add(type);
+        }
+    });
+
+    if (newSelection.size === 0) {
+        filterState.allDeviceTypes.forEach(t => newSelection.add(t));
+    }
+
+    filterState.deviceTypes = newSelection;
+    updateFilterCheckboxes();
+    applyFilters();
+}
+
+document.getElementById('filterToggle').addEventListener('click', () => {
+    const content = document.getElementById('filterContent');
+    const btn = document.getElementById('filterToggle');
+
+    content.classList.toggle('collapsed');
+    btn.classList.toggle('collapsed');
+});
+
+document.getElementById('resetFilters').addEventListener('click', resetFilters);
+document.getElementById('invertFilters').addEventListener('click', invertFilters);
+
+// ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
+
+/**
+ * ИСПРАВЛЕННАЯ функция остановки ping
+ */
+function stopPing() {
+    console.log('stopPing called');
+
+    // Устанавливаем флаг неактивности
+    pingActive = false;
+
+    // Отменяем текущий fetch запрос
+    if (pingAbortController) {
+        pingAbortController.abort();
+        pingAbortController = null;
+    }
+
+    // Очищаем интервал
+    if (pingInterval) {
+        clearInterval(pingInterval);
+        pingInterval = null;
+    }
+
+    pingCount = 0;
+
+    const pingBtn = document.getElementById('pingButton');
+    if (pingBtn) {
+        pingBtn.disabled = false;
+        pingBtn.innerHTML = '<span>Ping Host</span>';
+    }
+}
+
+function statusColor(d) {
+    if (d.data.ipaddr === 'sysmon') return 'var(--neon-cyan)';
+    if (d.data.status === false) return 'var(--neon-red)';
+    if (d.data.status_serv === 'critical') return 'var(--neon-red)';
+    if (d.data.status_serv === 'warning') return 'var(--neon-orange)';
+    if (d.data.status_serv === 'ok') return 'var(--neon-green)';
+    return 'var(--neon-purple)';
+}
+
+function getStatusClass(d) {
+    if (d.data.ipaddr === 'sysmon') return 'status-sysmon';
+    if (d.data.status === false) return 'status-down';
+    if (d.data.status_serv === 'critical') return 'status-critical';
+    if (d.data.status_serv === 'warning') return 'status-critical';
+    if (d.data.status_serv === 'ok') return 'status-ok';
+    return 'status-ok';
+}
+
+function getStatusText(d) {
+    if (d.data.ipaddr === 'sysmon') return 'Sysmon Node';
+    if (d.data.status === false) return 'Host Down';
+    if (d.data.status_serv === 'critical') return 'Services Critical';
+    if (d.data.status_serv === 'warning') return 'Services Warning';
+    if (d.data.status_serv === 'ok') return 'Services OK';
+    return 'Unknown';
+}
+
+function getServiceStatusClass(service) {
+    const status = service.status;
+
+    if (status === 'OK' || status === 'ОК') {
+        return 'status-ok';
+    } else if (status === 'CRITICAL') {
+        return 'status-critical';
+    } else if (status === 'Pending') {
+        return 'status-pending';
+    } else if (status === 'WARNING') {
+        return 'status-warning';
+    } else {
+        return 'status-unknown';
+    }
+}
+
+// ============ СОЗДАНИЕ ГРАФА ============
+
+// Создаём линии
+linkElements = g.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .join("line")
+    .attr("class", "link");
+
+// Создаём узлы
+nodeElements = g.append("g")
+    .attr("class", "nodes")
+    .selectAll("g")
+    .data(nodes)
+    .join("g")
+    .attr("class", "node");
+
+// Пульсирующие кольца
+nodeElements.append("circle")
+    .attr("class", "pulse-ring ring-1")
+    .attr("r", 15);
+
+nodeElements.append("circle")
+    .attr("class", "pulse-ring ring-2 delay-1")
+    .attr("r", 15);
+
+nodeElements.append("circle")
+    .attr("class", "pulse-ring ring-3 delay-2")
+    .attr("r", 15);
+
+nodeElements.append("rect")
+    .attr("class", "found-marker")
+    .attr("x", -20)
+    .attr("y", -20)
+    .attr("width", 40)
+    .attr("height", 40)
+    .attr("transform", "rotate(45)")
+    .style("opacity", 0);
+
+nodeElements.append("circle")
+    .attr("class", "halo")
+    .attr("r", 14)
+    .style("stroke", d => statusColor(d));
+
+nodeElements.append("circle")
+    .attr("class", "base")
+    .attr("r", 9)
+    .style("fill", d => statusColor(d));
+
+nodeElements.each(function(d) {
+    const el = d3.select(this);
+    const name = d.data.name || d.data.hostname;
+    const ip = d.data.ipaddr;
+
+    const hasName = name &&
+                    name.trim() !== '' &&
+                    name !== ip &&
+                    name !== 'None' &&
+                    name !== 'null' &&
+                    name !== 'undefined';
+
+    const text = el.append("text")
+        .attr("class", "node-label")
+        .attr("text-anchor", "middle")
+        .attr("y", 35);
+
+    if (hasName) {
+        text.append("tspan")
+            .attr("class", "label-name")
+            .attr("x", 0)
+            .attr("dy", 0)
+            .style("font-weight", "bold")
+            .style("font-size", "11px")
+            .text(name);
+
+        text.append("tspan")
+            .attr("class", "label-ip")
+            .attr("x", 0)
+            .attr("dy", "1.2em")
+            .style("font-size", "10px")
+            .style("opacity", "0.8")
+            .text(ip);
+    } else {
+        text.append("tspan")
+            .attr("class", "label-ip")
+            .attr("x", 0)
+            .attr("dy", 0)
+            .text(ip);
+    }
+});
+
+// Adjacency для hover эффектов
+const adjacency = new Map();
+links.forEach(l => {
+    const a = typeof l.source === 'object' ? l.source.id : l.source;
+    const b = typeof l.target === 'object' ? l.target.id : l.target;
+    adjacency.set(`${a}|${b}`, true);
+    adjacency.set(`${b}|${a}`, true);
+});
+
+function isConnected(a, b) {
+    return a.id === b.id || adjacency.get(`${a.id}|${b.id}`);
+}
+
+nodeElements.on('mouseover', function(event, d) {
+    if (highlightedNode) return;
+    nodeElements.classed("faded", n => !isConnected(d, n));
+    linkElements
+        .classed("active", l => l.source === d || l.target === d)
+        .classed("faded", l => !(l.source === d || l.target === d));
+});
+
+nodeElements.on('mouseout', function() {
+    if (highlightedNode) return;
+    nodeElements.classed("faded", false);
+    linkElements.classed("active", false).classed("faded", false);
+});
+
+nodeElements.on('click', function(event, d) {
+    event.stopPropagation();
+    showHostInfo(d);
+});
+
+// ============ ФУНКЦИИ ПОИСКА ============
+
+function clearHighlightEffect() {
+    if (highlightTimeout) {
+        clearTimeout(highlightTimeout);
+        highlightTimeout = null;
+    }
+    nodeElements.classed("node-found", false);
+    nodeElements.selectAll(".pulse-ring").classed("active", false);
+    nodeElements.selectAll(".found-marker").style("opacity", 0);
+    nodeElements.selectAll(".node-label").classed("node-label-highlight", false);
+    linkElements.classed("link-highlight", false);
+    nodeElements.classed("faded", false);
+    linkElements.classed("faded", false);
+    highlightedNode = null;
+}
+
+function highlightNodeWithEffect(node, duration = 8000) {
+    clearHighlightEffect();
+    highlightedNode = node;
+    const nodeElement = nodeElements.filter(d => d === node);
+    nodeElement.classed("node-found", true);
+    nodeElement.selectAll(".pulse-ring").classed("active", true);
+    nodeElement.select(".found-marker").style("opacity", 1);
+    nodeElement.select(".node-label").classed("node-label-highlight", true);
+
+    linkElements.each(function(l) {
+        if (l.source === node || l.target === node) {
+            d3.select(this).classed("link-highlight", true);
+        }
+    });
+
+    nodeElements.classed("faded", n => n !== node && !isConnected(node, n));
+    linkElements.classed("faded", l => l.source !== node && l.target !== node);
+
+    highlightTimeout = setTimeout(() => {
+        clearHighlightEffect();
+    }, duration);
+}
+
+function centerOnNode(node, callback) {
+    const scale = 1.5;
+    const x = -node.x * scale + width / 2;
+    const y = -node.y * scale + height / 2;
+
+    svg.transition()
+        .duration(1000)
+        .ease(d3.easeCubicInOut)
+        .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(scale))
+        .on("end", () => {
+            if (callback) callback();
+        });
+}
+
+function searchNodes(query) {
+    if (!query.trim()) {
+        clearSearch();
+        return [];
+    }
+
+    const searchTerm = query.toLowerCase();
+
+    const results = allNodes.filter(node => {
+        if (!checkNodeVisibility(node)) return false;
+
+        const name = (node.data.name || node.data.hostname || '').toLowerCase();
+        const ip = node.data.ipaddr ? node.data.ipaddr.toLowerCase() : '';
+        const deviceType = (node.data.device_type || '').toLowerCase();
+
+        return name.includes(searchTerm) ||
+               ip.includes(searchTerm) ||
+               deviceType.includes(searchTerm);
+    });
+
+    return results;
+}
+
+function highlightNode(node) {
+    // Закрываем результаты поиска
+    document.getElementById('searchResults').style.display = 'none';
+
+    // Показываем toast с подсказкой
+    showToast(`Найден: ${node.data.name || node.data.ipaddr}. Кликните для информации`, 3000);
+
+    // Анимация центрирования
+    centerOnNode(node, () => {
+        // Подсветка узла
+        highlightNodeWithEffect(node, 8000);
+    });
+
+    // НЕ открываем модалку автоматически
+    // Пользователь кликнет на узел сам, если нужно
+}
+
+
+function clearSearch() {
+    document.getElementById('nodeSearch').value = '';
+    document.getElementById('clearSearch').style.display = 'none';
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('searchResults').innerHTML = '';
+}
+
+function displaySearchResults(results) {
+    const resultsContainer = document.getElementById('searchResults');
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<div class="search-result-item">Ничего не найдено</div>';
+        resultsContainer.style.display = 'block';
+        return;
+    }
+
+    resultsContainer.innerHTML = results.slice(0, 20).map((node, index) => {
+        const name = node.data.name || node.data.hostname || 'No name';
+        const ip = node.data.ipaddr;
+        const status = getStatusText(node);
+        const typeConfig = getDeviceTypeConfig(node.data.device_type);
+
+        return `
+            <div class="search-result-item" data-index="${index}">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="filter-icon ${typeConfig.class}" style="width: 24px; height: 24px; font-size: 14px;">${typeConfig.icon}</span>
+                    <div>
+                        <div style="font-weight: 600;">${name}</div>
+                        <div style="font-size: 12px; opacity: 0.8;">${ip} • ${status}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    if (results.length > 20) {
+        resultsContainer.innerHTML += `<div class="search-result-item" style="opacity: 0.6; text-align: center;">...и ещё ${results.length - 20}</div>`;
+    }
+
+    resultsContainer.style.display = 'block';
+
+    resultsContainer.querySelectorAll('.search-result-item[data-index]').forEach((item) => {
+        const index = parseInt(item.dataset.index);
+        item.addEventListener('click', () => {
+            highlightNode(results[index]);
+            resultsContainer.style.display = 'none';
+        });
+    });
+}
+
+// Поиск - обработчики событий
+document.getElementById('searchBtn').addEventListener('click', () => {
+    const query = document.getElementById('nodeSearch').value.trim();
+    if (query) {
+        const results = searchNodes(query);
+        displaySearchResults(results);
+        document.getElementById('clearSearch').style.display = 'block';
+    }
+});
+
+document.getElementById('nodeSearch').addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    if (query) {
+        const results = searchNodes(query);
+        displaySearchResults(results);
+        document.getElementById('clearSearch').style.display = 'block';
+    } else {
+        clearSearch();
+    }
+});
+
+document.getElementById('nodeSearch').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = document.getElementById('nodeSearch').value.trim();
+        if (query) {
+            const results = searchNodes(query);
+            if (results.length > 0) {
+                highlightNode(results[0]);
+                document.getElementById('searchResults').style.display = 'none';
+            }
+        }
+    }
+});
+
+document.getElementById('clearSearch').addEventListener('click', () => {
+    clearSearch();
+    clearHighlightEffect();
+});
+
+// ============ МОДАЛЬНЫЕ ОКНА ============
+
+function showHostInfo(d) {
+    console.log("Node data:", d.data);
+    currentHost = d;
+    const modal = document.getElementById('hostModal');
+    const title = document.getElementById('modalTitle');
+    const info = document.getElementById('hostInfo');
+    const pingBtn = document.getElementById('pingButton');
+    const editBtn = document.getElementById('editButton');
+
+    const hostName = d.data.name || d.data.hostname || d.data.ipaddr;
+    title.textContent = `Host: ${hostName}`;
+
+    const statusClass = getStatusClass(d);
+    const statusText = getStatusText(d);
+    const typeConfig = getDeviceTypeConfig(d.data.device_type);
+
+    let servicesHTML = '';
+if (d.data.services && d.data.services.length > 0) {
+    // Приоритеты служб (меньше = выше)
+    const servicePriority = {
+        'uptime': 1,
+        'ping': 2,
+        'cpu': 3,
+        'memory': 4,
+        'disk': 5
+    };
+
+    const getServicePriority = (name) => {
+        const lowerName = (name || '').toLowerCase();
+        for (const [key, priority] of Object.entries(servicePriority)) {
+            if (lowerName.includes(key)) return priority;
+        }
+        return 100; // Остальные в конец
+    };
+
+    const sortedServices = [...d.data.services].sort((a, b) => {
+        const priorityA = getServicePriority(a.name);
+        const priorityB = getServicePriority(b.name);
+
+        if (priorityA !== priorityB) {
+            return priorityA - priorityB;
+        }
+
+        // При равных приоритетах — по алфавиту
+        return (a.name || '').localeCompare(b.name || '');
+    });
+
+    servicesHTML = `
+        <div class="services-list">
+<!--            <div style="margin-bottom: 8px; font-weight: 600; color: rgba(234,247,255,0.8);">Services:</div>-->
+            ${sortedServices.map(service => `
+                <div class="service-item">
+                    <span class="service-name">${service.name}</span>
+                    <span class="service-status ${getServiceStatusClass(service)}">${service.status}</span>
+                    <span class="service-status ${getServiceStatusClass(service)}">${service.last_checked}</span>
+                    <span class="service-status ${getServiceStatusClass(service)}">${service.status_information}</span>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+    info.innerHTML = `<!--Network Graph
+        <div class="info-row">
+            <span class="info-label">Host Name:</span>
+            <span class="info-value">${hostName}</span>
+        </div>-->
+        <div class="info-row">
+            <span class="info-label">IP Address:</span>
+            <span class="info-value">${d.data.ipaddr}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Device Type:</span>
+            <span class="info-value">
+                <span class="filter-icon ${typeConfig.class}" style="display: inline-flex; width: 20px; height: 20px; font-size: 12px; margin-right: 6px;">${typeConfig.icon}</span>
+                ${typeConfig.label}
+            </span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Status:</span>
+            <span class="status-badge ${statusClass}">${statusText}</span>
+        </div>
+        <!--
+        <div class="info-row">
+            <span class="info-label">Host Status:</span>
+            <span class="info-value">${d.data.status ? 'UP' : 'DOWN'}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">SNMP Status:</span>
+            <span class="info-value">${d.data.SNMP ? 'configured' : 'no'}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Uptime Status:</span>
+            <span class="info-value">${d.data.Uptime || 'N/A'}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Services Status:</span>
+            <span class="info-value">${d.data.status_serv || 'N/A'}</span>
+        </div>
+-->
+
+        ${d.data.children ? `
+        <div class="info-row">
+            <span class="info-label">Connected Nodes:</span>
+            <span class="info-value">${d.data.children.length}</span>
+        </div>
+        ` : ''}
+        ${servicesHTML}
+    `;
+
+    editBtn.style.display = 'none';
+    editBtn.href = '#';
+
+    if (d.data.id) {
+        editBtn.href = HOST_UPDATE_URL_TEMPLATE.replace('{id}', d.data.id);
+        editBtn.style.display = 'flex';
+    } else if (d.data.ipaddr) {
+        fetch(`/api/get-host-id/?ip=${d.data.ipaddr}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(responseData => {
+                if (responseData.id) {
+                    d.data.id = responseData.id;
+                    editBtn.href = HOST_UPDATE_URL_TEMPLATE.replace('{id}', responseData.id);
+                    editBtn.style.display = 'flex';
+                }
+            })
+            .catch(error => console.error('Error fetching host ID:', error));
+    }
+
+    pingBtn.disabled = false;
+    pingBtn.innerHTML = '<span>Ping Host</span>';
+
+    modal.classList.add('active');
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('active');
+    currentHost = null;
+    stopPing();
+}
+
+/**
+ * ИСПРАВЛЕННАЯ функция закрытия ping модального окна
+ */
+function closePingModal() {
+    console.log('closePingModal called');
+
+    const modal = document.getElementById('pingModal');
+    modal.classList.remove('active');
+
+    // Останавливаем ping ПОСЛЕ удаления класса active
+    stopPing();
+
+    // Очищаем вывод
+    document.getElementById('pingOutput').innerHTML = '';
+}
+
+/**
+ * ИСПРАВЛЕННАЯ функция ping с AbortController
+ */
+async function startPing() {
+    if (!currentHost) return;
+
+    // Сначала останавливаем предыдущий ping
+    stopPing();
+
+    const pingBtn = document.getElementById('pingButton');
+    pingBtn.disabled = true;
+    pingBtn.innerHTML = '<span>Pinging<span class="loading-dots"></span></span>';
+
+    const pingModal = document.getElementById('pingModal');
+    const pingTitle = document.getElementById('pingTitle');
+    const pingOutput = document.getElementById('pingOutput');
+
+    pingOutput.innerHTML = '<div class="ping-line ping-info">Starting ping...</div>';
+    pingTitle.textContent = `Pinging: ${currentHost.data.ipaddr}`;
+    pingModal.classList.add('active');
+
+    // Устанавливаем флаг активности
+    pingActive = true;
+    pingCount = 0;
+
+    async function executePing() {
+        // Проверяем флаг активности
+        if (!pingActive) {
+            console.log('Ping stopped - not active');
+            return;
+        }
+
+        // Проверяем, открыто ли модальное окно
+        if (!pingModal.classList.contains('active')) {
+            console.log('Ping stopped - modal closed');
+            stopPing();
+            return;
+        }
+
+        if (pingCount >= maxPings) {
+            console.log('Ping completed - max count reached');
+            stopPing();
+            const summary = document.createElement('div');
+            summary.className = 'ping-line ping-info';
+            summary.textContent = `Ping statistics for ${currentHost.data.ipaddr}: ${pingCount} attempts completed`;
+            pingOutput.appendChild(summary);
+            pingBtn.disabled = false;
+            pingBtn.innerHTML = '<span>Ping Again</span>';
+            return;
+        }
+
+        // Создаём AbortController для этого запроса
+        pingAbortController = new AbortController();
+
+        try {
+            const response = await fetch(`/ping/${currentHost.data.ipaddr}/`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                signal: pingAbortController.signal // ← Передаём signal
+            });
+
+            // Повторная проверка после fetch
+            if (!pingActive || !pingModal.classList.contains('active')) {
+                console.log('Ping stopped after fetch');
+                return;
+            }
+
+            const data = await response.json();
+            pingCount++;
+
+            const pingLine = document.createElement('div');
+            pingLine.className = 'ping-line';
+
+            if (data.output && data.output.includes('time=')) {
+                pingLine.classList.add('ping-success');
+                const timeMatch = data.output.match(/time=(\d+\.?\d*)/);
+                const time = timeMatch ? timeMatch[1] : '?';
+                pingLine.textContent = `Reply from ${currentHost.data.ipaddr}: bytes=32 time=${time}ms TTL=64`;
+            } else if (data.output && (data.output.includes('unreachable') || data.output.includes('timeout'))) {
+                pingLine.classList.add('ping-error');
+                pingLine.textContent = `Request timeout for ${currentHost.data.ipaddr}`;
+            } else {
+                pingLine.classList.add('ping-info');
+                pingLine.textContent = data.output || `Ping attempt ${pingCount}/${maxPings}`;
+            }
+
+            pingOutput.appendChild(pingLine);
+            pingOutput.scrollTop = pingOutput.scrollHeight;
+
+        } catch (error) {
+            // Проверяем, был ли запрос отменён
+            if (error.name === 'AbortError') {
+                console.log('Ping request aborted');
+                return;
+            }
+
+            if (!pingActive || !pingModal.classList.contains('active')) {
+                return;
+            }
+
+            const errorLine = document.createElement('div');
+            errorLine.className = 'ping-line ping-error';
+            errorLine.textContent = `Error: ${error.message}`;
+            pingOutput.appendChild(errorLine);
+            pingOutput.scrollTop = pingOutput.scrollHeight;
+        }
+    }
+
+    // Запускаем первый ping
+    executePing();
+
+    // Запускаем интервал
+    pingInterval = setInterval(executePing, 1000);
+}
+
+// ============ DRAG ФУНКЦИИ С СОХРАНЕНИЕМ ============
+
+function drag(simulation) {
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+        d3.select(this).classed('dragging', true);
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d3.select(this).classed('dragging', false);
+
+        const x = d.fx ?? d.x;
+        const y = d.fy ?? d.y;
+
+        savePositionToServer(d.id, x, y)
+            .then(() => {
+                showSaveIndicator();
+            });
+    }
+
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+}
+
+function showSaveIndicator() {
+    const saveStatus = document.getElementById('saveStatus');
+    saveStatus.style.display = 'block';
+    saveStatus.textContent = '✓ Позиция сохранена';
+    saveStatus.style.color = 'rgba(0,255,136,0.8)';
+
+    setTimeout(() => {
+        saveStatus.style.display = 'none';
+    }, 1500);
+}
+
+// ============ ИНИЦИАЛИЗАЦИЯ ============
+
+async function init() {
+    savedPositions = await loadPositionsFromServer();
+    const appliedCount = applyLoadedPositions(savedPositions);
+    positionsLoaded = appliedCount > 0;
+
+    // Создаём симуляцию с узлами и связями
+    simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links)
+            .id(d => d.id)
+            .distance(150)
+            .strength(0.5))
+        .force("charge", d3.forceManyBody()
+            .strength(-600)
+            .distanceMax(500))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collision", d3.forceCollide()
+            .radius(40)
+            .strength(0.8))
+        .force("x", d3.forceX(width / 2).strength(0.03))
+        .force("y", d3.forceY(height / 2).strength(0.03));
+
+    nodeElements.call(drag(simulation));
+
+    simulation.on("tick", () => {
+        linkElements
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        nodeElements.attr("transform", d => `translate(${d.x}, ${d.y})`);
+    });
+
+    if (positionsLoaded) {
+        simulation.alpha(0.1);
+        console.log('Positions loaded, reducing simulation energy');
+    }
+
+    initializeFilters();
+    setupStatusFilters();
+    setupQuickFilters();
+
+    // Обработчики кнопок управления позициями
+    document.getElementById('resetPositionsBtn').addEventListener('click', resetAllPositions);
+    document.getElementById('savePositionsBtn').addEventListener('click', saveAllPositions);
+    document.getElementById('autoArrangeBtn').addEventListener('click', autoArrange);
+
+    // ============ ИСПРАВЛЕННЫЕ ОБРАБОТЧИКИ МОДАЛЬНЫХ ОКОН ============
+
+    // Кнопка закрытия host modal
+    document.getElementById('closeHostModalBtn').addEventListener('click', () => {
+        closeModal('hostModal');
+    });
+
+    // Кнопка закрытия ping modal (X)
+    document.getElementById('closePingModalBtn').addEventListener('click', () => {
+        closePingModal();
+    });
+
+    // Кнопка Close внизу ping modal
+    document.getElementById('closePingBtn').addEventListener('click', () => {
+        closePingModal();
+    });
+
+    // Кнопка Ping
+    document.getElementById('pingButton').addEventListener('click', () => {
+        startPing();
+    });
+
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        svg.attr("width", width).attr("height", height);
+        simulation.force("center", d3.forceCenter(width / 2, height / 2));
+        simulation.alpha(0.1).restart();
+    });
+
+    window.addEventListener('beforeunload', () => {
+        stopPing();
+    });
+}
+
+// Запуск инициализации
+init();
+
+// ============ ГЛОБАЛЬНЫЕ ОБРАБОТЧИКИ СОБЫТИЙ ============
+
+document.addEventListener('click', (e) => {
+    const searchPanel = document.querySelector('.search-panel');
+    if (searchPanel && !searchPanel.contains(e.target)) {
+        document.getElementById('searchResults').style.display = 'none';
+    }
+
+    // Клик по overlay закрывает модальное окно
+    if (e.target.classList.contains('modal-overlay')) {
+        if (e.target.id === 'pingModal') {
+            closePingModal();
+        } else if (e.target.id === 'hostModal') {
+            closeModal('hostModal');
+        }
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const pingModal = document.getElementById('pingModal');
+        const hostModal = document.getElementById('hostModal');
+
+        if (pingModal.classList.contains('active')) {
+            closePingModal();
+        } else if (hostModal.classList.contains('active')) {
+            closeModal('hostModal');
+        } else {
+            clearHighlightEffect();
+            clearSearch();
+        }
+    }
+});
+initSSHDropdown();
+</script>
+
+<style>
+/* Стиль для перетаскиваемого узла */
+.node.dragging {
+    cursor: grabbing !important;
+}
+
+.node.dragging .base {
+    transform: scale(1.3);
+    filter: brightness(1.3);
+}
+
+.node.dragging .halo {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* Стили для кнопок панели позиций */
+.position-panel button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-1px);
+}
+
+.position-panel button:active {
+    transform: translateY(0);
+}
+
+.position-panel button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Анимация точек загрузки */
+.loading-dots::after {
+    content: '';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+}
+</style>
+<script></script>
+{% endblock %}

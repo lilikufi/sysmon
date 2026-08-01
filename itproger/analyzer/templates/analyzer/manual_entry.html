@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}Ручной ввод - PaySlip Analyzer{% endblock %}
+
+{% block content %}
+<h1 class="page-title">
+    <span class="neon-text-blue">✏️</span> Ручной ввод данных
+</h1>
+
+<div class="card neu-raised">
+    <div class="grid-3" style="margin-bottom: 30px;">
+        <div class="form-group">
+            <label>Период</label>
+            <input type="month" id="period" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Половина месяца</label>
+            <select id="half" class="form-control">
+                <option value="1">1-я половина (1-15)</option>
+                <option value="2">2-я половина (16-31)</option>
+            </select>
+        </div>
+        <div class="form-group" style="display: flex; align-items: flex-end;">
+            <button class="btn btn-success" style="width: 100%;" onclick="saveData()">
+                💾 Сохранить
+            </button>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <!-- Начисления -->
+        <div>
+            <h3 style="color: var(--neon-green); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                💰 Начисления
+                <button class="btn btn-secondary" style="padding: 8px 16px;" onclick="addIncomeRow()">+ Добавить</button>
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Мес.</th>
+                        <th>Код</th>
+                        <th>РВ</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="incomeTable"></tbody>
+                <tfoot>
+                    <tr style="border-top: 2px solid rgba(0, 255, 136, 0.3);">
+                        <td colspan="3" style="text-align: right; font-weight: 600;">Итого:</td>
+                        <td id="totalIncome" class="amount-positive" style="font-weight: 700;">0.00 ₽</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Удержания -->
+        <div>
+            <h3 style="color: var(--neon-pink); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                📉 Удержания
+                <button class="btn btn-secondary" style="padding: 8px 16px;" onclick="addDeductionRow()">+ Добавить</button>
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Мес.</th>
+                        <th>Код</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="deductionTable"></tbody>
+                <tfoot>
+                    <tr style="border-top: 2px solid rgba(255, 0, 110, 0.3);">
+                        <td colspan="2" style="text-align: right; font-weight: 600;">Итого:</td>
+                        <td id="totalDeduction" class="amount-negative" style="font-weight: 700;">0.00 ₽</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 20px; border-top: 2px solid rgba(0, 212, 255, 0.2); display: flex; justify-content: flex-end; align-items: center; gap: 15px;">
+        <span style="font-size: 1.2rem; color: var(--text-secondary);">💵 К выплате:</span>
+        <span id="netPay" class="neon-text-green" style="font-size: 2rem; font-weight: 700;">0.00 ₽</span>
+    </div>
+</div>
+
+<!-- Справочник кодов -->
+<div class="card neu-raised" style="margin-top: 30px;">
+    <h3 class="card-title">📚 Справочник кодов</h3>
+    <div class="grid-4" style="gap: 10px;">
+        {% for code in codes %}
+        <div class="neu-pressed" style="padding: 10px; font-size: 0.9rem;">
+            <span class="badge badge-{% if code.code_type == 'income' %}green{% else %}pink{% endif %}">{{ code.code }}</span>
+            <span style="color: var(--text-secondary); margin-left: 5px;">{{ code.description }}</span>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-secondary); grid-column: span 4;">Справочник пуст. <a href="{% url 'codes_list' %}" style="color: var(--neon-blue);">Добавить коды</a></p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const csrfToken = '{{ csrf_token }}';
+
+function addIncomeRow() {
+    const tbody = document.getElementById('incomeTable');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td><input type="number" class="form-control" style="width: 60px; padding: 8px;" placeholder="10" min="1" max="12" onchange="calculateTotals()"></td>
+        <td><input type="text" class="form-control" style="width: 70px; padding: 8px;" placeholder="4"></td>
+        <td><input type="number" class="form-control" style="width: 70px; padding: 8px;" placeholder="20" step="0.01"></td>
+        <td><input type="number" class="form-control" style="width: 120px; padding: 8px;" placeholder="0.00" step="0.01" onchange="calculateTotals()"></td>
+        <td><button class="btn btn-danger" style="padding: 6px 12px;" onclick="this.closest('tr').remove(); calculateTotals();">×</button></td>
+    `;
+    tbody.appendChild(row);
+}
+
+function addDeductionRow() {
+    const tbody = document.getElementById('deductionTable');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td><input type="number" class="form-control" style="width: 60px; padding: 8px;" placeholder="10" min="1" max="12" onchange="calculateTotals()"></td>
+        <td><input type="text" class="form-control" style="width: 70px; padding: 8px;" placeholder="700"></td>
+        <td><input type="number" class="form-control" style="width: 120px; padding: 8px;" placeholder="0.00" step="0.01" onchange="calculateTotals()"></td>
+        <td><button class="btn btn-danger" style="padding: 6px 12px;" onclick="this.closest('tr').remove(); calculateTotals();">×</button></td>
+    `;
+    tbody.appendChild(row);
+}
+
+function calculateTotals() {
+    let totalIncome = 0;
+    let totalDeduction = 0;
+
+    document.querySelectorAll('#incomeTable tr').forEach(row => {
+        const amount = parseFloat(row.querySelectorAll('input')[3]?.value) || 0;
+        totalIncome += amount;
+    });
+
+    document.querySelectorAll('#deductionTable tr').forEach(row => {
+        const amount = parseFloat(row.querySelectorAll('input')[2]?.value) || 0;
+        totalDeduction += amount;
+    });
+
+    document.getElementById('totalIncome').textContent = totalIncome.toFixed(2) + ' ₽';
+    document.getElementById('totalDeduction').textContent = totalDeduction.toFixed(2) + ' ₽';
+    document.getElementById('netPay').textContent = (totalIncome - totalDeduction).toFixed(2) + ' ₽';
+}
+
+function saveData() {
+    const period = document.getElementById('period').value;
+    const half = document.getElementById('half').value;
+
+    if (!period) {
+        alert('Выберите период');
+        return;
+    }
+
+    const incomeItems = [];
+    document.querySelectorAll('#incomeTable tr').forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0].value && inputs[1].value && inputs[3].value) {
+            incomeItems.push({
+                month: parseInt(inputs[0].value),
+                code: inputs[1].value,
+                rv: inputs[2].value ? parseFloat(inputs[2].value) : null,
+                amount: parseFloat(inputs[3].value)
+            });
+        }
+    });
+
+    const deductionItems = [];
+    document.querySelectorAll('#deductionTable tr').forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0].value && inputs[1].value && inputs[2].value) {
+            deductionItems.push({
+                month: parseInt(inputs[0].value),
+                code: inputs[1].value,
+                amount: parseFloat(inputs[2].value)
+            });
+        }
+    });
+
+    fetch('{% url "manual_entry" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            period: period,
+            half: parseInt(half),
+            income_items: incomeItems,
+            deduction_items: deductionItems
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(err => alert('Ошибка сохранения'));
+}
+
+// Добавляем начальные строки
+addIncomeRow();
+addDeductionRow();
+</script>
+{% endblock %}

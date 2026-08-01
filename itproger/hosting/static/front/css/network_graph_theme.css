@@ -1,0 +1,146 @@
+/*
+ * Sysmon map design layer.
+ *
+ * This file intentionally contains presentation only. JavaScript hooks, element
+ * ids and the D3 graph structure stay in map3.html and are not changed here.
+ * Remove the stylesheet link from map3.html to disable the entire redesign.
+ */
+
+.map-page {
+  /* Palette */
+  --design-bg: #101321;
+  --design-header: rgba(18, 23, 41, 0.96);
+  --design-surface: rgba(255, 255, 255, 0.075);
+  --design-surface-hover: rgba(255, 255, 255, 0.11);
+  --design-border: rgba(255, 255, 255, 0.16);
+  --design-text: #eaf7ff;
+  --design-text-muted: #91a7bb;
+  --design-cyan: #00f0ff;
+  --design-green: #31f65e;
+  --design-red: #ff3158;
+  --design-purple: #7a5cff;
+
+  /* Geometry */
+  --design-radius-sm: 10px;
+  --design-radius-md: 14px;
+  --design-radius-lg: 18px;
+  --design-control-height: 42px;
+  --design-header-gap: clamp(8px, 1vw, 16px);
+  --design-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+}
+
+/* Header */
+.map-page .backheader {
+  gap: var(--design-header-gap);
+  background: var(--design-header);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(16px);
+}
+
+.map-page .map-header-actions {
+  gap: 10px;
+}
+
+/* Search */
+.map-page .search-container {
+  gap: 8px;
+}
+
+.map-page .search-input {
+  min-height: var(--design-control-height);
+  padding: 0 14px;
+  color: var(--design-text);
+  background: var(--design-surface);
+  border: 1px solid var(--design-border);
+  border-radius: var(--design-radius-md);
+  box-shadow: none;
+}
+
+.map-page .search-input::placeholder {
+  color: var(--design-text-muted);
+}
+
+.map-page .search-input:focus {
+  border-color: var(--design-cyan);
+  background: var(--design-surface-hover);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12);
+}
+
+.map-page .search-btn,
+.map-page .clear-btn {
+  width: var(--design-control-height);
+  height: var(--design-control-height);
+  flex: 0 0 var(--design-control-height);
+  padding: 0;
+  border-radius: var(--design-radius-sm);
+}
+
+/* Position controls */
+.map-page .position-actions {
+  gap: 6px;
+}
+
+.map-page .position-actions .btn-position {
+  min-height: 32px;
+  padding: 5px 8px;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  transition: background-color 160ms ease, box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.map-page .position-actions .btn-position:hover {
+  transform: translateY(-1px);
+}
+
+/* Floating panels */
+.map-page .filter-panel,
+.map-page .glass-panel {
+  background: var(--design-surface);
+  border-color: var(--design-border);
+  box-shadow: var(--design-shadow);
+  backdrop-filter: blur(16px) saturate(125%);
+}
+
+.map-page .filter-panel {
+  border-radius: var(--design-radius-lg);
+}
+
+.map-page .glass-panel {
+  border-radius: var(--design-radius-md);
+}
+
+/* Dialogs and terminal use the same visual language. */
+.map-page .modal-content,
+.map-page .ssh-dropdown-content {
+  color: var(--design-text);
+  background: rgba(16, 19, 33, 0.94);
+  border: 1px solid var(--design-border);
+  border-radius: var(--design-radius-lg);
+  box-shadow: var(--design-shadow);
+}
+
+/* Compact responsive layout. No HTML or JavaScript changes are required. */
+@media (max-width: 900px) {
+  .map-page .backheader {
+    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr) auto;
+  }
+
+  .map-page .position-actions .btn-position {
+    padding-inline: 5px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 680px) {
+  .map-page .map-header-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .map-page .position-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+

@@ -1,0 +1,219 @@
+{% extends 'payroll/base.html' %}
+{% block title %}Аналитика - Анализ платежных ведомостей{% endblock %}
+{% block content %}
+<h1 class="page-title">📈 Аналитика</h1>
+<!-- Comparison Form -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">🔄 Сравнение периодов</h3>
+    </div>
+    <form method="get" style="padding: 1rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Период 1</label>
+                <select name="period1" class="form-control">
+                    <option value="">Выберите период</option>
+                    {% for p in periods %}
+                    <option value="{{ p.id }}" {% if period1 and period1.id == p.id %}selected{% endif %}>{{ p }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Период 2</label>
+                <select name="period2" class="form-control">
+                    <option value="">Выберите период</option>
+                    {% for p in periods %}
+                    <option value="{{ p.id }}" {% if period2 and period2.id == p.id %}selected{% endif %}>{{ p }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">📊 Сравнить</button>
+        </div>
+    </form>
+
+    {% if comparison %}
+    <div style="padding: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center;">
+            <div>
+                <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">{{ period1 }}</div>
+                <div class="neon-text-blue" style="font-size: 1.5rem; font-weight: 700;">{{ comparison.period1_total|floatformat:2 }} ₽</div>
+            </div>
+            <div>
+                <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">{{ period2 }}</div>
+                <div style="color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">{{ comparison.period2_total|floatformat:2 }} ₽</div>
+            </div>
+            <div>
+                <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">Разница</div>
+                <div class="{% if comparison.difference >= 0 %}neon-text-green{% else %}neon-text-pink{% endif %}" style="font-size: 1.5rem; font-weight: 700;">
+                    {% if comparison.difference >= 0 %}+{% endif %}{{ comparison.difference|floatformat:2 }} ₽
+                </div>
+            </div>
+            <div>
+                <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">Изменение</div>
+                <div class="{% if comparison.percent_change >= 0 %}neon-text-green{% else %}neon-text-pink{% endif %}" style="font-size: 1.5rem; font-weight: 700;">
+                    {% if comparison.percent_change >= 0 %}+{% endif %}{{ comparison.percent_change }}%
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<!-- Trend Chart -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">📊 Динамика общей суммы</h3>
+    </div>
+    <div class="chart-container" style="height: 400px;">
+        <canvas id="trendChart"></canvas>
+    </div>
+</div>
+<!-- Category Trends -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">📈 Динамика по категориям</h3>
+    </div>
+    <div class="chart-container" style="height: 400px;">
+        <canvas id="categoryChart"></canvas>
+    </div>
+</div>
+<!-- Bar Chart Comparison -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">📊 Сравнение периодов (столбчатая диаграмма)</h3>
+    </div>
+    <div class="chart-container" style="height: 400px;">
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const neonColors = [
+        '#00f5ff', '#ff00ff', '#00ff88', '#ffff00',
+        '#ff6b6b', '#4ecdc4', '#a29bfe', '#fd79a8',
+        '#ffeaa7', '#74b9ff', '#55efc4', '#fab1a0'
+    ];
+    const trendData = {{ trend_data|safe }};
+    // Main Trend Chart
+    if (trendData.labels && trendData.labels.length > 0) {
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: trendData.labels,
+                datasets: [{
+                    label: 'Общая сумма',
+                    data: trendData.totals,
+                    borderColor: '#00f5ff',
+                    backgroundColor: 'rgba(0, 245, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#00f5ff',
+                    pointBorderColor: '#1a1a2e',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e8e8e8' }
+                    }
+                }
+            }
+        });
+        // Category Trend Chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryDatasets = [];
+        let colorIndex = 0;
+
+        for (const [category, values] of Object.entries(trendData.categories || {})) {
+            categoryDatasets.push({
+                label: category,
+                data: values,
+                borderColor: neonColors[colorIndex % neonColors.length],
+                backgroundColor: 'transparent',
+                tension: 0.4,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            });
+            colorIndex++;
+        }
+        new Chart(categoryCtx, {
+            type: 'line',
+            data: {
+                labels: trendData.labels,
+                datasets: categoryDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#e8e8e8' }
+                    }
+                }
+            }
+        });
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: trendData.labels,
+                datasets: [{
+                    label: 'Сумма',
+                    data: trendData.totals,
+                    backgroundColor: trendData.totals.map((_, i) => neonColors[i % neonColors.length]),
+                    borderColor: '#1a1a2e',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

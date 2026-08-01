@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Сравнение - PaySlip Analyzer{% endblock %}
+
+{% block content %}
+<h1 class="page-title">
+    <span class="neon-text-blue">🔄</span> Сравнение периодов
+</h1>
+
+<div class="card neu-raised" style="margin-bottom: 30px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="grid-3" style="align-items: end;">
+            <div class="form-group" style="margin: 0;">
+                <label>Первый период</label>
+                <select name="period1" class="form-control" required>
+                    <option value="">Выберите период</option>
+                    {% for ps in payslips %}
+                    <option value="{{ ps.pk }}">{{ ps.period|date:"F Y" }} ({% if ps.half == 1 %}1-я пол.{% else %}2-я пол.{% endif %})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="margin: 0;">
+                <label>Второй период</label>
+                <select name="period2" class="form-control" required>
+                    <option value="">Выберите период</option>
+                    {% for ps in payslips %}
+                    <option value="{{ ps.pk }}">{{ ps.period|date:"F Y" }} ({% if ps.half == 1 %}1-я пол.{% else %}2-я пол.{% endif %})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Сравнить</button>
+        </div>
+    </form>
+</div>
+
+{% if comparison %}
+<div class="grid-3" style="margin-bottom: 30px; align-items: center;">
+    <div class="card neu-raised">
+        <h3 style="color: var(--neon-blue); margin-bottom: 20px;">{{ comparison.period1.label }}</h3>
+        <div style="margin-bottom: 15px; padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Начислено</div>
+            <div class="amount-positive" style="font-size: 1.3rem;">{{ comparison.period1.income|floatformat:2 }} ₽</div>
+        </div>
+        <div style="margin-bottom: 15px; padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Удержано</div>
+            <div class="amount-negative" style="font-size: 1.3rem;">{{ comparison.period1.deduction|floatformat:2 }} ₽</div>
+        </div>
+        <div style="padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">К выплате</div>
+            <div class="neon-text-green" style="font-size: 1.3rem;">{{ comparison.period1.net_pay|floatformat:2 }} ₽</div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <div class="neon-text-purple" style="font-size: 3rem; font-weight: 700;">VS</div>
+    </div>
+
+    <div class="card neu-raised">
+        <h3 style="color: var(--neon-purple); margin-bottom: 20px;">{{ comparison.period2.label }}</h3>
+        <div style="margin-bottom: 15px; padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Начислено</div>
+            <div class="amount-positive" style="font-size: 1.3rem;">{{ comparison.period2.income|floatformat:2 }} ₽</div>
+        </div>
+        <div style="margin-bottom: 15px; padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Удержано</div>
+            <div class="amount-negative" style="font-size: 1.3rem;">{{ comparison.period2.deduction|floatformat:2 }} ₽</div>
+        </div>
+        <div style="padding: 15px; background: var(--bg-tertiary); border-radius: 10px;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">К выплате</div>
+            <div class="neon-text-green" style="font-size: 1.3rem;">{{ comparison.period2.net_pay|floatformat:2 }} ₽</div>
+        </div>
+    </div>
+</div>
+
+<div class="card neu-raised">
+    <h3 class="card-title">📊 Анализ изменений</h3>
+    <div class="grid-3">
+        <div class="neu-pressed" style="padding: 20px; text-align: center;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">Изменение начислений</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: {% if comparison.diff.income >= 0 %}var(--neon-green){% else %}var(--neon-pink){% endif %};">
+                {% if comparison.diff.income >= 0 %}+{% endif %}{{ comparison.diff.income|floatformat:2 }} ₽
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                ({% if comparison.percent.income >= 0 %}+{% endif %}{{ comparison.percent.income|floatformat:1 }}%)
+            </div>
+        </div>
+        <div class="neu-pressed" style="padding: 20px; text-align: center;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">Изменение удержаний</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: {% if comparison.diff.deduction <= 0 %}var(--neon-green){% else %}var(--neon-pink){% endif %};">
+                {% if comparison.diff.deduction >= 0 %}+{% endif %}{{ comparison.diff.deduction|floatformat:2 }} ₽
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                ({% if comparison.percent.deduction >= 0 %}+{% endif %}{{ comparison.percent.deduction|floatformat:1 }}%)
+            </div>
+        </div>
+        <div class="neu-pressed" style="padding: 20px; text-align: center;">
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">Изменение выплаты</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: {% if comparison.diff.net_pay >= 0 %}var(--neon-green){% else %}var(--neon-pink){% endif %};">
+                {% if comparison.diff.net_pay >= 0 %}+{% endif %}{{ comparison.diff.net_pay|floatformat:2 }} ₽
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                ({% if comparison.percent.net_pay >= 0 %}+{% endif %}{{ comparison.percent.net_pay|floatformat:1 }}%)
+            </div>
+        </div>
+    </div>
+</div>
+{% elif not payslips %}
+<div class="card neu-raised" style="text-align: center; padding: 50px;">
+    <h3 style="color: var(--text-secondary); margin-bottom: 20px;">📭 Нет данных для сравнения</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">Загрузите минимум две ведомости для сравнения</p>
+    <a href="{% url 'upload' %}" class="btn btn-primary">📤 Загрузить</a>
+</div>
+{% endif %}
+{% endblock %}

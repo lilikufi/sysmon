@@ -1,0 +1,24 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Hosts{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/scan.css' %}"/>
+<div class="untitled-page root">
+    <div class="backfeater">
+
+{% csrf_token %}<br>
+            <p>{{ form.ipaddr }}</p>
+            {{ form.hostname }}<br>
+            {{ form.cpu_1_min }}<br>
+            {{ form.cpu_5_min }}<br>
+            {{ form.uptime }}<br>
+            {{ form.mem_free }}<br>
+            {{ form.mem_used }}<br>
+        <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Удалить</button></form>
+        <a href="{% url 'host-update' host.id %}" class="btn btn-info">Редактировать</a>
+
+    </div>
+</div>
+
+{% endblock %}

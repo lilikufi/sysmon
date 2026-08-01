@@ -1,0 +1,184 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Hosts{% endblock %}
+
+{% block content %}
+<style>
+    .dropdown {
+        /*font-size: 14px;*/
+        /*position: absolute;*/
+        /*top: -5px;*/
+        right: 10px;
+        overflow: visible;
+    }
+
+    .dots {
+        cursor: pointer;
+        /*font-size: 20px;*/
+        /*color: cyan;lkdjf ;lk gjkl;lkjt   jgioijrlkj glk h ;lkk  flkgkho*/
+
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        /*background-color: #f9f9f9;*/
+        background: #222233FF;
+        min-width: 130px;
+
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        z-index: 1;
+        overflow: visible;
+        align-items: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .dropdown-content a {
+        color: whitesmoke;
+        padding: 8px 16px;
+        text-decoration: none;
+        display: flex;
+        /*align-items: stretch;*/
+        /*justify-content: space-between;*/
+    }
+
+    .dropdown-content a:hover {
+        background-color: rgba(10, 47, 115, 0.66);
+        border-radius: 10px;
+
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:after .dropdown-content {
+        display: none;
+    }
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dots = document.querySelector(".dots");
+        const dropdownContent = document.querySelector(".dropdown-content");
+        dots.addEventListener("click", function () {
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+    });
+</script>
+<!--<script>-->
+<!--    function updatePage(){-->
+<!--        const scrollPosition = window.scrollY;-->
+<!--        fetch('/hosts')-->
+<!--            .then(response => response.text())-->
+<!--            .then(data => {-->
+<!--                alert('reload')-->
+<!--                document.getElementById('content').innerHTML = data;-->
+<!--                window.scrollTo(0, scrollPosition);-->
+
+<!--          ghjghjghjjghghjj ghjgh ghjhjkkk hjkk hjkk kh  })-->
+<!--            .catch(error => console.error('error', error));-->
+<!--        setInterval(updatePage, 10000)-->
+<!--    }-->
+<!--</script>-->
+<meta http-equiv="refresh" content="60">
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/hosts.css' %}"/>
+<div class="untitled-page root" id="content">
+    <div class="backfeater">
+
+
+        <div style="overflow-y: scroll; max-height: 90vh;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width: 550px;">Host (IP адрес / Имя хоста)</th>
+                    <!--                    <th style="width: 200px;">Действия</th>-->
+                    <th style="width: 200px;">Service</th>
+                    <th>Status</th>
+                    <th style="width: 400px;">Status information</th>
+                    <th>Last check</th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>{% if host %}
+
+                {% for el in host %}
+                {% if el.nagios_flag %}
+                <tr>
+                    <td class="dots dropdown"
+                        style="background: {% if el.online %} var(--gradient-ok) {% else %} var(--gradient-critical) {% endif %};">
+
+                        {% if el.device_type != "switches" %}
+                        <img class=" icons2" src="{% static 'front/img/'  %}{{ el.device_type}}.png">
+                        {% endif %}
+                         {{ el.ipaddr }}{% if el.hostname %} / {{ el.hostname }}  {% endif %}
+                        {% if el.osver %} / {{ el.osver }}  {% endif %}
+                        <div class="dropdown-content">
+                            {% if host.nagios_flag == False %}
+                            <a href="{% url 'host-update' el.id %}"><img class="more"
+                                                                         src="{% static 'front/img/host.svg' %}">Добавить</a>
+                            {% else %}
+                            <a href="{% url 'host-update' el.id %}"><img class="more"
+                                                                         src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                            {% endif %}
+                            <form method="post" action="{% url 'host-hide' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
+                            <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+
+                        </div>
+        </div>
+
+        </td>
+        <td>
+
+        </td>
+
+        {% if el.services.all %}
+
+        {% for service in el.services.all %}
+        {% if loop.first %}
+        {% else %}
+        </tr>
+
+        <tr style="background: {% if service.status == 'ОК' %} var(--gradient-ok) {% elif service.status == 'CRITICAL' %} var(--gradient-critical) {% elif service.status == 'Pending' %} var(--gradient-unknow) {% else %} var(--gradient-warning) {% endif %};">
+            <td></td>  <!-- Пустая ячейка для выравнивания -->
+            <td>
+                {{ service.description }}
+            </td>
+            <td>
+                {{ service.status }}
+            </td>
+
+            <td>{{ service.status_information }}</td>
+            <td>{{ service.last_checked }}</td>
+            <td></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tr>  <!-- Закрытие последнего tr тега после циклов служб -->
+        {% else %}
+        <td colspan="4">службы не настроены</td>
+        {% endif %}
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+
+        {% else %}
+        <tr>
+            <td colspan="4">У вас нет хостов</td>
+        </tr>
+        {% endif %}
+
+        </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+</div>
+</div>
+
+{% endblock %}

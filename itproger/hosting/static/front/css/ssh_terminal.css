@@ -1,0 +1,423 @@
+/* static/front/css/ssh_terminal.css */
+
+/* ============ МОДАЛЬНОЕ ОКНО SSH ТЕРМИНАЛА ============ */
+.ssh-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10010;
+    backdrop-filter: blur(10px);
+}
+
+.ssh-modal.active {
+    display: flex;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============ ОКНО ТЕРМИНАЛА ============ */
+.ssh-window {
+    width: 95%;
+    max-width: 1200px;
+    height: 90%;
+    max-height: 800px;
+    background: #0a0e17;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+        0 0 60px rgba(0, 255, 255, 0.3),
+        0 0 120px rgba(0, 255, 255, 0.1),
+        inset 0 0 60px rgba(0, 255, 255, 0.05);
+    animation: windowSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes windowSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ============ ЗАГОЛОВОК ============ */
+.ssh-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg,
+        rgba(0, 255, 255, 0.1) 0%,
+        rgba(138, 43, 226, 0.1) 100%);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    user-select: none;
+}
+
+.ssh-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ssh-title-icon {
+    font-size: 20px;
+}
+
+.ssh-title-text {
+    color: #00ffff;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Статус индикатор */
+.ssh-status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4a5568;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.ssh-status-indicator.connecting {
+    background: #ffaa00;
+    animation: statusPulse 1s ease infinite;
+}
+
+.ssh-status-indicator.connected {
+    background: #00ff88;
+    box-shadow: 0 0 15px #00ff88;
+}
+
+.ssh-status-indicator.error {
+    background: #ff5050;
+    box-shadow: 0 0 15px #ff5050;
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+}
+
+/* Кнопки управления */
+.ssh-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.ssh-ctrl-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ssh-ctrl-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.ssh-ctrl-btn.close {
+    border-color: rgba(255, 80, 80, 0.5);
+    background: rgba(255, 80, 80, 0.1);
+    color: #ff5050;
+}
+
+.ssh-ctrl-btn.close:hover {
+    background: rgba(255, 80, 80, 0.3);
+}
+
+.ssh-ctrl-btn.reconnect {
+    border-color: rgba(0, 255, 136, 0.5);
+    background: rgba(0, 255, 136, 0.1);
+    color: #00ff88;
+}
+
+/* ============ ТЕЛО ТЕРМИНАЛА ============ */
+.ssh-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ============ ФОРМА ВХОДА ============ */
+.ssh-login {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: loginFadeIn 0.3s ease;
+}
+
+@keyframes loginFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ssh-login h3 {
+    color: #00ffff;
+    font-size: 24px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ssh-login-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.ssh-form-group {
+    margin-bottom: 20px;
+}
+
+.ssh-form-group label {
+    display: block;
+    color: rgba(234, 247, 255, 0.9);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.ssh-form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    color: #eaf7ff;
+    font-size: 15px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.ssh-form-group input:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.ssh-form-group input[readonly] {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+.ssh-form-group input::placeholder {
+    color: rgba(234, 247, 255, 0.4);
+}
+
+/* Кнопка подключения */
+.ssh-connect-btn {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    background: linear-gradient(135deg,
+        rgba(0, 255, 136, 0.2) 0%,
+        rgba(0, 200, 100, 0.3) 100%);
+    color: #00ff88;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ssh-connect-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg,
+        rgba(0, 255, 136, 0.35) 0%,
+        rgba(0, 200, 100, 0.45) 100%);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+    transform: translateY(-2px);
+}
+
+.ssh-connect-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ssh-connect-btn .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(0, 255, 136, 0.3);
+    border-top-color: #00ff88;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Сообщение об ошибке */
+.ssh-error {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    border-radius: 8px;
+    color: #ff5050;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Альтернативные команды */
+.ssh-alt-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.ssh-alt-section p {
+    color: rgba(234, 247, 255, 0.6);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.ssh-cmd-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.ssh-cmd-box code {
+    flex: 1;
+    color: #00ff88;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+}
+
+.ssh-cmd-copy {
+    background: transparent;
+    border: none;
+    color: rgba(234, 247, 255, 0.7);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.ssh-cmd-copy:hover {
+    color: #00ffff;
+    transform: scale(1.1);
+}
+
+/* ============ КОНТЕЙНЕР ТЕРМИНАЛА ============ */
+.ssh-terminal-container {
+    flex: 1;
+    padding: 4px;
+    overflow: hidden;
+    display: none;
+}
+
+.ssh-terminal-container.active {
+    display: block;
+    animation: terminalFadeIn 0.3s ease;
+}
+
+@keyframes terminalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#sshXtermContainer {
+    width: 100%;
+    height: 100%;
+}
+
+#sshXtermContainer .xterm {
+    height: 100%;
+    padding: 8px;
+}
+
+#sshXtermContainer .xterm-viewport {
+    background-color: #0a0e17 !important;
+}
+
+#sshXtermContainer .xterm-screen {
+    padding: 4px;
+}
+
+/* Кастомная полоса прокрутки для терминала */
+#sshXtermContainer .xterm-viewport::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sshXtermContainer .xterm-viewport::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#sshXtermContainer .xterm-viewport::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+#sshXtermContainer .xterm-viewport::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 255, 0.5);
+}

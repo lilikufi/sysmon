@@ -1,0 +1,487 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Scan{% endblock %}
+ {% block search %}
+    {% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/map.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<script src="{% static 'front/js/map.js' %}"></script>
+<script src="{% static 'front/js/d3.v6.min.js' %}"></script>
+<style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+            overflow-x: hidden;
+}
+
+#tree {
+    margin: 20px;
+}
+
+.tree-node {
+    margin-left: 20px;
+}
+.text{
+    color: white;
+}
+
+.node {
+    cursor: pointer;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+    </style>
+<div class="untitled-page root">
+    <div class="backfeater">
+
+       <div id="tree-container"></div>
+    </div>
+
+</div>
+
+<!--<script>-->
+<!--&lt;!&ndash;    work&ndash;&gt;-->
+<!--    const data = {{ tree|safe }};-->
+
+<!--    // Функция для построения иерархической структуры-->
+<!--    function buildHierarchy(data) {-->
+<!--        const map = {};-->
+<!--        data.forEach(item => map[item.ipaddr] = item);-->
+
+<!--        data.forEach(item => {-->
+<!--            if (item.children.length) {-->
+<!--                item.children = item.children.map(childIp => map[childIp]);-->
+<!--            }-->
+<!--        });-->
+
+<!--        // Предполагаем, что первый элемент - корень-->
+<!--        return data[0];-->
+<!--    }-->
+
+<!--    const treeData = buildHierarchy(data);-->
+
+<!--    const width = window.innerWidth;-->
+<!--    const height = window.innerHeight;-->
+
+<!--    const svg = d3.select("#tree-container").append("svg")-->
+<!--        .attr("width", width)-->
+<!--        .attr("height", height)-->
+<!--        .call(d3.zoom().on("zoom", function (event) {-->
+<!--            g.attr("transform", event.transform);-->
+<!--        }));-->
+
+<!--    const g = svg.append("g")-->
+<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Центрирование-->
+
+<!--    const root = d3.hierarchy(treeData);-->
+<!--    const radius = Math.min(width, height) / 2 - 50;-->
+
+<!--    // Установка радиального дерева-->
+<!--    const treeLayout = d3.tree()-->
+<!--        .size([360, radius]);-->
+
+<!--    // Преобразование узлов в радиальную структуру-->
+<!--    treeLayout(root);-->
+
+<!--    g.selectAll('.link')-->
+<!--        .data(root.links())-->
+<!--        .enter()-->
+<!--        .append('path')-->
+<!--        .attr('class', 'link')-->
+<!--        .attr('d', d3.linkRadial()-->
+<!--            .angle(d => d.x * (Math.PI / 180)) // угол в радианах-->
+<!--            .radius(d => d.y)) // радиус-->
+<!--        .style('fill', 'none')-->
+<!--        .style('stroke', 'rgba(255,255,255,0.09)')-->
+<!--        .style('stroke-width', 2);-->
+
+<!--    const node = g.selectAll('.node')-->
+<!--        .data(root.descendants())-->
+<!--        .enter()-->
+<!--        .append('g')-->
+<!--        .attr('class', 'node')-->
+<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Отображение узлов-->
+
+<!--    node.append('circle')-->
+<!--        .attr('r', 5)-->
+<!--        .style('fill', '#69b3a2')-->
+<!--        .style('fill', d =>  d.data.status ? ' rgb(20 255 71)' : 'rgb(255 20 96)');-->
+
+
+<!--    node.append('text')-->
+<!--        .style('fill', 'white')-->
+<!--        .attr('dy', '.35em')-->
+<!--        .attr('x', d => d.children ? -8 : 8)-->
+<!--        .style('text-anchor', d => d.children ? 'end' : 'start')-->
+<!--        .text(d => d.data.ipaddr)-->
+<!--       // Отображение узлов-->
+
+<!--        .on('click', function(event, d) {-->
+<!--            alert('start ping')-->
+<!--                const hostName = d.data.name;  // Получаем имя хоста-->
+<!--                fetch(`/ping/${d.data.ipaddr}/`, {-->
+<!--                    method: 'GET',-->
+<!--                    headers: {-->
+<!--                        'Content-Type': 'application/json',-->
+<!--                    }-->
+<!--                })-->
+<!--                .then(response => response.json())-->
+<!--                .then(data => {-->
+<!--                    console.log('Ping output:', data.output);  // Обработка ответа-->
+<!--                    alert(data.output);  // Вывод результата во всплывающем окне-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error:', error);-->
+<!--                });-->
+<!--            });-->
+
+<!--    // node.append('forignObject')-->
+<!--    //     .attr('class', 'ping-button')-->
+<!--    //     .attr("width", 50)-->
+<!--    //     .attr("height", 20)-->
+<!--    //     .style('fill', 'blue')-->
+<!--    //     .attr('y', -10)-->
+<!--    //     .attr('x', 10)-->
+<!--    //     .style('display','none')-->
+<!--    //     .style('text-anchor', d => d.children ? 'end' : 'start')-->
+<!--    //     .text(d => d.data.ipaddr);-->
+<!--</script>-->
+
+<script>
+    const data = {{ tree|safe }};
+
+    function buildHierarchy(data) {
+        const map = {};
+        data.forEach(item => map[item.ipaddr] = item);
+        data.forEach(item => {
+            if (item.children.length) {
+                item.children = item.children.map(childIp => map[childIp]);
+            }
+        });
+        return data[0];
+    }
+
+    const treeData = buildHierarchy(data);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const svg = d3.select("#tree-container").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(d3.zoom().on("zoom", function (event) {
+            g.attr("transform", event.transform);
+        }));
+
+    const g = svg.append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    const root = d3.hierarchy(treeData);
+    const radius = Math.min(width, height) / 2 - 50;
+    const treeLayout = d3.tree().size([360, radius]);
+
+    treeLayout(root);
+
+    g.selectAll('.link')
+        .data(root.links())
+        .enter()
+        .append('path')
+        .attr('class', 'link')
+        .attr('d', d3.linkRadial()
+            .angle(d => d.x * (Math.PI / 180))
+            .radius(d => d.y +50))
+        .style('fill', 'none')
+        .style('stroke', 'rgba(255,255,255,0.09)')
+        .style('stroke-width', 2);
+
+    const node = g.selectAll('.node')
+        .data(root.descendants())
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y + 50},0)`);
+
+    // node.append('circle')
+    //     .attr('r', 5)
+    //     .style('fill', '#69b3a2')
+    //     .style('fill', d => d.data.status ? 'rgb(20 255 71)' : 'rgb(255 20 96)');
+    node.append('circle')
+        .attr('r', 5)
+        .style('fill', '#69b3a2')
+        .style('fill', d => {
+            if (  d.data.status_serv === 'ok'){
+                return 'rgb(20 255 71)';
+        }
+            else if (d.data.status_serv === 'critical' && d.data.status === true ){
+                return 'rgb(255,110,20)';
+        }
+           else if (d.data.status === false){
+                return 'rgb(255 20 96)';
+        }else if (d.data.ipaddr ==='sysmon'){
+                return 'rgb(20 255 71)';
+        }
+        });
+    node.append('text')
+        .style('fill', 'white')
+        .attr('dy', '.35em')
+        .attr('x', 10)
+        // .attr('transform', d => d.x <180 ? null : 'rotate(180)')
+        .attr('transform', d => {
+            if (d.x >= 0 && d.x < 20){
+                return 'rotate(80)';
+            }else if (d.x >= 20 && d.x < 50){
+                return 'rotate(60)';
+            }else if (d.x >= 50 && d.x < 90){
+                return 'rotate(50)';
+            }else if (d.x >= 90 && d.x < 110){
+                return 'rotate(-20)';
+            }else if (d.x >= 110 && d.x < 130){
+                return 'rotate(-20)';
+            }else if (d.x >= 130 && d.x < 180){
+                return 'rotate(300)';
+            }else if (d.x >= 180 && d.x < 200){
+                return 'rotate(265)';
+            }else if (d.x >= 200 && d.x < 250){
+                return 'rotate(220)';
+            }else if (d.x >= 250 && d.x < 300){
+                return 'rotate(190)';
+            }else if (d.x >= 340 && d.x < 350){
+                return 'rotate(110)';
+            }else if (d.x >= 350 && d.x < 360){
+                return 'rotate(120)';
+            }else{
+                return 'rotate(150)';
+            }
+
+
+        })
+        // .attr('transform', d => 'rotate(0)')
+        // .attr('x', 10) // Положение текста справа от узлов
+        // .attr('x', d => d.x <180 ? 10 : -10)
+        // .style('text-anchor', d => d.x <180 ? 'start': 'end') // Всегда начинаем с текста слева
+        .text(d => d.data.ipaddr)
+        .on('click', function(event, d) {
+            alert('start ping');
+            const hostName = d.data.name;
+            fetch(`/ping/${d.data.ipaddr}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Ping output:', data.output);
+                alert(data.output);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+</script>
+<!--<script>-->
+<!--    const data = {{ tree|safe }};-->
+
+<!--    // Функция для построения иерархической структуры-->
+<!--    function buildHierarchy(data) {-->
+<!--        const map = {};-->
+<!--        data.forEach(item => map[item.ipaddr] = item);-->
+
+<!--        data.forEach(item => {-->
+<!--            if (item.children.length) {-->
+<!--                item.children = item.children.map(childIp => map[childIp]);-->
+<!--            }-->
+<!--        });-->
+
+<!--        // Предполагаем, что первый элемент - корень-->
+<!--        return data[0];-->
+<!--    }-->
+
+<!--    const treeData = buildHierarchy(data);-->
+
+<!--    const width = window.innerWidth;-->
+<!--    const height = window.innerHeight;-->
+
+<!--    const svg = d3.select("#tree-container").append("svg")-->
+<!--        .attr("width", width)-->
+<!--        .attr("height", height)-->
+<!--        .call(d3.zoom().on("zoom", function (event) {-->
+<!--            g.attr("transform", event.transform);-->
+<!--        }));-->
+
+<!--    const g = svg.append("g")-->
+<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Центрирование-->
+
+<!--    const root = d3.hierarchy(treeData);-->
+<!--    const radius = Math.min(width, height) / 2 - 50;-->
+
+<!--    // Установка радиального дерева-->
+<!--    const treeLayout = d3.tree()-->
+<!--        .size([360, radius]);-->
+
+<!--    // Преобразование узлов в радиальную структуру-->
+<!--    treeLayout(root);-->
+
+<!--    g.selectAll('.link')-->
+<!--        .data(root.links())-->
+<!--        .enter()-->
+<!--        .append('path')-->
+<!--        .attr('class', 'link')-->
+<!--        .attr('d', d3.linkRadial()-->
+<!--            .angle(d => d.x * (Math.PI / 180)) // угол в радианах-->
+<!--            .radius(d => d.y)) // радиус-->
+<!--        .style('fill', 'none')-->
+<!--        .style('stroke', 'rgba(255,255,255,0.09)')-->
+<!--        .style('stroke-width', 2);-->
+
+<!--    const node = g.selectAll('.node')-->
+<!--        .data(root.descendants())-->
+<!--        .enter()-->
+<!--        .append('g')-->
+<!--        .attr('class', 'node')-->
+<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Отображение узлов-->
+
+<!--    node.append('g')-->
+<!--        .attr('class', 'icon')-->
+<!--        .each(function (d) {-->
+<!--            if (d.data.host && d.data.host.device_type) {-->
+<!--                const iconPath = getIconPath(d.data.host.device_type); // Получить путь к иконке-->
+<!--                d3.select(this).append('image')-->
+<!--                    .attr('xlink:href', iconPath)-->
+<!--                    .attr('width', 20)-->
+<!--                    .attr('height', 20)-->
+<!--                    .attr('x', -10) // Центрирование иконки-->
+<!--                    .attr('y', -10);-->
+<!--            } else {-->
+<!--                d3.select(this).append('circle')-->
+<!--                    .attr('r', 5)-->
+<!--                    .style('fill', 'rgba(255,255,255,0.58)');-->
+<!--            }-->
+<!--        });-->
+
+<!--    node.append('text')-->
+<!--        .style('fill', 'white')-->
+<!--        .attr('dy', '.30em')-->
+<!--        .style('text-anchor', 'middle')-->
+<!--        .attr('x', d => d.children ? -8 : 8)-->
+<!--        .style('text-anchor', d => d.children ? 'end' : 'start')-->
+<!--        .text(d => d.data.ipaddr);-->
+
+
+<!--    // Функция для получения пути к иконке по типу устройства-->
+<!--    function getIconPath(deviceType) {-->
+<!--        switch (deviceType) {-->
+<!--            case 'servers':-->
+<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Укажите путь к иконке сервера-->
+<!--            case 'routers':-->
+<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Укажите путь к иконке роутера-->
+<!--            case 'switches':-->
+<!--                return 'path/to/switch-icon.svg'; // Укажите путь к иконке свитча-->
+<!--            // Добавьте другие устройства здесь...-->
+<!--            default:-->
+<!--                return ''; // Если устройство не распознано, вернуть пустую строку-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<script>
+    // Обработчик нажатия на кнопку "Маршрут"
+document.getElementById('route').addEventListener('click', function (e) {
+    e.preventDefault();
+    isRouteModeActive = true; // Активируем режим маршрута
+    parentHost = null; // Сбрасываем родительский хост
+    childHost = null; // Сбрасываем дочерний хост
+    waypoints = []; // Очищаем промежуточные точки
+    alert('Режим маршрута активирован. Выберите родительский хост.');
+});
+
+// Добавляем обработчик клика на каждый маркер
+hosts.forEach(function (host) {
+    if (host.latitude && host.longitude) {
+        var iconColor = host.status_color || '#14FF47FF'; // По умолчанию зеленый
+
+        var icon = L.divIcon({
+            className: 'custom-marker',
+            html: `
+                <div class="marker-icon" style="background-image: url('/static/front/img/server-1.png');"></div>
+                <div class="marker-shadow" style="background-color: ${iconColor};"></div>
+            `,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34]
+        });
+
+        var marker = L.marker([host.latitude, host.longitude], {
+            draggable: true,
+            icon: icon,
+        }).addTo(map);
+
+        markers[host.ipaddr] = marker;
+
+        // Обработчик клика на маркере
+        marker.on('click', function (e) {
+            if (isRouteModeActive) {
+                const hostIp = Object.keys(markers).find(key => markers[key] === marker);
+
+                if (!parentHost) {
+                    parentHost = hostIp; // Устанавливаем родительский хост
+                    alert('Родительский хост выбран. Теперь выберите дочерний хост.');
+                } else if (!childHost) {
+                    childHost = hostIp; // Устанавливаем дочерний хост
+                    alert('Дочерний хост выбран. Теперь добавляйте промежуточные точки кликом на карту.');
+                }
+            }
+        });
+
+        // Обработчик перемещения маркера
+        marker.on('dragend', function (e) {
+            var coords = marker.getLatLng();
+            updateHostCoordinates(host.ipaddr, [coords.lat, coords.lng]);
+        });
+
+        // Добавление popup с информацией о хосте
+        marker.bindPopup(
+            'IP-адрес: ' + host.ipaddr +
+            '<br>Статус: ' + host.status +
+            '<br>Имя: ' + host.hostname +
+            '<br>Секция: ' + host.section +
+            '<br><button id="pingButton_' + host.ipaddr + '" class="pingButton">Пропинговать</button>'
+        );
+
+        // Обработчик для кнопки пинга
+        marker.on('popupopen', function () {
+            document.getElementById('pingButton_' + host.ipaddr).onclick = function () {
+                alert('Начинаю пинг для ' + host.ipaddr + '...');
+
+                fetch(`/ping/${host.ipaddr}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Результат пинга:\n' + data.output);
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Произошла ошибка при выполнении пинга.');
+                    });
+            };
+        });
+    }
+});
+
+// Обработчик клика на карте для добавления промежуточных точек
+map.on('click', function (e) {
+    if (isRouteModeActive && parentHost && childHost) {
+        // Добавляем промежуточную точку
+        waypoints.push(e.latlng);
+        updateRoute(); // Обновляем маршрут
+    }
+});
+</script>
+{% endblock %}

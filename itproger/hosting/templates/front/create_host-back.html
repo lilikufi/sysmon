@@ -1,0 +1,235 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Создание хоста{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/edit-form.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<div class="untitled-page root">
+    <style>
+
+
+        .submit1:hover {
+            box-shadow: 1px 14px 10px -7px #edeeef45;
+            outline: none;
+            transform: translateZ(2px) scale(1.01);
+        }
+
+        .submit1:hover::after {
+            transform: translateZ(2px) scale(1.01);
+            outline: none;
+        }
+
+        a[href="{% url 'scan' %}"]:hover {
+            transform: scale(1);
+        }
+
+        a[href="{% url 'scan' %}"] {
+            pointer-events: none;
+        }
+
+        a[href="{% url 'scan' %}"] button {
+            pointer-events: auto;
+        }
+
+    </style>
+
+    <div class="backfeater" style="color:#cce5ff ">
+        <div class="modal">
+            <form method="post" class="check-form" action="{{ request.path}}">
+                {% csrf_token %}
+                <div class="header">
+                    <div class="theader">Форма создания нового хоста</div>
+                    <!--                                             <img class="cross" src="{% static 'front/img/cross.svg' %}" alt="alt text" id="open"/>-->
+                    <div class="form-ip">
+                        {{ form.ipaddr.errors }}
+                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">ip address:</label>
+                        <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
+                               class="form-control ip-read"
+                               placeholder="Введите ip address"
+                               pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+                               title="Введите IP-адрес в формате XXX.XXX.XXX.XXX">
+
+                        <!--                <div id="warning-message" style="display: none; color: red;">-->
+                    </div>
+                    <div class="form-ip">
+                        {{ form.hostname.errors }}
+                        <label for="{{ form.hostname.id_for_label }}">hostname:</label>
+                        <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
+                               name="hostname"
+                               placeholder="Введите имя хоста">
+                    </div>
+
+                    <div class="form-ip">
+                        {{ form.parents.errors }}
+                        <label for="{{ form.parents.id_for_label }}">parents:</label>
+                        <input type="text" id="{{ form.parents.id_for_label }}" class="form-control hostname"
+                               name="parents"
+                               placeholder="Введите родителя хоста" value="{{ form.parents.value }}">
+                    </div>
+
+                    <a href="#" class="check-snmp-link" data-url="{% url 'check_snmp' %}" data-ip=""
+                       title="Проверить snmp name по введенному IP">
+                        <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">
+                    </a>
+                    <!--                                                <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">-->
+
+
+                </div>
+                <div class="body">
+                    <div class="result-text"></div>
+                    <div class="text1">Выбор служб для мониторинга</div>
+                    <!--                <img class="arrow-check" src="{% static 'front/img/arrow_1.svg' %}" alt="refresh name">-->
+
+                    <p class="check-snmp-text">Проверить хост на онлайн
+                        и SNMP для настройки служб </p>
+
+                    <div class="grid">
+                        <div>
+                            <label for="select-all">Выбрать все</label>
+                            <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">
+
+                        </div>
+                        <div></div>
+                        <div>
+                            {{ form.cpu_5_min.errors }}
+                            <label for="{{ form.cpu_5_min.id_for_label }}">CPU 5 Min:</label>
+                            {{ form.cpu_5_min }}
+                        </div>
+
+                        <div>
+                            {{ form.uptime.errors }}
+                            <label for="{{ form.uptime.id_for_label }}">Uptime:</label>
+                            {{ form.uptime }}
+                        </div>
+
+                        <div>
+                            {{ form.mem_free.errors }}
+                            <label for="{{ form.mem_free.id_for_label }}">Memory Free:</label>
+                            {{ form.mem_free }}
+                        </div>
+
+                        <div>
+                            {{ form.mem_used.errors }}
+                            <label for="{{ form.mem_used.id_for_label }}">Memory Used:</label>
+                            {{ form.mem_used }}
+                        </div>
+
+                        <div>
+                            {{ form.mem_util.errors }}
+                            <label for="{{ form.mem_util.id_for_label }}">Memory Utilization:</label>
+                            {{ form.mem_util }}
+                        </div>
+
+                    </div>
+                </div>
+
+                {% if host.osver %}
+                <p style="color: #cce5ff; margin-top:10px;margin-right:20px;">{{host.osver}}
+                <p>
+                    {% endif %}
+
+                <div>
+                    <button type="submit" class="submit1  modal-add">Сохранить</button>
+                </div>
+                <!--                <div class="error-message">-->
+                <!--                    Oops! There was an error-->
+                <!--                </div>-->
+                {% if form.errors %}
+                <div class="error-message">
+                    <p><strong>Oops! There was an error:</strong></p>
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
+                {% if form.is_bound and not form.data %}
+                <div class="error-message">
+                    <strong> Нельзя сохранить пустую форму </strong>
+                </div>
+                {% endif %}
+
+            </form>
+
+            <a href="{% url 'scan' %}">
+                <button type="submit" class="submit1  modal-back ">Назад</button>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+
+        // document.querySelector('.grid').innerHTML = 'Проверьте SNMP для настройки служб';
+        document.querySelector('.check-snmp-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('.arrow-check').style.display = 'none';
+            let ip = document.querySelector('.ip-read').value;
+
+            // Проверяем, что IP не пустой
+            if (ip.trim() === '') {
+                alert('Пожалуйста, введите IP адрес');
+                return;
+            }
+            let url = this.dataset.url + '?ipaddr=' + ip;
+            // Находим иконку и loader
+            let icon = this.querySelector('.refresh');
+            let loader = this.querySelector('.loader');
+
+            // Показываем loader и скрываем иконку
+            if (loader) {
+
+                loader.style.display = 'block';
+            } else {
+
+                loader = document.createElement('div');
+                loader.classList.add('loader');
+                this.appendChild(loader);
+            }
+
+            icon.style.display = 'none';
+
+            fetch(url)
+
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.arrow-check').classList.add('hidden');
+                    if (data === 'SNMP не настроен') {
+                        document.querySelector('.check-snmp-text').innerText = `SNMP не настроен на ${ip}. службы не доступны. \n Сейчас можно поставить хост на  отслеживание \n в сети он или нет.`;
+                    } else if (data === 'хост не в сети.') {
+                        document.querySelector('.check-snmp-text').innerText = `${ip} не в сети.\n Выбор служб недоступен`;
+                    } else if (data === 'уже существует') {
+                        document.querySelector('.check-snmp-text').innerText = `Хост с адресом ${ip} уже существует
+                         Перейдите на страницу "Сканировать" для дальнейшего редактирования`;
+                    } else {
+                        alert(data);
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'none';
+                        document.querySelector('.grid').classList.remove('hidden');
+
+                    }
+
+                    // Удаляем loader и восстанавливаем иконку
+                    icon.style.display = 'block';
+                    loader.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Ошибка проверки SNMP:', error);
+                });
+        });
+
+        // Изначально скрываем чекбоксы и показываем надпись
+        document.querySelector('.text1').style.display = 'none';
+        document.querySelector('.grid').classList.add('hidden');
+        document.querySelector('.check-snmp-text').style.display = 'block';
+    </script>
+    <script>
+        <!--        замена запятых на точки -->
+        document.getElementById('{{ form.ipaddr.id_for_label }}').addEventListener('input', function () {
+            this.value = this.value.replace(/,/g, '.');
+        });
+    </script>
+
+</div>
+
+{% endblock %}

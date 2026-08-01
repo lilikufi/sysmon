@@ -1,0 +1,631 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title %}Логи Nagios{% endblock %}
+
+{% block search %}
+<!-- Кастомный поиск для логов в backheader -->
+<div class="log-search-wrapper">
+    <input type="text" id="searchInput" class="form-control5 log-search-input" placeholder="🔍 Поиск в логах...">
+<!--    <div class="search-counter" id="counter">Всего: 0</div>-->
+    <div class="filter-buttons">
+        <button type="button" class="filter-btn active" data-filter="all">Все</button>
+        <div class="log-stats">
+                    <div class="stat-item" data-filter="error">
+                        <span class="stat-dot error"></span>
+                        <span id="errorCount">0 ошибок</span>
+                    </div>
+                    <div class="stat-item" data-filter="warning">
+                        <span class="stat-dot warning"></span>
+                        <span id="warningCount">0 предупр.</span>
+                    </div>
+                    <div class="stat-item" data-filter="success">
+                        <span class="stat-dot success"></span>
+                        <span id="successCount">0 успешных</span>
+                    </div>
+                </div>
+        <div class="log-controls">
+                    <button class="control-btn" onclick="refreshLogs()">⭮ Обновить</button>
+                    <button class="control-btn" onclick="exportLogs()">📥 Экспорт</button>
+                </div>
+    </div>
+<!--    <button type="button" class="modal-back1" onclick="clearSearch()">Сбросить</button>-->
+</div>
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/log.css' %}"/>
+<link rel="stylesheet" href="{% static 'front/css/network_graph.css' %}">
+
+<style>
+    :root {
+        --bg1: #0b0f1a;
+        --bg2: #0a0712;
+        --glass: rgba(255,255,255,0.06);
+        --glassBorder: rgba(255,255,255,0.18);
+        --neon-cyan: #00f0ff;
+        --neon-pink: #ff2bd6;
+        --neon-purple: #7a5cff;
+        --neon-green: #31f65e;
+        --neon-orange: #ff6e14;
+        --neon-red: #ff1440;
+        --text: #eaf7ff;
+        --text-secondary: rgba(234, 247, 255, 0.7);
+    }
+
+    /* Стили для поиска в header */
+       .log-search-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        margin-left: 550px;
+    }
+
+    .log-search-input {
+        width: 200px !important;
+        min-width: 150px;
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        transition: all 0.3s ease;
+    }
+
+    .log-search-input:focus {
+        width: 250px !important;
+        border-color: var(--neon-cyan) !important;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3) !important;
+    }
+
+    .search-counter {
+        padding: 6px 12px;
+        background: rgba(0, 240, 255, 0.1);
+        border: 1px solid rgba(0, 240, 255, 0.3);
+        border-radius: 8px;
+        color: var(--neon-cyan);
+        font-size: 11px;
+        font-weight: 600;
+        text-shadow: 0 0 8px rgba(0,240,255,0.5);
+        min-width: 90px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .filter-buttons {
+        display: flex;
+        gap: 4px;
+    }
+
+    .filter-btn {
+        padding: 5px 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        color: var(--text-secondary);
+        font-size: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-btn.active {
+        background: rgba(0, 240, 255, 0.15);
+        border-color: var(--neon-cyan);
+        color: var(--neon-cyan);
+    }
+
+    .filter-btn.error-filter.active {
+        background: rgba(255, 20, 64, 0.15);
+        border-color: var(--neon-red);
+        color: var(--neon-red);
+    }
+
+    .filter-btn.warning-filter.active {
+        background: rgba(255, 110, 20, 0.15);
+        border-color: var(--neon-orange);
+        color: var(--neon-orange);
+    }
+
+    .filter-btn.success-filter.active {
+        background: rgba(49, 246, 94, 0.15);
+        border-color: var(--neon-green);
+        color: var(--neon-green);
+    }
+
+    /* Основные стили страницы */
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background: radial-gradient(1200px 800px at 20% 20%, rgba(0, 240, 255, 0.07), transparent 60%),
+                    radial-gradient(1000px 600px at 80% 70%, rgba(255, 43, 214, 0.07), transparent 65%),
+                    linear-gradient(115deg, var(--bg1), var(--bg2) 60%, var(--bg1));
+        background-attachment: fixed;
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        height: 100vh;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+            repeating-linear-gradient(to right, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 80px),
+            repeating-linear-gradient(to bottom, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 80px);
+        opacity: 0.15;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .log-container {
+        position: relative;
+        z-index: 2;
+        /*padding: 0px 20px 20px 20px;*/
+    }
+
+    .log-title {
+        background: var(--glass);
+        border: 1px solid var(--glassBorder);
+        backdrop-filter: blur(10px) saturate(130%);
+        -webkit-backdrop-filter: blur(10px) saturate(130%);
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow:
+            0 10px 40px rgba(0,0,0,0.35),
+            0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .log-title h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--neon-cyan);
+        text-shadow: 0 0 10px rgba(0,240,255,.35);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .log-panel {
+        background: var(--glass);
+        border: 1px solid var(--glassBorder);
+        backdrop-filter: blur(10px) saturate(130%);
+        -webkit-backdrop-filter: blur(10px) saturate(130%);
+        border-radius: 16px;
+        padding: 15px;
+        box-shadow:
+            0 10px 40px rgba(0,0,0,0.35),
+            0 0 0 1px rgba(255,255,255,0.05),
+            inset 0 0 30px rgba(0, 255, 255, 0.07);
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .log-output {
+        flex: 1;
+        overflow-y: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+    .log-output::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .log-output::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    .log-output::-webkit-scrollbar-thumb {
+        background: var(--neon-cyan);
+        border-radius: 3px;
+        box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    }
+
+    .log-line {
+        padding: 3px 6px;
+        margin: 1px 0;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        border-left: 2px solid transparent;
+    }
+
+    .log-line:hover {
+        background: rgba(0, 240, 255, 0.08);
+    }
+
+    .log-line.highlight {
+        background: rgba(255, 255, 0, 0.2) !important;
+        border-left: 2px solid #ffff00 !important;
+        box-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
+    }
+
+    .log-line.hidden {
+        display: none !important;
+    }
+
+    /* Log level colors */
+    .log-line.error {
+        color: var(--neon-red);
+        text-shadow: 0 0 6px rgba(255, 20, 64, 0.4);
+        border-left: 2px solid var(--neon-red);
+    }
+
+    .log-line.warning {
+        color: var(--neon-orange);
+        text-shadow: 0 0 6px rgba(255, 110, 20, 0.4);
+        border-left: 2px solid var(--neon-orange);
+    }
+
+    .log-line.info {
+        color: var(--neon-cyan);
+        border-left: 2px solid var(--neon-cyan);
+    }
+
+    .log-line.success {
+        color: var(--neon-green);
+        text-shadow: 0 0 6px rgba(49, 246, 94, 0.4);
+        border-left: 2px solid var(--neon-green);
+    }
+
+    .log-line.debug {
+        color: var(--neon-purple);
+        opacity: 0.8;
+        border-left: 2px solid var(--neon-purple);
+    }
+
+    .log-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .log-stats {
+        display: flex;
+        gap: 12px;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .stat-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .stat-dot.error { background: var(--neon-red); box-shadow: 0 0 6px var(--neon-red); }
+    .stat-dot.warning { background: var(--neon-orange); box-shadow: 0 0 6px var(--neon-orange); }
+    .stat-dot.info { background: var(--neon-cyan); box-shadow: 0 0 6px var(--neon-cyan); }
+    .stat-dot.success { background: var(--neon-green); box-shadow: 0 0 6px var(--neon-green); }
+
+    .log-controls {
+        display: flex;
+        gap: 8px;
+        margin-left: 10px;
+    }
+
+    .control-btn {
+        padding: 6px 12px;
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(122, 92, 255, 0.15));
+        border: 1px solid var(--neon-cyan);
+        border-radius: 6px;
+        color: var(--neon-cyan);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .control-btn:hover {
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(122, 92, 255, 0.25));
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        transform: translateY(-1px);
+    }
+
+    /* Подсветка найденного текста */
+    .search-match {
+        background: rgba(255, 255, 0, 0.4);
+        padding: 0 2px;
+        border-radius: 2px;
+    }
+
+    @media (max-width: 992px) {
+        .log-search-wrapper {
+            gap: 6px;
+        }
+        
+        .filter-buttons {
+            display: none;
+        }
+        
+        .log-search-input {
+            width: 150px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .log-container {
+            padding: 10px;
+        }
+        
+        .log-meta {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .log-stats, .log-controls {
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .log-panel {
+            height: calc(100vh - 180px);
+        }
+    }
+</style>
+
+<div class="backfeater">
+    <div class="log-container">
+        <!-- Заголовок страницы -->
+<!--        <div class="log-title">-->
+<!--            <h1>📋 Логи Nagios</h1>-->
+<!--        </div>-->
+
+        <!-- Панель с логами -->
+        <div class="log-panel">
+
+
+            <div class="log-output" id="logOutput">
+                {% for line in log_content %}
+                    <div class="log-line {% if 'ERROR' in line or 'CRITICAL' in line %}error{% elif 'WARNING' in line or 'WARN' in line or 'Warning' in line %}warning{% elif 'INFO' in line %}info{% elif 'SUCCESS' in line or 'OK' in line %}success{% elif 'DEBUG' in line %}debug{% endif %}" data-original="{{ line }}">{{ line }}</div>
+                {% empty %}
+                    <div class="log-line info">Логи отсутствуют</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const logOutput = document.getElementById('logOutput');
+    const counter = document.getElementById('counter');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const statItems = document.querySelectorAll('.stat-item');
+    
+    // Проверка наличия элементов
+    if (!searchInput || !logOutput) {
+        console.error('Required elements not found');
+        return;
+    }
+    
+    let currentFilter = 'all';
+    let allLogLines = [];
+    
+    // Инициализация
+    function init() {
+        allLogLines = Array.from(logOutput.querySelectorAll('.log-line'));
+        updateStats();
+        updateCounter();
+    }
+    
+    // Подсчет статистики
+    function updateStats() {
+        const errorCount = allLogLines.filter(l => l.classList.contains('error')).length;
+        const warningCount = allLogLines.filter(l => l.classList.contains('warning')).length;
+        const successCount = allLogLines.filter(l => l.classList.contains('success')).length;
+        
+        const errorEl = document.getElementById('errorCount');
+        const warningEl = document.getElementById('warningCount');
+        const successEl = document.getElementById('successCount');
+        
+        if (errorEl) errorEl.textContent = `${errorCount} ошибок`;
+        if (warningEl) warningEl.textContent = `${warningCount} предупр.`;
+        if (successEl) successEl.textContent = `${successCount} успешных`;
+    }
+    
+    // Обновление счетчика
+    function updateCounter() {
+        if (!counter) return;
+        
+        const visibleLines = allLogLines.filter(l => !l.classList.contains('hidden'));
+        const highlightedLines = allLogLines.filter(l => l.classList.contains('highlight'));
+        
+        if (searchInput.value.trim()) {
+            counter.textContent = `Найдено: ${highlightedLines.length}`;
+            counter.style.borderColor = highlightedLines.length > 0 ? 'var(--neon-green)' : 'var(--neon-red)';
+            counter.style.color = highlightedLines.length > 0 ? 'var(--neon-green)' : 'var(--neon-red)';
+        } else {
+            counter.textContent = `Показано: ${visibleLines.length}`;
+            counter.style.borderColor = 'rgba(0, 240, 255, 0.3)';
+            counter.style.color = 'var(--neon-cyan)';
+        }
+    }
+    
+    // Функция поиска
+    function performSearch() {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        allLogLines.forEach(line => {
+            const originalText = line.getAttribute('data-original') || line.textContent;
+            const text = originalText.toLowerCase();
+            
+            // Сброс HTML к оригиналу
+            line.textContent = originalText;
+            line.classList.remove('highlight');
+            
+            // Проверка фильтра
+            let matchesFilter = currentFilter === 'all' || line.classList.contains(currentFilter);
+            
+            if (!matchesFilter) {
+                line.classList.add('hidden');
+                return;
+            }
+            
+            // Проверка поиска
+            if (query) {
+                if (text.includes(query)) {
+                    line.classList.remove('hidden');
+                    line.classList.add('highlight');
+                    
+                    // Подсветка найденного текста
+                    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+                    line.innerHTML = originalText.replace(regex, '<span class="search-match">$1</span>');
+                } else {
+                    line.classList.add('hidden');
+                }
+            } else {
+                line.classList.remove('hidden');
+            }
+        });
+        
+        updateCounter();
+        
+        // Скролл к первому найденному
+        if (query) {
+            const firstMatch = logOutput.querySelector('.log-line.highlight');
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }
+    
+    // Экранирование спецсимволов для regex
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+    
+    // Фильтрация по типу
+    function setFilter(filter) {
+        currentFilter = filter;
+        
+        filterButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === filter);
+        });
+        
+        performSearch();
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', performSearch);
+    
+    // Предотвращаем отправку формы при Enter
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+        }
+    });
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            setFilter(btn.dataset.filter);
+        });
+    });
+    
+    statItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const filter = item.dataset.filter;
+            if (filter) setFilter(filter);
+        });
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+            e.preventDefault();
+            searchInput.focus();
+            searchInput.select();
+        }
+        
+        if (e.key === 'Escape') {
+            clearSearch();
+        }
+    });
+    
+    // Глобальные функции
+    window.clearSearch = function() {
+        searchInput.value = '';
+        currentFilter = 'all';
+        filterButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === 'all');
+        });
+        allLogLines.forEach(line => {
+            const originalText = line.getAttribute('data-original') || line.textContent;
+            line.textContent = originalText;
+            line.classList.remove('highlight', 'hidden');
+        });
+        updateCounter();
+    };
+    
+    window.refreshLogs = function() {
+        location.reload();
+    };
+    
+    window.exportLogs = function() {
+        const visibleLines = allLogLines
+            .filter(l => !l.classList.contains('hidden'))
+            .map(l => l.getAttribute('data-original') || l.textContent)
+            .join('\n');
+        
+        const blob = new Blob([visibleLines], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `nagios-logs-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    
+    // Инициализация
+    init();
+    
+    // Скролл вниз
+    // logOutput.scrollTop = logOutput.scrollHeight;
+});
+</script>
+
+{% endblock %}

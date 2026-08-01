@@ -1,0 +1,80 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Hosts{% endblock %}
+
+{% block content %}
+<style>
+    .dropdown {
+        /*font-size: 14px;*/
+        /*position: absolute;*/
+        /*top: -5px;*/
+        right: 10px;
+        overflow: visible;
+    }
+
+    .dots {
+        cursor: pointer;
+        /*font-size: 20px;*/
+        /*color: cyan;lkdjf ;lk gjkl;lkjt   jgioijrlkj glk h ;lkk  flkgkho*/
+
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        /*background-color: #f9f9f9;*/
+        background: #222233FF;
+        min-width: 130px;
+
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        z-index: 1;
+        overflow: visible;
+        align-items: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .dropdown-content a {
+        color: whitesmoke;
+        padding: 8px 16px;
+        text-decoration: none;
+        display: flex;
+        /*align-items: stretch;*/
+        /*justify-content: space-between;*/
+    }
+
+    .dropdown-content a:hover {
+        background-color: rgba(10, 47, 115, 0.66);
+        border-radius: 10px;
+
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:after .dropdown-content {
+        display: none;
+    }
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dots = document.querySelector(".dots");
+        const dropdownContent = document.querySelector(".dropdown-content");
+        dots.addEventListener("click", function () {
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+    });
+</script>
+<meta http-equiv="refresh" content="30">
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/hosts.css' %}"/>
+<div class="untitled-page root">
+    <div class="backfeater">
+                                         <a href="{% url 'mail' %}" ><button  id="showMoreButton" class="btn btn-primary more">copy </button></a>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'payslip_analyzer/base.html' %}
+{% block title %}{{ payslip.get_period_display }} - PaySlip Analyzer{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1 class="page-title" style="margin: 0;">
+        <span class="neon-text-blue">📋</span> {{ payslip.period|date:"F Y" }}
+        <span class="badge badge-{% if payslip.half == 1 %}purple{% else %}green{% endif %}">{% if payslip.half == 1 %}1-я половина{% else %}2-я половина{% endif %}</span>
+    </h1>
+    <div style="display: flex; gap: 10px;">
+        <a href="{% url 'payslip_analyzer:payslip_list' %}" class="btn btn-secondary">← Назад</a>
+        <a href="{% url 'payslip_analyzer:payslip_export' payslip.pk %}" class="btn btn-secondary">📥 CSV</a>
+        <a href="{% url 'payslip_analyzer:payslip_delete' payslip.pk %}" class="btn btn-danger" onclick="return confirm('Удалить?')">🗑️</a>
+    </div>
+</div>
+<!-- Итоги -->
+<div class="grid-3" style="margin-bottom: 30px;">
+    <div class="stat-card neu-raised">
+        <div class="stat-value amount-positive">{{ payslip.total_income|floatformat:2 }} ₽</div>
+        <div class="stat-label">Начислено</div>
+    </div>
+    <div class="stat-card neu-raised">
+        <div class="stat-value amount-negative">{{ payslip.total_deduction|floatformat:2 }} ₽</div>
+        <div class="stat-label">Удержано</div>
+    </div>
+    <div class="stat-card neu-raised">
+        <div class="stat-value neon-text-green">{{ payslip.net_pay|floatformat:2 }} ₽</div>
+        <div class="stat-label">К выплате</div>
+    </div>
+</div>
+<div class="grid-2">
+    <!-- Начисления -->
+    <div class="card neu-raised">
+        <h3 class="card-title" style="color: var(--neon-green);">💰 Начисления</h3>
+        <table>
+            <thead><tr><th>Мес.</th><th>Код</th><th>РВ</th><th>Сумма</th></tr></thead>
+            <tbody>
+                {% for item in income_items %}
+                <tr title="{{ item.description }}">
+                    <td><span class="badge badge-blue">{{ item.month }}</span></td>
+                    <td><span class="badge badge-purple">{{ item.code }}</span></td>
+                    <td style="color: var(--text-secondary);">{{ item.rv|default:"—" }}</td>
+                    <td class="amount-positive">{{ item.amount|floatformat:2 }} ₽</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Нет данных</td></tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="border-top: 2px solid rgba(0, 255, 136, 0.3);">
+                    <td colspan="3" style="text-align: right; font-weight: 600;">Итого:</td>
+                    <td class="amount-positive" style="font-weight: 700;">{{ payslip.total_income|floatformat:2 }} ₽</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Удержания -->
+    <div class="card neu-raised">
+        <h3 class="card-title" style="color: var(--neon-pink);">📉 Удержания</h3>
+        <table>
+            <thead><tr><th>Мес.</th><th>Код</th><th>Описание</th><th>Сумма</th></tr></thead>
+            <tbody>
+                {% for item in deduction_items %}
+                <tr>
+                    <td><span class="badge badge-blue">{{ item.month }}</span></td>
+                    <td><span class="badge badge-pink">{{ item.code }}</span></td>
+                    <td style="color: var(--text-secondary); font-size: 0.9rem;">{{ item.description }}</td>
+                    <td class="amount-negative">{{ item.amount|floatformat:2 }} ₽</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Нет данных</td></tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="border-top: 2px solid rgba(255, 0, 110, 0.3);">
+                    <td colspan="3" style="text-align: right; font-weight: 600;">Итого:</td>
+                    <td class="amount-negative" style="font-weight: 700;">{{ payslip.total_deduction|floatformat:2 }} ₽</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!-- Диаграмма -->
+<div class="card neu-raised" style="margin-top: 30px;">
+    <h3 class="card-title"><span style="color: var(--neon-blue);">◉</span> Распределение начислений</h3>
+    <div class="chart-container"><canvas id="pieChart"></canvas></div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const pieData = {{ pie_data|safe }};
+    new Chart(document.getElementById('pieChart'), {
+        type: 'doughnut',
+        data: {
+            labels: pieData.labels.length ? pieData.labels : ['Нет данных'],
+            datasets: [{ data: pieData.values.length ? pieData.values : [1], backgroundColor: ['#00d4ff', '#00ff88', '#b347d9', '#ff006e', '#ff9500', '#00cc6a', '#9933ff', '#ff6b6b', '#4ecdc4'], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: '#e0e0e0', font: { family: 'Inter' }, padding: 15 } } } }
+    });
+</script>
+{% endblock %}

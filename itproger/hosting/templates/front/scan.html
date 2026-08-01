@@ -1,0 +1,524 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Scan{% endblock %}
+
+{% block content %}
+
+<style>
+    .messages {
+        list-style-type: none;
+        position: fixed;
+        top: 23px;
+        left: 47%;
+        /*animation:  hideAnimation 0s ease-in 5s;*/
+        /*animation-fill-mode: forwards;*/
+
+    }
+
+    .messages li {
+        /*padding: 10px;*/
+        /*top: 0;*/
+        /*left: 50%;*/
+
+        /*list-style-type: none;*/
+
+    }
+
+    .messages li.success {
+        background-color: #00ff729c;
+        border-radius: 12px;
+        width: max-content;
+        padding: 10px;
+        top: 0;
+        left: 50%;
+        /*color: #155724;*/
+    }
+ .messages li.error {
+        background-color: #ff006a;
+        border-radius: 12px;
+        width: max-content;
+        padding: 10px;
+        top: 0;
+        left: 50%;
+        /*color: #155724;*/
+    }
+
+    #blur-background {
+        /*position: fixed;*/
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный */
+        backdrop-filter: blur(5px); /* Эффект размытия */
+        z-index: 3; /* Устанавливаем z-index для перекрытия основного контента */
+    }
+
+    #load {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 36px;
+        left: 45%;
+        top: 20%;
+        margin-left: -300px;
+        overflow: visible;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: default;
+        z-index: 2;
+    }
+
+    #load div {
+        position: absolute;
+        width: 38px;
+        height: 65px;
+        opacity: 0;
+        font-family: Helvetica, Arial, sans-serif;
+        animation: move 2s linear infinite;
+        -o-animation: move 2s linear infinite;
+        -moz-animation: move 2s linear infinite;
+        -webkit-animation: move 2s linear infinite;
+        transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        color: #4b35f0;
+        font-size: 30px;
+    }
+
+    #load div:nth-child(2) {
+        animation-delay: 0.2s;
+        -o-animation-delay: 0.2s;
+        -moz-animation-delay: 0.2s;
+        -webkit-animation-delay: 0.2s;
+    }
+
+    #load div:nth-child(3) {
+        animation-delay: 0.4s;
+        -o-animation-delay: 0.4s;
+        -webkit-animation-delay: 0.4s;
+        -webkit-animation-delay: 0.4s;
+    }
+
+    #load div:nth-child(4) {
+        animation-delay: 0.6s;
+        -o-animation-delay: 0.6s;
+        -moz-animation-delay: 0.6s;
+        -webkit-animation-delay: 0.6s;
+    }
+
+    #load div:nth-child(5) {
+        animation-delay: 0.8s;
+        -o-animation-delay: 0.8s;
+        -moz-animation-delay: 0.8s;
+        -webkit-animation-delay: 0.8s;
+    }
+
+    #load div:nth-child(6) {
+        animation-delay: 1s;
+        -o-animation-delay: 1s;
+        -moz-animation-delay: 1s;
+        -webkit-animation-delay: 1s;
+    }
+
+    #load div:nth-child(7) {
+        animation-delay: 1.2s;
+        -o-animation-delay: 1.2s;
+        -moz-animation-delay: 1.2s;
+        -webkit-animation-delay: 1.2s;
+    }
+
+    @keyframes move {
+        0% {
+            left: 0;
+            opacity: 0;
+        }
+        35% {
+            left: 41%;
+            -moz-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        65% {
+            left: 59%;
+            -moz-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            left: 100%;
+            -moz-transform: rotate(-180deg);
+            -webkit-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+    }
+
+    @-moz-keyframes move {
+        0% {
+            left: 0;
+            opacity: 0;
+        }
+        35% {
+            left: 41%;
+            -moz-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        65% {
+            left: 59%;
+            -moz-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            left: 100%;
+            -moz-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes move {
+        0% {
+            left: 0;
+            opacity: 0;
+        }
+        35% {
+            left: 41%;
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        65% {
+            left: 59%;
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            left: 100%;
+            -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+    }
+
+    @-o-keyframes move {
+        0% {
+            left: 0;
+            opacity: 0;
+        }
+        35% {
+            left: 41%;
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        65% {
+            left: 59%;
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            left: 100%;
+            -o-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+    }
+</style>
+  <script>
+            setTimeout(function (){
+                document.getElementById('messages').style.display = 'hide';
+            }, 5000);
+        </script>
+
+<script>
+    // Проверяем наличие параметра reload=true в URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reload') === 'true') {
+        // Если параметр есть, обновляем страницу
+        window.onload = function () {
+            location.reload();
+        };
+    }
+</script>
+<meta http-equiv="refresh" content="120">
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/scan.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/modal.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dots = document.querySelector(".dots");
+        const dropdownContent = document.querySelector(".dropdown-content");
+        dots.addEventListener("click", function () {
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+    });
+</script>
+<script>
+    function loadData() {
+        var loadContainer = document.querySelector('#load'); // Находим контейнер #load
+        loadContainer.style.display = 'block';
+    }
+</script>
+<script>
+    function hideAccept() {
+        document.getElementById("acceptMe").style.display = "none";
+        document.getElementById("rejectMe").style.display = "block";
+    }
+
+    function hideReject() {
+        document.getElementById("rejectMe").style.display = "none";
+        document.getElementById("acceptMe").style.display = "block";
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const startIpField = document.getElementById('start_ip');
+        const endIpField = document.getElementById('end_ip');
+
+        startIpField.addEventListener('input', () => {
+            endIpField.value = startIpField.value;
+        });
+    });
+</script>
+
+<div class="untitled-page root">
+
+    <div class="overlay" id="overlay"></div>
+    <div class="backfeater">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li
+                    {% if message.tags %} class='{{ message.tags }}' {% endif %}> {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="/range_ip/" method="post" class="form">
+            {% csrf_token %}
+            <div class="form-row">
+
+
+                <input type="text" class="form-control form-main" name="start_ip" placeholder="начальный ip" value=""
+                       required id="start_ip">
+                <input type="text" class="form-control form-main" name="end_ip" placeholder="конечный ip" value=""
+                       required id="end_ip">
+                <!--                <input type="text" class="form-control form-main" name="community_string" placeholder="community string" value=""-->
+                <!--                       required id="">-->
+                <input type="submit" value="сканировать" class="submit modal-create" onclick="loadData()">
+                <button type="submit" formaction="{% url 'host-unhide' %}" formmethod="post"><img class="hide" id="acceptMe" onclick="hideAccept();" src="{% static 'front/img/Eye.svg' %}"></button>
+                <button type="submit" formaction="{% url 'host-unhide' %}" formmethod="post"><img class="hide" id="rejectMe" onclick="hideReject();" src="{% static 'front/img/Eye-close.svg' %}" style="display: none; margin-top: 10px;"></button>
+            </div>
+        </form>
+
+
+        {% if today_hosts %}
+        <div class="form-row-text">
+            Новые сканирования
+        </div>
+        <div class="plashki">
+            {% for host in today_hosts %}
+            {% if not host %}
+            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+            {% elif not host in today_hosts %}
+            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+            {% endif %}
+            {% if host and host.hide_flag == False%}
+            <div class="alert alert-primary">
+                <div>
+
+                    <h3>{{ host.ipaddr }}</h3>
+                    {% if host.device_type == 'servers' %}
+                    <div class="alert-primary-nagios">
+                        <img class="alert-primary-footer-server" src="{% static 'front/img/server-1.png' %}">
+                    </div>
+                    {% endif %}
+                    {% if host.osver %}
+                    <div class="osver">{{ host.osver }}</div>
+                    {% endif %}
+                    {% if host.hostname %}
+                    <div class="alert-text-2">{{ host.hostname }}</div>
+                    {% else %}
+                    <div class="alert-text-2">snmp не настроен</div>
+                    {% endif %}
+                    {% if host.nagios_flag %}
+                    <div class="alert-primary-nagios">
+                        <img class="alert-primary-footer-nagios" src="{% static 'front/img/nagios_logo.svg' %}">
+                    </div>
+                    {% endif %}
+                    <div class="dropdown ">
+                        <div class="dots ">...</div>
+                        <div class="dropdown-content">
+                            {% if host.nagios_flag == False %}
+                            <a href="{% url 'host-update' host.id %}"><img class="more"
+                                                                           src="{% static 'front/img/host.svg' %}">Добавить</a>
+                            {% else %}
+                            <a href="{% url 'host-update' host.id %}"><img class="more"
+                                                                           src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                            {% endif %}
+                            <form method="post" action="{% url 'host-hide' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
+                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div id="load">
+            <div>G</div>
+            <div>N</div>
+            <div>I</div>
+            <div>D</div>
+            <div>A</div>
+            <div>O</div>
+            <div>L</div>
+        </div>
+        <svg viewBox="0 0 120 120">
+            <defs>
+            </defs>
+            <circle class="background go" cx="60" cy="60" r="70" style="fill:#1b4d6e00; overflow: visible;"/>
+            <g class="eins">
+                <g class="all">
+                    <mask id="Mask">
+                        <circle class="xmask" cx="60" cy="60" r="100" fill="#fff"/>
+                        <circle class="xmask" cx="60" cy="60" r="50" fill="#000"/>
+                    </mask>
+                    <g class="group" mask="url(#Mask)">
+                        <circle cx="60" cy="65" r="48" style="fill:#fff;"/>
+                        <circle cx="60" cy="55" r="48" style="fill:#ff00a6;"/>
+                    </g>
+                </g>
+            </g>
+
+            <g class="zwei">
+                <g class="all">
+                    <mask id="Mask2">
+                        <circle class="xmask" cx="60" cy="60" r="100" fill="#fff"/>
+                        <circle class="xmask" cx="60" cy="60" r="50" fill="#000"/>
+                    </mask>
+                    <g class="group" style="animation-delay: -0.33s" mask="url(#Mask2)">
+                        <circle cx="60" cy="65" r="48" style="fill:#fff;"/>
+                        <circle cx="60" cy="55" r="48" style="fill:#ff00ff;"/>
+                    </g>
+                </g>
+            </g>
+
+            <g class="drei">
+                <g class="all">
+                    <mask id="Mask3">
+                        <circle class="xmask" cx="60" cy="60" r="100" fill="#fff"/>
+                        <circle class="xmask" cx="60" cy="60" r="50" fill="#000"/>
+                    </mask>
+                    <g class="group" style="animation-delay: -0.66s" mask="url(#Mask3)">
+                        <circle cx="60" cy="65" r="48" style="fill:#fff;"/>
+                        <circle cx="60" cy="55" r="48" style="fill:#9900ff;"/>
+                    </g>
+                </g>
+            </g>
+
+            <circle cx="60" cy="60" r="2" style="fill:#fff;"/>
+        </svg>
+
+        {% if host and all_hosts%}
+        <div class="form-row-text2">
+            Результат предыдущих сканирований
+        </div>
+        <div class="plashki">
+            {% for host in all_hosts %}
+            {% if host.hide_flag == False %}
+            <div class="alert alert-primary">
+                <div>
+                    <div class="dropdown ">
+                        <div class="dots ">...</div>
+                        <div class="dropdown-content">
+                            {% if host.nagios_flag == False %}
+                            <a href="{% url 'host-update' host.id %}"><img class="more"
+                                                                           src="{% static 'front/img/host.svg' %}">Добавить</a>
+                            {% else %}
+                            <a href="{% url 'host-update' host.id %}"><img class="more"
+                                                                           src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                            {% endif %}
+                            <form method="post" action="{% url 'host-hide' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
+                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+
+                        </div>
+                    </div>
+                    <h3>{{ host.ipaddr }}</h3>
+                    {% if host.osver %}
+                    <div class="osver">{{ host.osver }}</div>
+                    {% endif %}
+                    {% if host.hostname %}
+                    <div class="alert-text-2">{{ host.hostname }}</div>
+                    {% else %}
+                    <div class="alert-text-2">snmp не настроен</div>
+                    {% endif %}
+                    {% if host.nagios_flag %}
+                    <div class="alert-primary-nagios">
+                        <img class="alert-primary-footer-nagios" src="{% static 'front/img/nagios_logo.svg' %}">
+                    </div>
+                    {% endif %}
+
+
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% if today_hosts %}
+            <!--             <img class="more" src="{% static 'front/img/arrow.svg' %}" alt="more"> -->
+            <!-- <button id="showMoreButton" class="btn btn-primary more">Показать еще</button> -->
+            {% else %}
+            <!--            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>-->
+            {% endif %}
+        </div>
+        {% elif not host %}
+        <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+        {% endif %}
+        <script>
+            document.querySelectorAll('.osver').forEach(function (element) {
+                var osver = element.innerText;
+                osver = osver.replace("sw", "");
+                element.innerText = osver;
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const startIpInput = document.querySelector('input[name="start_ip"]');
+                const endIpInput = document.querySelector('input[name="end_ip"]');
+
+                startIpInput.addEventListener('input', function () {
+                    startIpInput.value = startIpInput.value.replace(/,/g, '.');
+                });
+
+                endIpInput.addEventListener('input', function () {
+                    endIpInput.value = endIpInput.value.replace(/,/g, '.');
+                });
+            });
+        </script>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+

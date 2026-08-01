@@ -1,0 +1,516 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title %}Scan{% endblock %}
+{% block search %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/map.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/leaflet.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<script src="{% static 'front/js/leaflet.js' %}"></script>
+<script src="{% static 'front/js/d3.v6.min.js' %}"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-editable@1.2.0/dist/leaflet-editable.css"/>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-editable@1.2.0/dist/leaflet-editable.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Офлайн карта Коломны</title>
+<style>
+    .pin_host {
+        left: 55px;
+        top: 10px;
+        position: absolute; /* или fixed, в зависимости от вашей задачи */
+        z-index: 9999; /* Устанавливаем высокое значение, чтобы элемент был поверх всех */
+    }
+
+    .route {
+        left: 190px;
+        top: 10px;
+        position: absolute; /* или fixed, в зависимости от вашей задачи */
+        z-index: 9999; /* Устанавливаем высокое значение, чтобы элемент был поверх всех */
+    }
+    .custom-marker {
+    text-align: center; /* Центрируем текст */
+}
+
+.marker-label {
+   font-size: 12px;
+  color: #000;
+  margin-top: 5px;
+  white-space: nowrap;
+  background: #ffffffa3;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 0 10px;
+      backdrop-filter: blur(10px);
+}
+</style>
+<div class="untitled-page root">
+
+    <div class="backfeater">
+        <button id="pin_host" class="submit1 modal-button pin_host " type="submit">Отметить хост</button>
+        <button id="route" class="submit1 modal-button route " type="submit">Маршрут</button>
+
+        <div class="modal" id="line-settings-form" style="display: none;">
+            <form id="line-settings" method="post" action="{% url 'save_line_settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="line_id" value="line1"> <!-- Добавьте line_id, если нужно -->
+                <label for="line-color">Цвет линии:</label>
+                <input class="form-control" type="color" id="line-color" name="color" value="#569fee">
+                <br>
+                <label for="line-weight">Толщина линии:</label>
+                <input class="form-control ip-read" type="number" id="line-weight" name="weight" value="2" min="1"
+                       max="10">
+                <br>
+                <label for="line-type">Тип линии:</label>
+                <select class="form-control" id="line-type" name="line_type">
+                    <option value="solid">Сплошная</option>
+                    <option value="dashed">Пунктирная</option>
+                    <option value="dotted">Точечная</option>
+                    <option value="dash-dot">Штрих-пунктирная</option>
+                </select>
+                <br>
+                <button class="submit1 modal-button save" type="submit">Сохранить</button>
+                <button class="modal-button back" type="button" onclick="window.location.href='{% url 'map' %}'">Отмена</button>
+            </form>
+        </div>
+        <div id="tree-container">
+            <div id="map">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+// Инициализация карты
+var map = L.map('map', {
+    minZoom: 3, // Минимальный уровень масштабирования (отдаление)
+    maxZoom: 16  // Максимальный уровень масштабирования (приближение)
+}).setView([55.07, 38.80], 14); // Центр Коломенского округа
+
+// Добавление базового слоя карты (OpenStreetMap)
+L.tileLayer('/static/front/tiles/{z}/{x}/{y}.png', {
+    // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Загрузка GeoJSON файла
+// fetch("{% static 'front/data/kolomna.geojson' %}")
+//     .then(response => response.json())
+//     .then(data => {
+//         L.geoJSON(data).addTo(map);
+//     });
+
+// Загрузка существующих хостов на карту
+var hosts = JSON.parse('{{ hosts|escapejs }}');
+var markers = {}; // Словарь для хранения маркеров
+let isRouteModeActive = false; // Флаг для активации режима маршрута
+let parentHost = null; // Родительский хост
+let childHost = null; // Дочерний хост
+let waypoints = []; // Промежуточные точки маршрута
+let polyline = null; // Линия маршрута
+
+// Обработчик нажатия на кнопку "Маршрут"
+document.getElementById('route').addEventListener('click', function (e) {
+    e.preventDefault();
+    isRouteModeActive = true; // Активируем режим маршрута
+    parentHost = null; // Сбрасываем родительский хост
+    childHost = null; // Сбрасываем дочерний хост
+    waypoints = []; // Очищаем промежуточные точки
+    alert('Режим маршрута активирован. Выберите родительский хост.');
+});
+
+// Обработчик клика на маркере хоста
+map.on('click', function (e) {
+    // alert("isRouteModeActive", $isRouteModeActive)
+    console.log(isRouteModeActive);
+    if (isRouteModeActive) {
+        // Проверяем, кликнули ли на маркер хоста
+        const marker = e.layer;
+        if (marker && marker instanceof L.Marker) {
+            console.log("true1")
+
+            const hostIp = Object.keys(markers).find(key => markers[key] === marker);
+
+            if (!parentHost) {
+                parentHost = hostIp; // Устанавливаем родительский хост
+                alert('Родительский хост выбран. Теперь выберите дочерний хост.');
+            } else if (!childHost) {
+                childHost = hostIp; // Устанавливаем дочерний хост
+                alert('Дочерний хост выбран. Теперь добавляйте промежуточные точки кликом на карту.');
+            }
+        } else if (parentHost && childHost) {
+            console.log("error")
+            // Добавляем промежуточную точку
+            waypoints.push(e.latlng);
+            updateRoute(); // Обновляем маршрут
+        }
+    }
+});
+
+// Функция для обновления маршрута
+function updateRoute() {
+    if (polyline) {
+        map.removeLayer(polyline); // Удаляем старую линию маршрута
+    }
+
+    // Создаем массив точек для маршрута
+    const routePoints = [markers[parentHost].getLatLng(), ...waypoints, markers[childHost].getLatLng()];
+
+    // Рисуем новую линию маршрута
+    polyline = L.polyline(routePoints, {
+        color: '#569fee',
+        weight: 4,
+        opacity: 0.7
+    }).addTo(map);
+}
+
+// Функция для сохранения маршрута
+function saveRoute() {
+    if (parentHost && childHost) {
+        const routeData = {
+            parent: parentHost,
+            child: childHost,
+            waypoints: waypoints.map(point => [point.lat, point.lng])
+        };
+
+        // Отправляем данные на сервер
+        fetch("{% url 'save_route' %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(routeData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Маршрут успешно сохранен.');
+                } else {
+                    alert('Ошибка при сохранении маршрута.');
+                }
+            });
+    } else {
+        alert('Необходимо выбрать родительский и дочерний хосты.');
+    }
+}
+
+// Добавляем кнопку для сохранения маршрута
+const saveRouteButton = L.Control.extend({
+    options: {
+        position: 'topright'
+    },
+    onAdd: function (map) {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        const button = L.DomUtil.create('button', '', container);
+        button.innerHTML = 'Сохранить маршрут';
+        button.onclick = saveRoute;
+        return container;
+    }
+});
+
+map.addControl(new saveRouteButton());
+hosts.forEach(function (host) {
+    if (host.latitude && host.longitude) {
+        // Определение цвета маркера
+        var iconColor = host.status_color || '#14FF47FF'; // По умолчанию зеленый
+
+        // Текст под иконкой (IP или имя хоста)
+        var labelText = host.hostname || host.ipaddr; // Используем имя хоста, если оно есть, иначе IP
+
+        // Создаем пользовательскую иконку с текстом под изображением
+        var icon = L.divIcon({
+            className: 'custom-marker', // Класс для стилизации
+            html: `
+<div class="marker-icon" style="background-image: url('/static/front/img/server-1.png');"></div>
+<div class="marker-shadow" style="background-color: ${iconColor};"></div>
+<div class="marker-label">${labelText}</div>
+`,
+            iconSize: [25, 41], // Размер иконки
+            iconAnchor: [12, 41], // Точка привязки иконки
+            popupAnchor: [1, -34] // Точка привязки всплывающего окна
+        });
+
+        // Создаем маркер с пользовательской иконкой
+        var marker = L.marker([host.latitude, host.longitude], {
+            draggable: true, // Разрешаем перетаскивание маркера
+            icon: icon,
+        }).addTo(map);
+
+        // Сохраняем маркер в словарь
+        markers[host.ipaddr] = marker;
+
+        // Обработчик перемещения маркера
+        marker.on('dragend', function (e) {
+            var coords = marker.getLatLng();
+            updateHostCoordinates(host.ipaddr, [coords.lat, coords.lng]);
+        });
+
+        // Добавление popup с информацией о хосте
+        marker.bindPopup(
+            'IP-адрес: ' + host.ipaddr +
+            '<br>Статус: ' + host.status +
+            '<br>Имя: ' + host.hostname +
+            '<br>Секция: ' + host.section +
+            '<br><button id="pingButton_' + host.ipaddr + '" class="pingButton">Пропинговать</button>' +
+            '<br><button id="delButton_' + host.ipaddr + '" class="delButton">Удалить с карты</button>'
+        );
+
+        // Обработчик для кнопки "Пропинговать"
+        marker.on('popupopen', function () {
+            document.getElementById('pingButton_' + host.ipaddr).onclick = function () {
+                alert('Начинаю пинг для ' + host.ipaddr + '...');
+
+                fetch(`/ping/${host.ipaddr}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Результат пинга:\n' + data.output);
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Произошла ошибка при выполнении пинга.');
+                    });
+            };
+        });
+
+        // Обработчик для кнопки "Удалить с карты"
+        marker.on('popupopen', function () {
+            document.getElementById('delButton_' + host.ipaddr).onclick = function () {
+                alert('Обнуление параметров хоста ' + host.ipaddr + '...');
+
+                fetch(`/del_coord/${host.ipaddr}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: JSON.stringify({ action: 'reset' })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Параметры хоста успешно обнулены.');
+                            window.location.reload();
+                        } else {
+                            alert('Ошибка: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Произошла ошибка при обнулении параметров хоста.');
+                    });
+            };
+        });
+    }
+});;
+
+// Добавление линий между родителями и детьми
+hosts.forEach(function (host) {
+    if (host.parent && markers[host.parent] && markers[host.ipaddr]) {
+        var parentCoords = markers[host.parent].getLatLng();
+        var childCoords = markers[host.ipaddr].getLatLng();
+
+        // Создаем уникальный идентификатор для линии на основе IP адресов
+        var lineId = host.parent + '-' + host.ipaddr;
+
+        // Получаем сохраненные параметры, если они есть
+        var savedLineSettings = JSON.parse(localStorage.getItem(lineId)) || {
+            color: '#569fee', // Цвет по умолчанию
+            weight: 6, // Толщина по умолчанию
+            line_type: 'solid' // Тип линии по умолчанию
+        };
+
+        // Функция для преобразования типа линии в dashArray
+        function getDashArray(lineType) {
+            switch (lineType) {
+                case 'solid':
+                    return null; // Сплошная линия
+                case 'dashed':
+                    return '10,10'; // Пунктирная
+                case 'dotted':
+                    return '2,6'; // Точечная
+                case 'dash-dot':
+                    return '10,6,2,6'; // Штрих-пунктирная
+                default:
+                    return null;
+            }
+        }
+
+        // Создаем линию с учетом сохраненных параметров
+        var polyline = L.polyline([parentCoords, childCoords], {
+            color: savedLineSettings.color, // Используем сохранённый цвет
+            weight: savedLineSettings.weight, // Используем сохранённую толщину
+            dashArray: getDashArray(savedLineSettings.line_type), // Применяем тип линии
+            opacity: 0.5 // Прозрачность линии
+        }).addTo(map);
+
+        // Добавляем обработчик события 'click' для изменения линии
+        polyline.on('click', function () {
+            // Показываем форму
+            document.getElementById('line-settings-form').style.display = 'block';
+
+            // Заполняем форму текущими значениями
+            document.getElementById('line-color').value = savedLineSettings.color;
+            document.getElementById('line-weight').value = savedLineSettings.weight;
+            document.getElementById('line-type').value = savedLineSettings.line_type;
+
+            // Обработчик отправки формы
+            document.getElementById('line-settings').onsubmit = function (event) {
+                event.preventDefault();
+
+                // Получаем новые значения из формы
+                var newColor = document.getElementById('line-color').value;
+                var newWeight = parseInt(document.getElementById('line-weight').value);
+                var newLineType = document.getElementById('line-type').value;
+
+                // Обновляем стиль линии
+                polyline.setStyle({
+                    color: newColor,
+                    weight: newWeight,
+                    dashArray: getDashArray(newLineType) // Применяем новый тип линии
+                });
+
+                // Сохраняем новые значения в localStorage
+                savedLineSettings.color = newColor;
+                savedLineSettings.weight = newWeight;
+                savedLineSettings.line_type = newLineType;
+                localStorage.setItem(lineId, JSON.stringify(savedLineSettings));
+
+
+                // Скрываем форму
+                document.getElementById('line-settings-form').style.display = 'none';
+
+                // Отправляем данные на сервер через AJAX
+                $.ajax({
+                    url: '/save_line_settings/', // URL для сохранения настроек линии
+                    method: 'POST',
+                    data: {
+                        line_id: lineId,
+                        color: newColor,
+                        weight: newWeight,
+                        line_type: newLineType, // Отправляем тип линии
+                        csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF токен для Django
+                    },
+                    success: function (response) {
+                        console.log('Настройки линии сохранены на сервере');
+                    },
+                    error: function (error) {
+                        console.error('Ошибка при сохранении настроек линии:', error);
+                    }
+                });
+            };
+        });
+    }
+});
+
+// Обработка кликов на карте
+let isAddHostActive = false; // Флаг для отслеживания активности режима добавления хоста
+
+// Обработчик нажатия на кнопку "Отметить хост"
+document.getElementById('pin_host').addEventListener('click', function (e) {
+    e.preventDefault(); // Предотвращаем стандартное поведение кнопки (если это форма)
+    isAddHostActive = true; // Активируем режим добавления хоста
+    console.log('Режим добавления хоста активирован');
+});
+
+// Обработчик клика на карте
+map.on('click', function (e) {
+    if (isAddHostActive) { // Проверяем, активен ли режим добавления хоста
+        var coords = e.latlng;
+        var ipaddr = prompt("Введите IP-адрес хоста:", "192.168.1.1"); // Запрос IP-адреса
+        if (ipaddr) {
+            addHost(coords, ipaddr, map); // Добавляем хост
+        }
+        isAddHostActive = false; // Деактивируем режим после добавления хоста
+        console.log('Режим добавления хоста деактивирован');
+    }
+});
+
+// Функция для добавления хоста
+function addHost(coords, ipaddr, map) {
+    // AJAX-запрос для сохранения хоста на сервере
+    fetch("{% url 'add_host_map' %}", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken') // Получение CSRF токена
+        },
+        body: new URLSearchParams({
+            'ip_address': ipaddr,
+            'latitude': coords.lat,
+            'longitude': coords.lng
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+
+                var marker = L.marker([coords.lat, coords.lng], {
+                    draggable: true, // Разрешаем перетаскивание маркера
+                    icon: L.icon({
+                        // iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+                        iconUrl: '/static/front/img/server-1.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41], // Размер иконки
+                        iconAnchor: [12, 41], // Точка привязки иконки
+                        popupAnchor: [1, -34] // Точка привязки всплывающего окна
+                    })
+                }).addTo(map);
+
+                // Обработчик перемещения маркера
+                marker.on('dragend', function (e) {
+                    var coords = marker.getLatLng();
+                    updateHostCoordinates(ipaddr, [coords.lat, coords.lng]);
+                });
+
+                // Добавление popup с информацией о хосте
+                marker.bindPopup('IP-адрес: ' + ipaddr + '<br>Статус: Новый<br>Секция: Не указана');
+
+                console.log('Добавлен хост с IP: ' + ipaddr + ' на координатах: ', coords);
+            } else {
+                alert('Ошибка при добавлении хоста');
+            }
+        });
+}
+
+// Функция для обновления координат хоста
+function updateHostCoordinates(ipaddr, coords) {
+    fetch("{% url 'update_host_coordinates' %}", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken') // Получение CSRF токена
+        },
+        body: new URLSearchParams({
+            'ip_address': ipaddr,
+            'latitude': coords[0],
+            'longitude': coords[1]
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Координаты хоста обновлены:', ipaddr, coords);
+            } else {
+                alert('Ошибка при обновлении координат хоста');
+            }
+        });
+}
+
+// Функция для получения CSRF токена
+function getCookie(name) {
+    const cookieValue = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+    return cookieValue ? cookieValue.split('=')[1] : null;
+}
+
+
+</script>
+{% endblock %}

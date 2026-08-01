@@ -1,0 +1,183 @@
+{% extends 'payroll/base.html' %}
+{% block title %}Дашборд - Анализ платежных ведомостей{% endblock %}
+{% block content %}
+<h1 class="page-title">📊 Дашборд</h1>
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value neon-text-blue">{{ total_amount|floatformat:0 }} ₽</div>
+        <div class="stat-label">Итого за последний период</div>
+        {% if latest_period %}
+        <div class="stat-change">{{ latest_period }}</div>
+        {% endif %}
+    </div>
+    <div class="stat-card">
+        <div class="stat-value neon-text-green">{{ entries_count }}</div>
+        <div class="stat-label">Записей в периоде</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value neon-text-pink">{{ codes_count }}</div>
+        <div class="stat-label">Кодов в справочнике</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" style="color: var(--neon-purple);">{{ periods|length }}</div>
+        <div class="stat-label">Периодов в базе</div>
+    </div>
+</div>
+<!-- Charts -->
+<div class="grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">🥧 Распределение по категориям</h3>
+            {% if latest_period %}
+            <span class="badge badge-primary">{{ latest_period }}</span>
+            {% endif %}
+        </div>
+        <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">📈 Динамика по периодам</h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+</div>
+<!-- Quick Actions -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">⚡ Быстрые действия</h3>
+    </div>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{% url 'payroll:upload_codebook' %}" class="btn btn-primary">📋 Загрузить справочник</a>
+        <a href="{% url 'payroll:upload_receipt' %}" class="btn btn-primary">📄 Загрузить квитанцию</a>
+        <a href="{% url 'payroll:manual_entry' %}" class="btn btn-success">✏️ Ручной ввод</a>
+        <a href="{% url 'payroll:analytics' %}" class="btn btn-primary">📊 Аналитика</a>
+    </div>
+</div>
+<!-- Recent Periods -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">📅 Последние периоды</h3>
+        <a href="{% url 'payroll:period_list' %}" class="btn btn-primary btn-sm">Все периоды</a>
+    </div>
+    {% if periods %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Период</th>
+                    <th>Записей</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for period in periods|slice:":5" %}
+                <tr>
+                    <td>{{ period }}</td>
+                    <td>{{ period.entries.count }}</td>
+                    <td>
+                        <a href="{% url 'payroll:period_detail' period.id %}" class="btn btn-primary btn-sm">Просмотр</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Нет данных. Загрузите квитанцию или добавьте данные вручную.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    // Neon color palette
+    const neonColors = [
+        '#00f5ff', '#ff00ff', '#00ff88', '#ffff00',
+        '#ff6b6b', '#4ecdc4', '#a29bfe', '#fd79a8',
+        '#ffeaa7', '#74b9ff', '#55efc4', '#fab1a0'
+    ];
+    // Pie Chart
+    const pieData = {{ pie_data|safe }};
+    if (pieData.labels && pieData.labels.length > 0) {
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: pieData.labels,
+                datasets: [{
+                    data: pieData.values,
+                    backgroundColor: neonColors.slice(0, pieData.labels.length),
+                    borderColor: '#1a1a2e',
+                    borderWidth: 3,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#e8e8e8',
+                            padding: 15,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    // Trend Chart
+    const trendData = {{ trend_data|safe }};
+    if (trendData.labels && trendData.labels.length > 0) {
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: trendData.labels,
+                datasets: [{
+                    label: 'Общая сумма',
+                    data: trendData.totals,
+                    borderColor: '#00f5ff',
+                    backgroundColor: 'rgba(0, 245, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#00f5ff',
+                    pointBorderColor: '#1a1a2e',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#a0a0a0' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e8e8e8' }
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

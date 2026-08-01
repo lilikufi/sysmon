@@ -1,0 +1,3 @@
+# Optional production integration. python-ldap may require OS build packages.
+-r base.txt
+django-auth-ldap>=5,<6

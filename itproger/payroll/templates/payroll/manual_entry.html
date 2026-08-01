@@ -1,0 +1,94 @@
+{% extends 'payroll/base.html' %}
+{% block title %}Ручной ввод - Анализ платежных ведомостей{% endblock %}
+{% block content %}
+<h1 class="page-title">✏️ Ручной ввод данных</h1>
+<div class="grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Введите данные квитанции</h3>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Период</label>
+                <div style="display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 1rem;">
+                    <input type="number" name="year" class="form-control" value="{{ form.year.value }}" placeholder="Год" min="2000" max="2100" required>
+                    <select name="month" class="form-control" required>
+                        <option value="1">Январь</option>
+                        <option value="2">Февраль</option>
+                        <option value="3">Март</option>
+                        <option value="4">Апрель</option>
+                        <option value="5">Май</option>
+                        <option value="6">Июнь</option>
+                        <option value="7">Июль</option>
+                        <option value="8">Август</option>
+                        <option value="9">Сентябрь</option>
+                        <option value="10">Октябрь</option>
+                        <option value="11">Ноябрь</option>
+                        <option value="12">Декабрь</option>
+                    </select>
+                    <select name="half" class="form-control" required>
+                        <option value="1">Первая половина</option>
+                        <option value="2" selected>Вторая половина</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Данные (код - сумма, каждая запись с новой строки)</label>
+                <textarea name="entries_data" class="form-control" rows="12" placeholder="001 - 50000
+002 - 10000
+003 - 5000
+004 - 3500" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success" style="width: 100%;">
+                💾 Сохранить данные
+            </button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">ℹ️ Инструкция</h3>
+        </div>
+
+        <div style="padding: 1rem;">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Введите данные из квитанции в формате:
+            </p>
+
+            <div class="neu-pressed" style="padding: 1.5rem; font-family: monospace; font-size: 0.9rem; line-height: 1.8;">
+                <span style="color: var(--neon-blue);">001</span> <span style="color: var(--text-secondary);">-</span> <span style="color: var(--neon-green);">50000</span><br>
+                <span style="color: var(--neon-blue);">002</span> <span style="color: var(--text-secondary);">-</span> <span style="color: var(--neon-green);">10000</span><br>
+                <span style="color: var(--neon-blue);">003</span> <span style="color: var(--text-secondary);">-</span> <span style="color: var(--neon-green);">5000.50</span><br>
+                <span style="color: var(--neon-blue);">004</span> <span style="color: var(--text-secondary);">-</span> <span style="color: var(--neon-green);">3500</span>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: var(--neon-green); margin-bottom: 0.75rem;">💡 Поддерживаемые форматы:</h4>
+                <ul style="color: var(--text-secondary); padding-left: 1.5rem; line-height: 1.8;">
+                    <li><code style="color: var(--neon-blue);">код - сумма</code></li>
+                    <li><code style="color: var(--neon-blue);">код: сумма</code></li>
+                    <li><code style="color: var(--neon-blue);">код	сумма</code> (табуляция)</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 245, 255, 0.1); border-radius: 12px;">
+                <h4 style="color: var(--neon-blue); margin-bottom: 0.5rem;">📋 Справочник кодов</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Коды будут автоматически сопоставлены с описаниями из справочника.
+                </p>
+            </div>
+        </div>
+
+        <div style="padding: 0 1rem 1rem;">
+            <a href="{% url 'payroll:codebook_list' %}" class="btn btn-primary" style="width: 100%;">
+                📖 Просмотреть справочник кодов
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

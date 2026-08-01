@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<!--  This source code is exported from pxCode, you can get more document from https://www.pxcode.io  -->
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="{%static '/main/css/css1/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/common.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/fonts.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/headroom.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'front/css/UntitledPage.css' %}"/>
+<!--    <link rel="stylesheet" type="text/css" href="itproger/hosting/templates/front/css/common.css"/>-->
+
+
+</head>
+<!--            <a href="{% url 'hosting_home' %} "><img src="{% static 'main/img/logo4.ico' %}" alt="logo"><span class="logo">SysMon</span></a>-->
+
+<body class="flex-column">
+
+<div class="untitled-page root">
+    <
+
+    <div class="bg-nav-bar"></div>
+    <div class="bg-host"></div>
+    <!--        <div class="tnewhost">New host</div>-->
+    <div class="tnewhost"><a href="{% url 'hosting_create' %}">
+        <li>New host</li>
+    </a></div>
+    <img class="addhost" src="{% static 'front/img/host.svg' %}" alt="alt text"/>
+    <div class="tmap"><a href="{% url 'hosting_home' %}">
+        <li>Map</li>
+    </a></div>
+    <img class="map" src="{% static 'front/img/map.svg' %}" alt="alt text"/>
+    <div class="thosts"><a href="{% url 'hosting_home' %}">
+        <li>Hosts</li>
+    </a></div>
+    <div class="tservice"><a href="{% url 'hosting_home' %}">
+        <li>Service</li>
+    </a></div>
+    <div class="tscan"><a href="{% url 'hosting_home' %}">
+        <li>Scans</li>
+    </a></div>
+    <img class="map1" src="{% static 'front/img/hosts.svg' %}" alt="alt text"/>
+    <img class="service" src="{% static 'front/img/service.svg' %}" alt="alt text"/>
+    <img class="scan" src="{% static 'front/img/scan.svg' %}" alt="alt text"/>
+    <div class="backheader"></div>
+    <img class="menu" src="{% static 'front/img/menu.svg' %}" alt="alt text"/>
+    <h3 class="subtitle">sysmon</h3>
+    <img class="logo" src="{% static 'front/img/logo.svg' %}" alt="alt text"/>
+    <img class="search" src="{% static 'front/img/search.svg' %}" alt="alt text"/>
+    <div class="wrapper">
+        <div class="wrapper1">Search</div>
+    </div>
+
+    <img class="filter" src="{% static 'front/img/filter.svg' %}" alt="alt text"/>
+    <div class="backsearch"></div>
+    <div class="backring"></div>
+    <img class="ring" src="{% static 'front/img/ring.svg' %}" alt="alt text"/>
+    <div class="box">
+        <img class="tools" src="{% static 'front/img/tools.svg' %}" alt="alt text"/>
+        <img class="user" src="{% static 'front/img/user1.svg' %}" alt="alt text"/>
+    </div>
+    <div class="backfeater"></div>
+
+
+</div>
+<script type="text/javascript">
+    AOS.init();
+    new Sticky('.sticky-effect');
+</script>
+</body>
+
+</html>

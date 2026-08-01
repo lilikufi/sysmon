@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Дашборд - PaySlip Analyzer{% endblock %}
+
+{% block content %}
+<h1 class="page-title">
+    <span class="neon-text-blue">📊</span> Дашборд
+</h1>
+
+<!-- Статистика -->
+<div class="grid-4" style="margin-bottom: 30px;">
+    <div class="stat-card neu-raised">
+        <div class="stat-value neon-text-green">{{ stats.total_income|floatformat:2 }} ₽</div>
+        <div class="stat-label">Всего начислено</div>
+    </div>
+    <div class="stat-card neu-raised">
+        <div class="stat-value neon-text-pink">{{ stats.total_deductions|floatformat:2 }} ₽</div>
+        <div class="stat-label">Всего удержано</div>
+    </div>
+    <div class="stat-card neu-raised">
+        <div class="stat-value neon-text-blue">{{ stats.total_net_pay|floatformat:2 }} ₽</div>
+        <div class="stat-label">Всего выплачено</div>
+    </div>
+    <div class="stat-card neu-raised">
+        <div class="stat-value neon-text-purple">{{ payslips_count }}</div>
+        <div class="stat-label">Ведомостей</div>
+    </div>
+</div>
+
+<!-- Графики -->
+<div class="grid-2" style="margin-bottom: 30px;">
+    <div class="card neu-raised">
+        <h3 class="card-title"><span style="color: var(--neon-blue);">◉</span> Распределение по категориям</h3>
+        <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+    <div class="card neu-raised">
+        <h3 class="card-title"><span style="color: var(--neon-green);">◉</span> Динамика выплат</h3>
+        <div class="chart-container">
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="card neu-raised">
+    <h3 class="card-title"><span style="color: var(--neon-purple);">◉</span> Сравнение по периодам</h3>
+    <div class="chart-container" style="height: 250px;">
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+
+{% if latest_payslip %}
+<div class="card neu-raised" style="margin-top: 30px;">
+    <h3 class="card-title"><span style="color: var(--neon-orange);">◉</span> Последняя ведомость</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 15px;">
+        {{ latest_payslip.period|date:"F Y" }} ({{ latest_payslip.get_half_display }})
+    </p>
+    <div class="grid-3">
+        <div class="neu-pressed" style="padding: 15px; text-align: center;">
+            <div class="amount-positive" style="font-size: 1.3rem;">{{ latest_payslip.total_income|floatformat:2 }} ₽</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Начислено</div>
+        </div>
+        <div class="neu-pressed" style="padding: 15px; text-align: center;">
+            <div class="amount-negative" style="font-size: 1.3rem;">{{ latest_payslip.total_deduction|floatformat:2 }} ₽</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Удержано</div>
+        </div>
+        <div class="neu-pressed" style="padding: 15px; text-align: center;">
+            <div class="neon-text-green" style="font-size: 1.3rem;">{{ latest_payslip.net_pay|floatformat:2 }} ₽</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">К выплате</div>
+        </div>
+    </div>
+    <div style="margin-top: 15px;">
+        <a href="{% url 'payslip_detail' latest_payslip.pk %}" class="btn btn-primary">Подробнее →</a>
+    </div>
+</div>
+{% else %}
+<div class="card neu-raised" style="margin-top: 30px; text-align: center; padding: 50px;">
+    <h3 style="color: var(--text-secondary); margin-bottom: 20px;">Нет данных</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">Загрузите первую квитанцию для начала работы</p>
+    <a href="{% url 'upload' %}" class="btn btn-primary">📤 Загрузить</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const chartData = {{ chart_data|safe }};
+    const pieData = {{ pie_data|safe }};
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: { color: '#e0e0e0', font: { family: 'Inter' } }
+            }
+        }
+    };
+
+    // Круговая диаграмма
+    new Chart(document.getElementById('pieChart'), {
+        type: 'doughnut',
+        data: {
+            labels: pieData.labels.length ? pieData.labels : ['Нет данных'],
+            datasets: [{
+                data: pieData.values.length ? pieData.values : [1],
+                backgroundColor: ['#00d4ff', '#00ff88', '#b347d9', '#ff006e', '#ff9500', '#00cc6a', '#9933ff'],
+                borderWidth: 0
+            }]
+        },
+        options: { ...chartOptions, cutout: '65%' }
+    });
+
+    // Линейный график
+    new Chart(document.getElementById('lineChart'), {
+        type: 'line',
+        data: {
+            labels: chartData.periods.length ? chartData.periods : ['Нет данных'],
+            datasets: [{
+                label: 'К выплате',
+                data: chartData.net_pay.length ? chartData.net_pay : [0],
+                borderColor: '#00ff88',
+                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#00ff88',
+                pointRadius: 6
+            }]
+        },
+        options: {
+            ...chartOptions,
+            scales: {
+                x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0a0a0' } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+
+    // Столбчатая диаграмма
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: chartData.periods.length ? chartData.periods : ['Нет данных'],
+            datasets: [
+                { label: 'Начислено', data: chartData.income, backgroundColor: '#00d4ff', borderRadius: 8 },
+                { label: 'Удержано', data: chartData.deductions, backgroundColor: '#ff006e', borderRadius: 8 },
+                { label: 'К выплате', data: chartData.net_pay, backgroundColor: '#00ff88', borderRadius: 8 }
+            ]
+        },
+        options: {
+            ...chartOptions,
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#a0a0a0' } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+</script>
+{% endblock %}

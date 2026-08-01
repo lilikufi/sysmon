@@ -1,0 +1,363 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Создание хоста{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<!--<script> alert(" Выбор родителя временно недоступен");</script>-->
+<div class="untitled-page root">
+
+    <div class="backfeater" style="color:#cce5ff ">
+        <div class="modal">
+            <form method="post" class="check-form" action="{{ request.path}}">
+                <div class="theader">Форма создания нового хоста</div>
+                {% csrf_token %}
+
+                <div class="header">
+
+                    <div class="form-ip">
+                        {{ form.ipaddr.errors }}
+                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">ip адрес:</label>
+                        <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
+                               class="form-control ip-read"
+                               placeholder="Введите ip address"
+                               pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+                               title="Введите IP-адрес в формате XXX.XXX.XXX.XXX" autocomplete="on">
+
+                        <!--                <div id="warning-message" style="display: none; color: red;">-->
+                    </div>
+                    <div class="form-ip">
+                        {{ form.hostname.errors }}
+                        <label for="{{ form.hostname.id_for_label }}">имя хоста:</label>
+                        <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
+                               name="hostname"
+                               placeholder="Введите имя хоста"
+                        >
+                    </div>
+
+                   <div class="form-ip">
+                        {{ form.parents.errors }}
+                        <label for="{{ form.parents.id_for_label }}">Родитель:</label>
+                        <select id="{{ form.parents.id_for_label }}" class="form-control hostname" name="parents">
+
+                            {% if host.parents %}
+                            <option value="{{ host.id }}"> {{ host.parents.ipaddr }}</option>
+                             {% else %}
+                            <option value="">Выберите родителя</option>
+                             {% endif %}
+                            {% for host in available_hosts %}
+                            <option value="{{ host.id }}" >
+                                {{ host.ipaddr }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="choi">
+                        <label for="device_type">тип устройства:</label>
+
+                        <select name="device_type" id="device_type" class="choices form-ip ">
+<!--                            <option value="switches">Коммутатор</option>-->
+<!--                            <option value="servers">Сервер</option>-->
+                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>
+                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Сервер</option>
+                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>
+
+                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Принтер</option>
+                            <!--                            <option value="printers">Принтер</option>-->
+                        </select>
+                    </div>
+
+                    <div class="form-ip">
+                        {{ form.com_str.errors }}
+                        <label for="{{ form.com_str.id_for_label }}">community string:</label>
+                        <input type="text" id="{{ form.com_str.id_for_label }}" class="form-control hostname"
+                               name="com_str"
+                               placeholder="Введите community string" value="public">
+                    </div>
+
+                    <a href="#" class="check-snmp-link" data-url="{% url 'check_snmp' %}" data-ip=""
+                       title="Проверить snmp name по введенному IP">
+                        <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">
+                        <span class="loader"></span>
+                    </a>
+
+                    <!--                                                <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">-->
+
+
+                </div>
+
+                <div class="body">
+                    <div class="result-text"></div>
+
+
+                    <!--                <img class="arrow-check" src="{% static 'front/img/arrow_1.svg' %}" alt="refresh name">-->
+
+                    <p class="check-snmp-text">проверить хост <br> на SNMP </p>
+                    <div class="ttt"></div>
+                    <div class="text1">Выбор служб для мониторинга</div>
+                    <p class="check-snmp-text1">Хост с адресом {{ ip_address }} уже существует. Перейдите на <a
+                            href="{% url 'scan' %}">страницу Scan</a>. </p>
+
+                    <div class="grid">
+                        <div>
+                            <label for="select-all">Выбрать все</label>
+                            <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">
+
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <!--                        <div>-->
+                        <!--                            {{ form.cpu_5_min.errors }}-->
+                        <!--                            <label for="{{ form.cpu_5_min.id_for_label }}">CPU 5 Min:</label>-->
+                        <!--                            {{ form.cpu_5_min }}-->
+                        <!--                        </div>-->
+
+                        <div>
+                            {{ form.uptime.errors }}
+                            <label for="{{ form.uptime.id_for_label }}">Uptime:</label>
+                            {{ form.uptime }}
+                        </div>
+                        <div class="mem_fr">
+                            {{ form.mem_free.errors }}
+                            <label for="{{ form.mem_free.id_for_label }}">Memory Free:</label>
+                            {{ form.mem_free }}
+                        </div>
+
+                        <div class="mem_us">
+                            {{ form.mem_used.errors }}
+                            <label for="{{ form.mem_used.id_for_label }}">Memory Used:</label>
+                            {{ form.mem_used }}
+                        </div>
+                        <div>
+                            {{ form.mem_util.errors }}
+                            <label for="{{ form.mem_util.id_for_label }}">Memory Utilization:</label>
+                            {{ form.mem_util }}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="osver1"></div>
+
+
+                <div>
+                    <button type="submit" class="submit1  modal-add">Сохранить</button>
+                </div>
+
+                {% if form.errors %}
+                <div class="error-message">
+                    <p><strong>Oops! There was an error:</strong></p>
+                    {{ form.errors }}
+                </div>
+
+                {% endif %}
+                {% if error %}
+                <p class="error-message">{{ error }}</p>
+                {% endif %}
+                {% if form.is_bound %}
+                <div class="error-message">
+                    <strong> Нельзя сохранить пустую форму </strong>
+                </div>
+                {% endif %}
+
+
+            </form>
+
+            <a href="{% url 'scan' %}">
+                <button type="submit" class="submit1  modal-back ">Назад</button>
+            </a>
+        </div>
+
+    </div>
+    <script>
+
+        document.querySelector('.check-snmp-link').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Получаем IP и com_str
+            let ip = document.querySelector('.ip-read').value;
+            let communityString = document.querySelector('input[name="com_str"]').value;
+
+            // Проверяем, что IP и com_str не пустые
+            if (ip.trim() === '') {
+                alert('Пожалуйста, введите IP адрес');
+                return;
+            }
+            if (communityString.trim() === '') {
+                alert('Пожалуйста, введите com_str');
+                return;
+            }
+
+            // Формируем URL с параметрами IP и com_str
+            let url = this.dataset.url + '?ipaddr=' + encodeURIComponent(ip) + '&com_str=' + encodeURIComponent(communityString);
+
+            // Находим иконку и loader
+            let icon = this.querySelector('.refresh');
+            let loader = this.querySelector('.loader');
+
+            // Показываем loader и скрываем иконку
+            if (loader) {
+                loader.style.display = 'block';
+            }
+
+            icon.style.display = 'none';
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    loader.style.display = 'none';
+
+                    function extractHostName(data) {
+                        // находим индекс начала фразы "Имя хоста"
+                        let hostNameIndex = data.indexOf("Имя хоста");
+                        // если фраза найдена
+                        if (hostNameIndex !== -1) {
+                            // отделяем часть строки после "Имя хоста"
+                            let afterHostName = data.substring(hostNameIndex + "Имя хоста".length).trim();
+                            // находим конец первого слова после "Имя хоста"
+                            let nextSpaceIndex = afterHostName.indexOf(' ');
+
+                            // если есть пробел, берем слово до него, иначе берем всю оставшуюся строку
+                            let hostName = (nextSpaceIndex !== -1) ?
+                                afterHostName.substring(0, nextSpaceIndex).trim() : // trim для очистки от лишних пробелов
+                                afterHostName.trim();
+                            console.log(hostName); // выводим полученное имя хоста
+                            // Получаем элемент ввода
+                            return hostName;
+                        } else {
+                            console.log("Фраза 'Имя хоста' не найдена в строке.");
+                        }
+
+                    }
+
+                    if (data === 'SNMP не настроен') {
+                        // alert('Начинаю настройку SNMP...');
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.ttt').style.display = 'none';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').innerText = `Ошибка проверки SNMP на ${ip}.
+                         Проверьте правильность заполнения полей.`;
+                    } else if (data === 'Хост не в сети. Выбор служб недоступен') {
+                        // alert('Начинаю настройку 22222...');
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'display';
+                        document.querySelector('.ttt').innerText = ` ${data}`;
+                    } else if (data === 'уже существует') {
+                        // alert('Уже существует');
+                        document.querySelector('.ttt').style.display = 'none';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                    } else if (data.indexOf('SNMP настроенd.') === 0) {
+                        document.querySelector('.osver1').innerText = ` dlink`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` ${data}`;
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP настроенn.') === 0) {
+                        document.querySelector('.osver1').innerText = ` nexus`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` ${data}`;
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP настроенq.') === 0) {
+                        document.querySelector('.osver1').innerText = ` qtech`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` ${data}`;
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP настроенl.') === 0) {
+                        document.querySelector('.osver1').innerText = ` lenovo`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.mem_fr').style.display = 'block';
+                        document.querySelector('.mem_us').style.display = 'block';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    } else {
+                        // alert('Начинаю настройку 5555...');
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` SNMP настроен`;
+                        document.querySelector('.check-snmp-text1').innerText = `Службы временно недоступны для отслеживания`
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                            inputElement.value = hostName;
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка проверки SNMP:', error);
+                    loader.style.display = 'none';
+                    icon.style.display = 'block';
+                });
+        });
+
+        // Изначально скрываем чекбоксы и показываем надпись
+        document.querySelector('.text1').style.display = 'none';
+        // document.querySelector('.grid').classList.add('hidden');
+        document.querySelector('.check-snmp-text').style.display = 'block';
+        document.querySelector('.check-snmp-text1').style.display = 'none';
+        document.querySelector('.mem_fr').style.display = 'block';
+        document.querySelector('.mem_us').style.display = 'block';
+
+    </script>
+    <script>
+        <!--        замена запятых на точки -->
+        document.getElementById('{{ form.ipaddr.id_for_label }}').addEventListener('input', function () {
+            this.value = this.value.replace(/,/g, '.');
+        });
+        document.getElementById('{{ form.parents.id_for_label }}').addEventListener('input', function () {
+            this.value = this.value.replace(/,/g, '.');
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.osver').forEach(function (element) {
+            var osver = element.innerText;
+            osver = osver.replace("sw", "");
+            element.innerText = osver;
+        });
+    </script>
+
+
+</div>
+
+{% endblock %}

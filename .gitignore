@@ -1,0 +1,42 @@
+# IDE
+.idea/
+.gigaide/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+*.log.*
+log/
+
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Runtime data and generated assets
+*.sqlite3
+itproger/uploads/
+itproger/staticfiles/
+itproger/nagios_stat/status.dat
+snmpwalk.txt
+
+# Local SSH credentials
+itproger/y
+itproger/y.pub
+
+# Temporary files
+*.json
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db

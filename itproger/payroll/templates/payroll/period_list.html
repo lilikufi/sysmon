@@ -1,0 +1,60 @@
+{% extends 'payroll/base.html' %}
+{% block title %}Периоды - Анализ платежных ведомостей{% endblock %}
+{% block content %}
+<h1 class="page-title">📅 Периоды</h1>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">История периодов</h3>
+        <div style="display: flex; gap: 0.5rem;">
+            <a href="{% url 'payroll:upload_receipt' %}" class="btn btn-primary btn-sm">📄 Загрузить квитанцию</a>
+            <a href="{% url 'payroll:manual_entry' %}" class="btn btn-success btn-sm">✏️ Ручной ввод</a>
+        </div>
+    </div>
+
+    {% if periods %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Период</th>
+                    <th>Записей</th>
+                    <th>Сумма</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for period in periods %}
+                <tr>
+                    <td>
+                        <span style="color: var(--neon-blue); font-weight: 500;">{{ period }}</span>
+                    </td>
+                    <td>{{ period.entries.count }}</td>
+                    <td>
+                        <span class="neon-text-green">{{ period.total_amount|floatformat:2|default:"0.00" }} ₽</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="{% url 'payroll:period_detail' period.id %}" class="btn btn-primary btn-sm">👁 Просмотр</a>
+                            <form method="post" action="{% url 'payroll:delete_period' period.id %}" style="display: inline;" onsubmit="return confirm('Удалить период и все его записи?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">🗑 Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <p>Нет сохраненных периодов.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+            <a href="{% url 'payroll:upload_receipt' %}" class="btn btn-primary">📄 Загрузить квитанцию</a>
+            <a href="{% url 'payroll:manual_entry' %}" class="btn btn-success">✏️ Ручной ввод</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

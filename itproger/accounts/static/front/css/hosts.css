@@ -1,0 +1,61 @@
+.backfeater {
+
+    background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+}
+body {
+    overflow: hidden;
+}
+.table {
+    margin-top: 10px;
+    color: #fcfcfc;
+    font: 400 14px bold "Roboto", Helvetica, Arial, serif;
+    margin-left: 10px;
+    width: 98%;
+    /*height: 99%;*/
+    border-radius: 12px; /* ÑÐºÑ€ÑƒÐ³Ð»ÐµÐ½Ð¸Ðµ Ñƒ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ */
+    background-color: rgba(255, 255, 255, 0); /* Ð¿Ð¾Ð»ÑƒÐ¿Ñ€Ð¾Ð·Ñ€Ð°Ñ‡Ð½Ñ‹Ð¹ Ñ„Ð¾Ð½ */
+    /*display: grid;*/
+    /*grid-template-rows: repeat(auto-fill, minmax(40px, auto));*/
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+th, td {
+    padding: 6px; /* ÑƒÐ¼ÐµÐ½ÑŒÑˆÐ°ÐµÐ¼ Ð¾Ñ‚ÑÑ‚ÑƒÐ¿Ñ‹ */
+    text-align: left;
+    border: none; /* ÑƒÐ±Ð¸Ñ€Ð°ÐµÐ¼ Ð²ÑÐµ Ð³Ñ€Ð°Ð½Ð¸Ñ†Ñ‹ */
+    border-bottom: 2px solid rgba(3, 3, 3, 0.12);
+    background: #ecefef08;/* Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð¸Ð¶Ð½ÑÑ Ð³Ñ€Ð°Ð½Ð¸Ñ†Ð° */
+}
+
+th {
+    background-color: rgba(242, 242, 242, 0);
+    color: rgb(183 183 183); /* Ñ†Ð²ÐµÑ‚ Ñ‚ÐµÐºÑÑ‚Ð° Ð² Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ°Ñ… Ñ‡ÑƒÑ‚ÑŒ Ñ‚ÐµÐ¼Ð½ÐµÐµ */
+    font: 400 14px/1.17 "Roboto", Helvetica, Arial, serif;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-radius: 22px;
+    border-top: 1px solid transparent; /* ÑƒÐ±Ð¸Ñ€Ð°ÐµÐ¼ Ð²ÐµÑ€Ñ…Ð½ÑŽÑŽ Ð³Ñ€Ð°Ð½Ð¸Ñ†Ñƒ */
+    border-bottom: 2px solid rgba(207, 207, 207, 0.32);
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+}
+
+.modal-update {
+    background: rgb(40, 89, 197);
+    margin-left: 0;
+}
+
+.submit1 {
+    border-radius: 12px 12px 12px 12px;
+    color: #fffaf0;
+    font: 400 14px Roboto, Helvetica, Arial, serif;
+    /*background: linear-gradient(135deg, #065afc59, #0905ca59, #04369659);*/
+    /*background: rgba(207, 207, 207, 0.32);*/
+    outline: none;
+    padding: 5px 10px 5px 10px;
+    height: 30px;
+    border-color: #714cdf;
+}

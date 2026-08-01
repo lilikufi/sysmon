@@ -1,0 +1,21 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Del_host{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/scan.css' %}"/>
+<div class="untitled-page root">
+    <div class="backfeater" style="color:#FFFFFF">
+        <h4>Удаление хоста на совсем!</h4>
+        <p>прям совсем совсем</p>
+        <form method="post">
+            {% csrf_token %}<br>
+            <button class="btn btn-success" type="submit">Удалить хост</button>
+
+        </form>
+        <div id="modal-container"></div>
+    </div>
+</div>
+
+
+{% endblock %}
