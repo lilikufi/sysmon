@@ -1,22 +1,23 @@
-# Security notes
+# Security Policy
 
-## Credential rotation required
+## Reporting a vulnerability
 
-An OpenSSH private key was previously committed as `itproger/y`. The file is now
-ignored and removed from the current Git index, but it remains available in older
-commits until repository history is rewritten.
+Please do not publish security vulnerabilities in a public issue.
 
-Before the next deployment:
+Use GitHub private vulnerability reporting when it is available. Otherwise,
+contact the repository owner privately through their GitHub profile. Include a
+short description, reproduction steps and the affected component. Do not attach
+credentials, private keys, personal data or production database contents.
 
-1. revoke the old public key on every server where it was authorized;
-2. generate a new key pair outside the repository;
-3. provide its path through deployment configuration or a secret manager;
-4. rewrite Git history in a coordinated maintenance window, then force-push and
-   have every contributor re-clone the repository.
+## Secrets and local data
 
-Never commit private keys, `.env` files, databases or user uploads.
+The repository must not contain:
 
-## Reporting
+- `.env` files with real configuration;
+- private keys, passwords or access tokens;
+- local databases and backups;
+- user uploads, logs or generated runtime files.
 
-Report suspected credential exposure directly to the system owner. Do not include
-passwords, private keys or production data in an issue tracker.
+Use `.env.example` to document configuration with placeholder values only. If a
+secret is exposed, revoke it immediately and remove it from the complete Git
+history before publishing the repository again.

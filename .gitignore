@@ -31,8 +31,12 @@ itproger/nagios_stat/status.dat
 snmpwalk.txt
 
 # Local SSH credentials
-itproger/y
-itproger/y.pub
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
 
 # Temporary files
 *.json
