@@ -398,7 +398,7 @@ body {
 
 }
 
-.dropdown-content {
+.alert-primary .dropdown-content {
     display: none;
     position: absolute;
     /*background-color: #f9f9f9;*/
@@ -413,27 +413,32 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.dropdown-content a {
+.alert-primary .dropdown-content a,
+.alert-primary .dropdown-content button {
     color: whitesmoke;
     padding: 8px 16px;
     text-decoration: none;
     display: flex;
+    width: 100%;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
     /*align-items: stretch;*/
     /*justify-content: space-between;*/
 }
 
-.dropdown-content a:hover {
+.alert-primary .dropdown-content a:hover,
+.alert-primary .dropdown-content button:hover {
     background-color: rgba(10, 47, 115, 0.66);
     border-radius: 10px;
 
 }
 
-.dropdown:hover .dropdown-content {
+.alert-primary .dropdown.card-menu-open > .dropdown-content {
     display: block;
-}
-
-.dropdown:after .dropdown-content {
-    display: none;
 }
 
 .more {
@@ -530,4 +535,72 @@ body {
     border-radius: 12px;
 
     margin-top: 10px;
+}
+
+/* Responsive scan controls and host-card auto layout. */
+.form-row {
+    width: min(100%, 720px);
+    height: auto;
+    min-height: 40px;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-row .form-main {
+    position: static;
+    flex: 1 1 180px;
+    min-width: 0;
+    width: auto;
+    height: 38px;
+    margin: 0;
+}
+
+.form-row .submit {
+    position: static;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 136px;
+    height: 38px;
+    margin: 0;
+    padding: 0 18px;
+}
+
+.plashki {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    grid-template-rows: none;
+    gap: 14px;
+}
+
+.plashki .alert-primary {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 112px;
+    margin: 0;
+    padding: 14px;
+}
+
+@media (max-width: 720px) {
+    .backfeater {
+        padding-inline: 14px;
+    }
+
+    .form-row {
+        flex-wrap: wrap;
+    }
+
+    .form-row .form-main {
+        flex-basis: calc(50% - 6px);
+    }
+
+    .form-row .submit {
+        flex: 1 1 calc(100% - 54px);
+    }
 }

@@ -19,7 +19,7 @@
 
     }
 
-    .dropdown-content {
+    .table .dropdown-content {
         display: none;
         position: absolute;
         /*background-color: #f9f9f9;*/
@@ -34,39 +34,35 @@
         backdrop-filter: blur(5px);
     }
 
-    .dropdown-content a {
+    .table .dropdown-content a,
+    .table .dropdown-content button {
         color: whitesmoke;
         padding: 8px 16px;
         text-decoration: none;
         display: flex;
+        width: 100%;
+        align-items: center;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
         /*align-items: stretch;*/
         /*justify-content: space-between;*/
     }
 
-    .dropdown-content a:hover {
+    .table .dropdown-content a:hover,
+    .table .dropdown-content button:hover {
         background-color: rgba(10, 47, 115, 0.66);
         border-radius: 10px;
 
     }
 
-    .dropdown:hover .dropdown-content {
+    .table .dropdown.card-menu-open > .dropdown-content {
         display: block;
     }
 
-    .dropdown:after .dropdown-content {
-        display: none;
-    }
-
 </style>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dots = document.querySelector(".dots");
-        const dropdownContent = document.querySelector(".dropdown-content");
-        dots.addEventListener("click", function () {
-            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-        });
-    });
-</script>
 <!--<script>-->
 <!--    function updatePage(){-->
 <!--        const scrollPosition = window.scrollY;-->
@@ -123,7 +119,6 @@
                             <a href="{% url 'host-update' el.id %}"><img class="more"
                                                                          src="{% static 'front/img/edit.svg' %}">Редактировать</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-hide' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
                             <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
 
                         </div>

@@ -190,6 +190,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdownContent = document.getElementById('dropdownContent');
     const profileToggle = document.getElementById('profileToggle');
     const profileDropdown = document.getElementById('profileDropdown');
+    const cardMenus = Array.from(document.querySelectorAll('.dropdown')).map(function(menu) {
+        const content = Array.from(menu.children).find(function(child) {
+            return child.classList.contains('dropdown-content');
+        });
+        const directDots = Array.from(menu.children).find(function(child) {
+            return child.classList.contains('dots');
+        });
+        return content ? { menu: menu, content: content, trigger: directDots || menu } : null;
+    }).filter(Boolean);
+
+    function closeCardMenus(exceptMenu) {
+        cardMenus.forEach(function(item) {
+            if (item.menu !== exceptMenu) {
+                item.menu.classList.remove('card-menu-open');
+                item.trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    cardMenus.forEach(function(item) {
+        item.trigger.setAttribute('role', 'button');
+        item.trigger.setAttribute('tabindex', '0');
+        item.trigger.setAttribute('aria-haspopup', 'menu');
+        item.trigger.setAttribute('aria-expanded', 'false');
+
+        function toggleCardMenu(event) {
+            if (item.content.contains(event.target)) {
+                return;
+            }
+            event.stopPropagation();
+            const willOpen = !item.menu.classList.contains('card-menu-open');
+            closeCardMenus(item.menu);
+            item.menu.classList.toggle('card-menu-open', willOpen);
+            item.trigger.setAttribute('aria-expanded', String(willOpen));
+        }
+
+        item.trigger.addEventListener('click', toggleCardMenu);
+        item.trigger.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleCardMenu(event);
+            }
+        });
+    });
 
     // Открытие/закрытие меню по клику
     if (menuToggle && dropdownContent) {
@@ -212,6 +256,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Закрытие меню при клике вне его
     document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            closeCardMenus();
+        }
         if (dropdownContent && menuToggle && !dropdownContent.contains(e.target) && e.target !== menuToggle) {
             dropdownContent.classList.remove('show');
         }
@@ -224,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Закрытие меню при нажатии Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            closeCardMenus();
             dropdownContent?.classList.remove('show');
             profileDropdown?.classList.remove('show');
             profileToggle?.setAttribute('aria-expanded', 'false');

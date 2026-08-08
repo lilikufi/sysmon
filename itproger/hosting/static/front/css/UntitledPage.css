@@ -893,3 +893,118 @@ img.ring {
 .untitled-page .profile-logout:hover {
     color: #ff6b82;
 }
+
+/* Stable responsive header layout. These rules replace the fixed pxCode
+   coordinates while keeping the existing template and visual style. */
+.untitled-page .backheader {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 83px;
+    padding: 0 20px;
+}
+
+.untitled-page .header-brand {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 140px;
+    height: 83px;
+}
+
+.untitled-page .header-brand .logo,
+.untitled-page .header-brand .subtitle {
+    position: static;
+    inset: auto;
+    margin: 0;
+}
+
+.untitled-page .header-brand .logo {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+}
+
+.untitled-page .header-brand .subtitle {
+    width: auto;
+    height: auto;
+}
+
+.dropdown-menu-container {
+    top: 16px;
+    left: 184px;
+}
+
+.untitled-page .search {
+    position: absolute;
+    top: 26px;
+    right: 110px;
+    left: 358px;
+    display: flex;
+    width: auto;
+    max-width: 600px;
+    height: 32px;
+    gap: 12px;
+    align-items: center;
+}
+
+.untitled-page .search .form-control5 {
+    flex: 1 1 220px;
+    min-width: 0;
+    width: auto;
+}
+
+.untitled-page .search .modal-search,
+.untitled-page .search .modal-back1 {
+    flex: 0 0 115px;
+    width: 115px;
+}
+
+.untitled-page .box {
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+}
+
+@media (max-width: 1050px) {
+    .untitled-page .search {
+        right: 92px;
+        left: 350px;
+        gap: 8px;
+    }
+
+    .untitled-page .search .modal-search,
+    .untitled-page .search .modal-back1 {
+        flex-basis: 100px;
+        width: 100px;
+    }
+}
+
+@media (max-width: 850px) {
+    .untitled-page .backheader {
+        height: 140px;
+    }
+
+    .dropdown-menu-container {
+        top: 73px;
+        left: 20px;
+    }
+
+    .untitled-page .search {
+        top: 84px;
+        right: 20px;
+        left: 180px;
+        max-width: none;
+    }
+
+    .untitled-page .backfeater {
+        top: 145px;
+    }
+}

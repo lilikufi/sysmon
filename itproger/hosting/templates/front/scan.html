@@ -258,29 +258,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'front/css/modal.css' %}"/>
 <script src="{% static 'front/js/create.js' %}"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dots = document.querySelector(".dots");
-        const dropdownContent = document.querySelector(".dropdown-content");
-        dots.addEventListener("click", function () {
-            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-        });
-    });
-</script>
-<script>
     function loadData() {
         var loadContainer = document.querySelector('#load'); // Находим контейнер #load
         loadContainer.style.display = 'block';
-    }
-</script>
-<script>
-    function hideAccept() {
-        document.getElementById("acceptMe").style.display = "none";
-        document.getElementById("rejectMe").style.display = "block";
-    }
-
-    function hideReject() {
-        document.getElementById("rejectMe").style.display = "none";
-        document.getElementById("acceptMe").style.display = "block";
     }
 </script>
 <script>
@@ -319,8 +299,6 @@
                 <!--                <input type="text" class="form-control form-main" name="community_string" placeholder="community string" value=""-->
                 <!--                       required id="">-->
                 <input type="submit" value="сканировать" class="submit modal-create" onclick="loadData()">
-                <button type="submit" formaction="{% url 'host-unhide' %}" formmethod="post"><img class="hide" id="acceptMe" onclick="hideAccept();" src="{% static 'front/img/Eye.svg' %}"></button>
-                <button type="submit" formaction="{% url 'host-unhide' %}" formmethod="post"><img class="hide" id="rejectMe" onclick="hideReject();" src="{% static 'front/img/Eye-close.svg' %}" style="display: none; margin-top: 10px;"></button>
             </div>
         </form>
 
@@ -369,7 +347,6 @@
                             <a href="{% url 'host-update' host.id %}"><img class="more"
                                                                            src="{% static 'front/img/edit.svg' %}">Редактировать</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-hide' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
                             <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
                         </div>
                     </div>
@@ -456,7 +433,6 @@
                             <a href="{% url 'host-update' host.id %}"><img class="more"
                                                                            src="{% static 'front/img/edit.svg' %}">Редактировать</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-hide' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/hide.svg' %}">Скрыть</button></form>
                             <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
 
                         </div>

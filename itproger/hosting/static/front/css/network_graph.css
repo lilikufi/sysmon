@@ -1202,9 +1202,13 @@
 }
 
 .map-page .header-brand {
+  position: static;
+  inset: auto;
   display: flex;
   align-items: center;
   gap: 8px;
+  width: auto;
+  height: auto;
   min-width: 0;
 }
 
@@ -1994,6 +1998,16 @@
   }
 }
 
+@media (max-width: 900px) {
+  .map-page .subtitle {
+    display: none;
+  }
+
+  .map-page .dropdown-menu-container {
+    left: 70px;
+  }
+}
+
 @media (max-width: 680px) {
   .map-page {
     --map-header-height: 174px;
@@ -2022,7 +2036,7 @@
   }
 
   .map-page .dropdown-menu-container {
-    left: 150px;
+    left: 70px;
     top: 12px;
     transform: none;
   }
