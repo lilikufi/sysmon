@@ -21,7 +21,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('scan')  # замените 'home' на URL вашего домашнего представления
+            return redirect('service')
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
@@ -52,6 +52,5 @@ class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
 
     def get_success_url(self):
         return reverse_lazy('profile_detail', kwargs={'slug': self.request.user.profile.slug})
-
 
 

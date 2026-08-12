@@ -20,12 +20,16 @@
 {% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'front/css/registration/style1.css' %}">
 <link rel="stylesheet" href="{% static 'front/css/network_graph.css' %}">
 <link rel="stylesheet" href="{% static 'front/css/web_terminal.css' %}">
 <link rel="stylesheet" href="{% static 'front/css/network_graph_theme.css' %}">
 {% endblock %}
 
 {% block content %}
+<div id="stars" aria-hidden="true"></div>
+<div id="stars2" aria-hidden="true"></div>
+<div id="stars3" aria-hidden="true"></div>
 <script src="{% static 'front/js/d3.v6.min.js' %}"></script>
 <script src="{% static 'front/js/web_terminal.js' %}"></script>
 <style>
@@ -1338,6 +1342,9 @@ function initSSHDropdown() {
             <button id="savePositionsBtn" class="btn-position green" aria-label="Сохранить все позиции" title="Сохранить все позиции">Сохранить</button>
             <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Авто-расположение" title="Авто-расположение">Авто</button>
         </div>
+        <button id="starfieldToggle" class="starfield-toggle" type="button" aria-pressed="false">
+            Звёзды: движутся
+        </button>
         <div id="saveStatus" class="status-msg green" style="display: none;">✓ Позиции сохранены</div>
         <div id="debugInfo" class="debug-info" style="display: none"></div>
     </div>
@@ -2914,6 +2921,48 @@ function showSaveIndicator() {
 
 // ============ ИНИЦИАЛИЗАЦИЯ ============
 
+const STARFIELD_STATES = ['running', 'paused', 'hidden'];
+const STARFIELD_LABELS = {
+    running: 'Звёзды: движутся',
+    paused: 'Звёзды: остановлены',
+    hidden: 'Звёзды: выключены'
+};
+
+function setStarfieldState(state) {
+    const selectedState = STARFIELD_STATES.includes(state) ? state : 'running';
+    const mapPage = document.querySelector('.map-page');
+    const toggle = document.getElementById('starfieldToggle');
+
+    mapPage.classList.toggle('starfield-paused', selectedState === 'paused');
+    mapPage.classList.toggle('starfield-hidden', selectedState === 'hidden');
+    toggle.textContent = STARFIELD_LABELS[selectedState];
+    toggle.dataset.state = selectedState;
+    toggle.setAttribute('aria-pressed', selectedState !== 'running' ? 'true' : 'false');
+
+    try {
+        localStorage.setItem('sysmon-map-starfield', selectedState);
+    } catch (error) {
+        console.debug('Starfield preference could not be saved', error);
+    }
+}
+
+function initializeStarfieldControl() {
+    const toggle = document.getElementById('starfieldToggle');
+    let savedState = 'running';
+
+    try {
+        savedState = localStorage.getItem('sysmon-map-starfield') || 'running';
+    } catch (error) {
+        console.debug('Starfield preference could not be loaded', error);
+    }
+
+    setStarfieldState(savedState);
+    toggle.addEventListener('click', () => {
+        const currentIndex = STARFIELD_STATES.indexOf(toggle.dataset.state);
+        setStarfieldState(STARFIELD_STATES[(currentIndex + 1) % STARFIELD_STATES.length]);
+    });
+}
+
 async function init() {
     savedPositions = await loadPositionsFromServer();
     const appliedCount = applyLoadedPositions(savedPositions);
@@ -2960,6 +3009,7 @@ async function init() {
     document.getElementById('resetPositionsBtn').addEventListener('click', resetAllPositions);
     document.getElementById('savePositionsBtn').addEventListener('click', saveAllPositions);
     document.getElementById('autoArrangeBtn').addEventListener('click', autoArrange);
+    initializeStarfieldControl();
 
     // ============ ИСПРАВЛЕННЫЕ ОБРАБОТЧИКИ МОДАЛЬНЫХ ОКОН ============
 

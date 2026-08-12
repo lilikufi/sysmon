@@ -670,7 +670,6 @@
 .node-label {
     fill: #ffffff;
     font-size: 11px;
-    text-shadow: 0 0 4px #000, 0 0 8px #000;
     pointer-events: none;
 }
 
@@ -1969,12 +1968,66 @@
   padding: 8px;
 }
 
-/* Flat map background matching the shared page background. */
+/* Reuse the animated star field from the login page. */
+.map-page {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+.map-page #stars,
+.map-page #stars2,
+.map-page #stars3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.map-page.starfield-paused #stars,
+.map-page.starfield-paused #stars::after,
+.map-page.starfield-paused #stars2,
+.map-page.starfield-paused #stars2::after,
+.map-page.starfield-paused #stars3,
+.map-page.starfield-paused #stars3::after {
+  animation-play-state: paused;
+}
+
+.map-page.starfield-hidden #stars,
+.map-page.starfield-hidden #stars2,
+.map-page.starfield-hidden #stars3 {
+  display: none;
+}
+
+.starfield-toggle {
+  width: 100%;
+  min-height: 32px;
+  margin-top: 6px;
+  padding: 5px 8px;
+  color: #eaf7ff;
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9px;
+  font: 500 10px / 1.4 "Roboto", Helvetica, Arial, sans-serif;
+  cursor: pointer;
+}
+
+.starfield-toggle:hover,
+.starfield-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--neon-cyan);
+  outline: none;
+}
+
 .map-page .network-graph,
 .map-page .network-graph > .backfeater,
 .map-page #tree-container {
-  background: #181a1b;
+  background: transparent;
   background-image: none;
+}
+
+.map-page .network-graph {
+  position: relative;
+  z-index: 1;
 }
 
 .map-page .network-graph::before {
