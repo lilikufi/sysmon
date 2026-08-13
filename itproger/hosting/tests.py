@@ -6,7 +6,7 @@ from django.core.management import call_command
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import Host, Hosting, NodePosition, Ports, Service
+from .models import Host, Hosting, NetworkSegment, NodePosition, Ports, Service
 
 
 class HostingSmokeTests(TestCase):
@@ -33,6 +33,36 @@ class HostingSmokeTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'front/map3.html')
+
+    def test_network_map_contains_segmentation_decision(self):
+        users = NetworkSegment.objects.create(name='Users')
+        servers = NetworkSegment.objects.create(name='Servers')
+        parent = Host.objects.create(
+            ipaddr='192.0.2.20',
+            hostname='parent',
+            segment=users,
+        )
+        self.host.parents = parent
+        self.host.segment = servers
+        self.host.save(update_fields=['parents', 'segment'])
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('service'))
+
+        self.assertContains(response, 'segmentation_allowed')
+        self.assertContains(response, 'Source segment default is deny')
+
+    def test_graph_positions_reject_non_ip_node(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse('graph_positions'),
+            data=json.dumps({'ipaddr': 'sysmon', 'x': 10, 'y': 20}),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(NodePosition.objects.filter(ipaddr='sysmon').exists())
 
     def test_authenticated_inventory_pages_render(self):
         self.client.force_login(self.user)

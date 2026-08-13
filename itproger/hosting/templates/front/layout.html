@@ -1,9 +1,7 @@
 {% load static %}
 
 
-<html lang="">
-<!--  This source code is exported from pxCode, you can get more document from https://www.pxcode.io  -->
-
+<html lang="ru">
 <head>
     <link rel="icon" type="image/png" href="{% static 'front/img/favicon.png' %}">
     <title> {% block title %}{% endblock %}</title>
@@ -29,19 +27,15 @@
     .form-control5 {
     background: none;
     font: 400 14px/1.57 Open Sans, Helvetica, Arial, serif;
-    /* top: 140px; */
-    /* width: 360px; */
     height: 30px;
     padding: 14px 20px 14px 21px;
     box-sizing: border-box;
     border: 0.5px solid #ffffff6b;
     border-radius: 24.4px;
     color: #fff;
-    /* background: #cfcfcf66; */
     outline: none;
 }
 .modal-back1 {
-    /* margin-right: 110px; */
     opacity: 1;
     width: 115px;
     height: 30px;
@@ -51,7 +45,6 @@
     border-color: rgba(104, 116, 139, 0);
     font: 400 14px/1.57 Roboto, Helvetica, Arial, serif
 }.modal-search {
-    /* margin-right: 110px; */
     opacity: 1;
     width: 115px;
     height: 30px;
@@ -79,8 +72,6 @@
             });
         </script>
 <div class="untitled-page root {% block page_class %}{% endblock %}">
-<!--    TODO: увеличить шрифт-->
-<!--    TODO: заменить на грид и автолэйаут-->
     {% block sidebar %}
 <div class="dropdown-menu-container">
     <button class="dropdown-toggle" id="menuToggle">
@@ -114,7 +105,7 @@
             <span>Nagios</span>
         </a>
         {% if user.is_staff %}
-        <a href="http://0.0.0.0:8000/admin/" class="dropdown-item">
+        <a href="{% url 'admin:index' %}" class="dropdown-item">
             <span>Admin</span>
         </a>
         {% endif %}
@@ -138,19 +129,7 @@
          </form>
         {% endblock %}
 
-
-        <!--                <div>-->
-        <!--                    <img class="search" src="{% static 'front/img/search.svg' %}" alt="alt text"/>-->
-        <!--                    <div class="wrapper">-->
-        <!--                        <div class="wrapper1">Поиск</div>-->
-        <!--                    </div>-->
-        <!--                    <img class="filter" src="{% static 'front/img/filter.svg' %}" alt="alt text"/>-->
-        <!--                </div>-->
-
-        <div class="header-spacer">
-            <!--            <div class="backring"></div>-->
-            <!--            <img class="ring" src="{% static 'front/img/ring.svg' %}" alt="alt text"/>-->
-        </div>
+        <div class="header-spacer"></div>
         {% block user %}
         <div class="box">
             <div class="profile-menu">
@@ -173,17 +152,10 @@
 
     <div class="backfeater"></div>
 
-    <!---->
     <main>
         {% block content %}
         {% endblock %}
     </main>
-
-    <!--    </div>-->
-    <!--    <script type="text/javascript">-->
-    <!--        AOS.init();-->
-    <!--        new Sticky('.sticky-effect');-->
-    <!--    </script>-->
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');

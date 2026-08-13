@@ -1,17 +1,33 @@
-# network_discovery.py
-import subprocess
-import json
-import ipaddress
-from typing import Dict, List, Set, Tuple
-from django.db import transaction
-from hosting.models import Host, Route
-import re
 import concurrent.futures
+import ipaddress
+import logging
+import re
+import subprocess
 import threading
+
+from django.db import transaction
+
+from hosting.models import Host, Route
+
+
+logger = logging.getLogger(__name__)
+
+IP_PATTERN = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+OID_PATTERN = re.compile(r"^\.?\d+(?:\.\d+)+$")
+COMMUNITY_PATTERN = re.compile(r"^[A-Za-z0-9_.:@-]{1,64}$")
 
 
 class NetworkDiscovery:
-    def __init__(self, community='public', timeout=2, retries=1):
+    """Discover SNMP devices and persist their topology."""
+
+    def __init__(self, community="public", timeout=2, retries=1):
+        if not COMMUNITY_PATTERN.fullmatch(community):
+            raise ValueError("SNMP community contains unsupported characters")
+        if not 1 <= timeout <= 30:
+            raise ValueError("timeout must be between 1 and 30 seconds")
+        if not 0 <= retries <= 5:
+            raise ValueError("retries must be between 0 and 5")
+
         self.community = community
         self.timeout = timeout
         self.retries = retries
@@ -19,288 +35,247 @@ class NetworkDiscovery:
         self.connections = []
         self.lock = threading.Lock()
 
-    def snmp_get(self, ip, oid):
-        """Выполнить SNMP GET запрос"""
+    @staticmethod
+    def normalize_ip(value):
+        """Return a canonical IP string or raise ValueError."""
+        return str(ipaddress.ip_address(value))
+
+    @staticmethod
+    def validate_oid(oid):
+        if not OID_PATTERN.fullmatch(oid):
+            raise ValueError("OID must contain only numeric components")
+        return oid.lstrip(".")
+
+    def _run(self, command, timeout):
         try:
-            cmd = f"snmpget -v 2c -c {self.community} -t {self.timeout} -r {self.retries} {ip} {oid}"
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=5)
-            if result.returncode == 0:
-                return result.stdout.strip()
+            return subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
+        except (FileNotFoundError, subprocess.TimeoutExpired, OSError) as exc:
+            logger.warning("Network command failed: %s", exc)
             return None
-        except Exception as e:
-            print(f"SNMP GET error for {ip}: {e}")
-            return None
+
+    def _snmp_command(self, executable, ip, oid):
+        return [
+            executable,
+            "-v",
+            "2c",
+            "-c",
+            self.community,
+            "-t",
+            str(self.timeout),
+            "-r",
+            str(self.retries),
+            self.normalize_ip(ip),
+            self.validate_oid(oid),
+        ]
+
+    def snmp_get(self, ip, oid):
+        """Execute an SNMP GET without invoking a shell."""
+        result = self._run(self._snmp_command("snmpget", ip, oid), timeout=5)
+        if result is not None and result.returncode == 0:
+            return result.stdout.strip()
+        return None
 
     def snmp_walk(self, ip, oid):
-        """Выполнить SNMP WALK запрос"""
-        try:
-            cmd = f"snmpwalk -v 2c -c {self.community} -t {self.timeout} -r {self.retries} {ip} {oid}"
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=10)
-            if result.returncode == 0:
-                return result.stdout.strip().split('\n')
-            return []
-        except Exception as e:
-            print(f"SNMP WALK error for {ip}: {e}")
-            return []
+        """Execute an SNMP WALK without invoking a shell."""
+        result = self._run(self._snmp_command("snmpwalk", ip, oid), timeout=10)
+        if result is not None and result.returncode == 0:
+            return result.stdout.strip().splitlines()
+        return []
 
     def get_device_info(self, ip):
-        """Получить базовую информацию об устройстве"""
+        """Get basic availability and SNMP information for a device."""
+        ip = self.normalize_ip(ip)
         info = {
-            'ipaddr': ip,
-            'hostname': None,
-            'device_type': 'servers',
-            'vendor': None,
-            'product': None,
-            'online': False,
-            'SNMP': False
+            "ipaddr": ip,
+            "hostname": None,
+            "device_type": "servers",
+            "vendor": None,
+            "product": None,
+            "online": False,
+            "SNMP": False,
         }
 
-        # Проверка доступности через ping
-        ping_result = subprocess.run(f"ping -c 1 -W 1 {ip}", shell=True, capture_output=True)
-        info['online'] = ping_result.returncode == 0
+        ping_result = self._run(["ping", "-c", "1", "-W", "1", ip], timeout=3)
+        info["online"] = ping_result is not None and ping_result.returncode == 0
 
-        # Получение имени устройства
-        sysname = self.snmp_get(ip, '1.3.6.1.2.1.1.5.0')
+        sysname = self.snmp_get(ip, "1.3.6.1.2.1.1.5.0")
         if sysname:
-            info['SNMP'] = True
-            # Извлечение имени из ответа
+            info["SNMP"] = True
             match = re.search(r'STRING:\s*"?([^"\n]+)"?', sysname)
             if match:
-                info['hostname'] = match.group(1).strip()
+                info["hostname"] = match.group(1).strip()
 
-        # Получение описания системы
-        sysdescr = self.snmp_get(ip, '1.3.6.1.2.1.1.1.0')
+        sysdescr = self.snmp_get(ip, "1.3.6.1.2.1.1.1.0")
         if sysdescr:
-            sysdescr_lower = sysdescr.lower()
-            # Определение типа устройства
-            if 'cisco' in sysdescr_lower or 'ios' in sysdescr_lower:
-                info['device_type'] = 'switches'
-                info['vendor'] = 'Cisco'
-            elif 'hp' in sysdescr_lower or 'procurve' in sysdescr_lower:
-                info['device_type'] = 'switches'
-                info['vendor'] = 'HP'
-            elif 'mikrotik' in sysdescr_lower:
-                info['device_type'] = 'switches'
-                info['vendor'] = 'MikroTik'
-            elif 'linux' in sysdescr_lower:
-                info['device_type'] = 'servers'
-                info['vendor'] = 'Linux'
-            elif 'windows' in sysdescr_lower:
-                info['device_type'] = 'servers'
-                info['vendor'] = 'Microsoft'
-            elif 'ups' in sysdescr_lower or 'apc' in sysdescr_lower:
-                info['device_type'] = 'UPS'
-                info['vendor'] = 'APC' if 'apc' in sysdescr_lower else 'UPS'
-            elif 'printer' in sysdescr_lower:
-                info['device_type'] = 'network-printers'
+            description = sysdescr.lower()
+            if "cisco" in description or "ios" in description:
+                info.update(device_type="switches", vendor="Cisco")
+            elif "hp" in description or "procurve" in description:
+                info.update(device_type="switches", vendor="HP")
+            elif "mikrotik" in description:
+                info.update(device_type="switches", vendor="MikroTik")
+            elif "linux" in description:
+                info.update(device_type="servers", vendor="Linux")
+            elif "windows" in description:
+                info.update(device_type="servers", vendor="Microsoft")
+            elif "ups" in description or "apc" in description:
+                info.update(device_type="UPS", vendor="APC" if "apc" in description else "UPS")
+            elif "printer" in description:
+                info["device_type"] = "network-printers"
 
-            # Извлечение модели
-            match = re.search(r'(IOS|Software|Version)[^,]*,\s*([^,]+)', sysdescr)
+            match = re.search(r"(IOS|Software|Version)[^,]*,\s*([^,]+)", sysdescr)
             if match:
-                info['product'] = match.group(2).strip()
+                info["product"] = match.group(2).strip()
 
         return info
 
+    @staticmethod
+    def _extract_ips(lines):
+        addresses = []
+        for line in lines:
+            for match in IP_PATTERN.findall(line):
+                try:
+                    addresses.append(str(ipaddress.ip_address(match)))
+                except ValueError:
+                    continue
+        return addresses
+
     def get_neighbors_lldp(self, ip):
-        """Получить соседей через LLDP"""
-        neighbors = []
-
-        # LLDP Remote Systems Data
-        lldp_rem_table = self.snmp_walk(ip, '1.0.8802.1.1.2.1.4.1.1')
-
-        for line in lldp_rem_table:
-            # Попробуем извлечь IP адрес соседа
-            match = re.search(r'(\d+\.\d+\.\d+\.\d+)', line)
-            if match:
-                neighbors.append(match.group(1))
-
-        return neighbors
+        return self._extract_ips(self.snmp_walk(ip, "1.0.8802.1.1.2.1.4.1.1"))
 
     def get_neighbors_cdp(self, ip):
-        """Получить соседей через CDP (Cisco Discovery Protocol)"""
         neighbors = []
-
-        # CDP Neighbor Address Table
-        cdp_table = self.snmp_walk(ip, '1.3.6.1.4.1.9.9.23.1.2.1.1.4')
-
-        for line in cdp_table:
-            # Извлечение IP адреса из hex-string
-            if 'Hex-STRING:' in line:
-                hex_data = line.split('Hex-STRING:')[1].strip()
-                hex_bytes = hex_data.replace(' ', '').replace(':', '')
-                if len(hex_bytes) >= 8:
-                    try:
-                        # Преобразование hex в IP
-                        ip_bytes = bytes.fromhex(hex_bytes[-8:])
-                        neighbor_ip = '.'.join(str(b) for b in ip_bytes)
-                        if self.is_valid_ip(neighbor_ip):
-                            neighbors.append(neighbor_ip)
-                    except:
-                        pass
-
+        for line in self.snmp_walk(ip, "1.3.6.1.4.1.9.9.23.1.2.1.1.4"):
+            if "Hex-STRING:" not in line:
+                continue
+            hex_data = line.split("Hex-STRING:", 1)[1].replace(" ", "").replace(":", "")
+            if len(hex_data) < 8:
+                continue
+            try:
+                neighbors.append(str(ipaddress.ip_address(bytes.fromhex(hex_data[-8:]))))
+            except ValueError:
+                continue
         return neighbors
 
     def get_arp_table(self, ip):
-        """Получить ARP таблицу устройства"""
-        arp_entries = []
-
-        # IP NetToMedia Table
-        arp_table = self.snmp_walk(ip, '1.3.6.1.2.1.4.22.1.3')
-
-        for line in arp_table:
-            match = re.search(r'(\d+\.\d+\.\d+\.\d+)', line)
-            if match:
-                arp_ip = match.group(1)
-                if self.is_valid_ip(arp_ip) and not arp_ip.startswith('127.'):
-                    arp_entries.append(arp_ip)
-
-        return arp_entries
+        return [
+            address
+            for address in self._extract_ips(
+                self.snmp_walk(ip, "1.3.6.1.2.1.4.22.1.3")
+            )
+            if not address.startswith("127.")
+        ]
 
     def get_routing_table(self, ip):
-        """Получить таблицу маршрутизации"""
-        routes = []
+        return [
+            address
+            for address in self._extract_ips(
+                self.snmp_walk(ip, "1.3.6.1.2.1.4.21.1.7")
+            )
+            if address != "0.0.0.0"
+        ]
 
-        # ipRouteNextHop
-        route_table = self.snmp_walk(ip, '1.3.6.1.2.1.4.21.1.7')
-
-        for line in route_table:
-            match = re.search(r'(\d+\.\d+\.\d+\.\d+)', line)
-            if match:
-                next_hop = match.group(1)
-                if self.is_valid_ip(next_hop) and next_hop != '0.0.0.0':
-                    routes.append(next_hop)
-
-        return routes
-
-    def is_valid_ip(self, ip):
-        """Проверить валидность IP адреса"""
+    @staticmethod
+    def is_valid_ip(ip):
         try:
             ipaddress.ip_address(ip)
-            return True
-        except:
+        except ValueError:
             return False
+        return True
 
     def discover_device(self, ip):
-        """Обнаружить устройство и его соседей"""
-        print(f"Discovering device: {ip}")
-
-        # Получаем информацию об устройстве
+        ip = self.normalize_ip(ip)
+        logger.info("Discovering device %s", ip)
         device_info = self.get_device_info(ip)
-
-        if not device_info['SNMP']:
-            print(f"Device {ip} doesn't support SNMP or is not accessible")
-            return None
+        if not device_info["SNMP"]:
+            logger.info("Device %s does not expose SNMP", ip)
+            return set()
 
         with self.lock:
             self.discovered_hosts[ip] = device_info
 
-        # Получаем соседей различными способами
-        neighbors = set()
-
-        # Через LLDP
-        lldp_neighbors = self.get_neighbors_lldp(ip)
-        neighbors.update(lldp_neighbors)
-
-        # Через CDP (для Cisco)
-        if device_info.get('vendor') == 'Cisco':
-            cdp_neighbors = self.get_neighbors_cdp(ip)
-            neighbors.update(cdp_neighbors)
-
-        # Через ARP таблицу
-        arp_neighbors = self.get_arp_table(ip)
-        neighbors.update(arp_neighbors[:10])  # Ограничиваем количество
-
-        # Через таблицу маршрутизации
-        route_neighbors = self.get_routing_table(ip)
-        neighbors.update(route_neighbors[:5])  # Ограничиваем количество
-
-        # Удаляем сам IP устройства из списка соседей
+        neighbors = set(self.get_neighbors_lldp(ip))
+        if device_info.get("vendor") == "Cisco":
+            neighbors.update(self.get_neighbors_cdp(ip))
+        neighbors.update(self.get_arp_table(ip)[:10])
+        neighbors.update(self.get_routing_table(ip)[:5])
         neighbors.discard(ip)
 
-        # Сохраняем связи
         with self.lock:
-            for neighbor in neighbors:
-                if self.is_valid_ip(neighbor):
-                    self.connections.append((ip, neighbor))
+            self.connections.extend((ip, neighbor) for neighbor in sorted(neighbors))
 
-        print(f"Found {len(neighbors)} neighbors for {ip}")
+        logger.info("Found %d neighbors for %s", len(neighbors), ip)
         return neighbors
 
     def discover_network(self, start_ip, max_hops=3, max_devices=50):
-        """Обнаружить сеть начиная с указанного IP"""
+        start_ip = self.normalize_ip(start_ip)
+        if not 1 <= max_hops <= 20:
+            raise ValueError("max_hops must be between 1 and 20")
+        if not 1 <= max_devices <= 1000:
+            raise ValueError("max_devices must be between 1 and 1000")
+
         to_discover = {start_ip}
         discovered = set()
-        hop = 0
 
-        while to_discover and hop < max_hops and len(discovered) < max_devices:
-            print(f"\nHop {hop + 1}, discovering {len(to_discover)} devices...")
-
-            current_batch = list(to_discover)
+        for hop in range(max_hops):
+            if not to_discover or len(discovered) >= max_devices:
+                break
+            current_batch = sorted(to_discover)[: max_devices - len(discovered)]
             to_discover = set()
+            logger.info("Discovery hop %d: %d devices", hop + 1, len(current_batch))
 
-            # Параллельное обнаружение устройств
             with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-                futures = {executor.submit(self.discover_device, ip): ip
-                           for ip in current_batch if ip not in discovered}
-
+                futures = {
+                    executor.submit(self.discover_device, ip): ip
+                    for ip in current_batch
+                    if ip not in discovered
+                }
                 for future in concurrent.futures.as_completed(futures):
                     ip = futures[future]
                     discovered.add(ip)
-
                     try:
                         neighbors = future.result()
-                        if neighbors:
-                            for neighbor in neighbors:
-                                if neighbor not in discovered:
-                                    to_discover.add(neighbor)
-                    except Exception as e:
-                        print(f"Error discovering {ip}: {e}")
+                    except Exception:
+                        logger.exception("Discovery failed for %s", ip)
+                        continue
+                    to_discover.update(neighbors - discovered)
 
-            hop += 1
-
-        print(f"\nDiscovery complete. Found {len(self.discovered_hosts)} devices")
+        logger.info("Discovery complete: %d devices", len(self.discovered_hosts))
         return self.discovered_hosts, self.connections
 
     def save_to_database(self):
-        """Сохранить обнаруженные устройства в базу данных"""
         with transaction.atomic():
+            hosts_by_ip = {}
             for ip, info in self.discovered_hosts.items():
-                host, created = Host.objects.update_or_create(
-                    ipaddr=info['ipaddr'],
+                host, _created = Host.objects.update_or_create(
+                    ipaddr=ip,
                     defaults={
-                        'hostname': info.get('hostname', ''),
-                        'vendor': info.get('vendor', ''),
-                        'product': info.get('product', ''),
-                        'device_type': info.get('device_type', 'servers'),
-                        'online': info.get('online', False),
-                        'SNMP': info.get('SNMP', False),
-                        'com_str': self.community,
-                        'nagios_flag': True,
-                    }
+                        "hostname": info.get("hostname") or "",
+                        "vendor": info.get("vendor") or "",
+                        "product": info.get("product") or "",
+                        "device_type": info.get("device_type", "servers"),
+                        "online": info.get("online", False),
+                        "SNMP": info.get("SNMP", False),
+                        "com_str": self.community,
+                        "nagios_flag": True,
+                    },
                 )
-                if created:
-                    print(f"Created new host: {ip}")
-                else:
-                    print(f"Updated host: {ip}")
+                hosts_by_ip[ip] = host
 
-            # Сохраняем связи
             for parent_ip, child_ip in self.connections:
-                try:
-                    parent = Host.objects.get(ipaddr=parent_ip)
-                    child = Host.objects.get(ipaddr=child_ip)
-
-                    # Создаем Route если не существует
-                    Route.objects.get_or_create(
-                        parent=parent,
-                        child=child
-                    )
-
-                    # Также обновляем поле parents
-                    if not child.parents:
-                        child.parents = parent
-                        child.save()
-
-                except Host.DoesNotExist:
-                    pass
+                parent = hosts_by_ip.get(parent_ip)
+                child = hosts_by_ip.get(child_ip)
+                if parent is None or child is None:
+                    continue
+                Route.objects.get_or_create(parent=parent, child=child)
+                if child.parents_id is None:
+                    child.parents = parent
+                    child.save(update_fields=["parents"])
 
         return len(self.discovered_hosts)

@@ -14,71 +14,7 @@
                 <div class="theader">Регистрация</div>
                 {% csrf_token %}
                 {{ form.as_p }}
-                <div class="header">
-
-<!--                    <div class="form-ip">-->
-<!--                        {{ form.ipaddr.errors }}-->
-<!--                        <label for="{{ form.username.id_for_label }}" class="ip-label">Имя пользователя:</label>-->
-<!--                        <input type="text" id="{{ form.username.id_for_label }}" name="Имя пользователя"-->
-<!--                               class="form-control ip-read"-->
-<!--                               placeholder="Введите имя пользователя"-->
-<!--                               autocomplete="on">-->
-
-<!--                        &lt;!&ndash;                <div id="warning-message" style="display: none; color: red;">&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="form-ip">-->
-<!--                        {{ form.hostname.errors }}-->
-<!--                        <label for="{{ form.hostname.id_for_label }}">имя хоста:</label>-->
-<!--                        <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"-->
-<!--                               name="hostname"-->
-<!--                               placeholder="Введите имя хоста"-->
-<!--                        >-->
-<!--                    </div>-->
-
-<!--                    <div class="form-ip">-->
-<!--                        {{ form.parents.errors }}-->
-<!--                        <label for="{{ form.parents.id_for_label }}">родитель:</label>-->
-<!--                        <input type="text" id="{{ form.parents.id_for_label }}" class="form-control hostname"-->
-<!--                               name="parents"-->
-<!--                               placeholder="Введите родителя хоста" list="host-list">-->
-<!--                    </div>-->
-
-<!--                    <div class="choi">-->
-<!--                        <label for="device_type">тип устройства:</label>-->
-
-<!--                        <select name="device_type" id="device_type" class="choices form-ip ">-->
-<!--                            <option value="switches">Коммутатор</option>-->
-<!--                            <option value="servers">Сервер</option>-->
-<!--                            &lt;!&ndash;                            <option value="printers">Принтер</option>&ndash;&gt;-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                    <div class="form-ip">-->
-<!--                        {{ form.com_str.errors }}-->
-<!--                        <label for="{{ form.com_str.id_for_label }}">community string:</label>-->
-<!--                        <input type="text" id="{{ form.com_str.id_for_label }}" class="form-control hostname"-->
-<!--                               name="com_str"-->
-<!--                               placeholder="Введите community string" value="public">-->
-<!--                    </div>-->
-
-<!--                    <a href="#" class="check-snmp-link" data-url="{% url 'check_snmp' %}" data-ip=""-->
-<!--                       title="Проверить snmp name по введенному IP">-->
-<!--                        <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">-->
-<!--                        <span class="loader"></span>-->
-<!--                    </a>-->
-
-<!--                    &lt;!&ndash;                                                <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">&ndash;&gt;-->
-
-
-<!--                </div>-->
-
-
-
-
             </form>
-
-<!--            <a href="{% url 'scan' %}">-->
-<!--                <button type="submit" class="submit1  modal-back ">Назад</button>-->
-<!--            </a>-->
             <button type="submit" class="submit1  modal-back ">Войти</button>
 
         </div>

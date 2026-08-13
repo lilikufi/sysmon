@@ -28,11 +28,14 @@ log/
 itproger/uploads/
 itproger/staticfiles/
 itproger/nagios_stat/status.dat
+nagios_stat/*
+!nagios_stat/.gitkeep
 snmpwalk.txt
 
 # Local SSH credentials
 *.pem
 *.key
+docker/certs/*.crt
 id_rsa
 id_rsa.pub
 id_ed25519

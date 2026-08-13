@@ -1,5 +1,97 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models
-from django.urls import reverse
+
+
+class NetworkSegment(models.Model):
+    class DefaultAction(models.TextChoices):
+        ALLOW = 'allow', 'Allow'
+        DENY = 'deny', 'Deny'
+
+    name = models.CharField(max_length=80, unique=True)
+    description = models.TextField(blank=True)
+    color = models.CharField(
+        max_length=7,
+        default='#7a5cff',
+        validators=[RegexValidator(r'^#[0-9A-Fa-f]{6}$', 'Enter a valid HEX color.')],
+    )
+    default_action = models.CharField(
+        max_length=5,
+        choices=DefaultAction.choices,
+        default=DefaultAction.DENY,
+    )
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
+class SegmentPolicy(models.Model):
+    class Action(models.TextChoices):
+        ALLOW = 'allow', 'Allow'
+        DENY = 'deny', 'Deny'
+
+    class Protocol(models.TextChoices):
+        ANY = 'any', 'Any'
+        TCP = 'tcp', 'TCP'
+        UDP = 'udp', 'UDP'
+        ICMP = 'icmp', 'ICMP'
+
+    name = models.CharField(max_length=120)
+    source = models.ForeignKey(
+        NetworkSegment,
+        on_delete=models.CASCADE,
+        related_name='outbound_policies',
+    )
+    destination = models.ForeignKey(
+        NetworkSegment,
+        on_delete=models.CASCADE,
+        related_name='inbound_policies',
+    )
+    action = models.CharField(max_length=5, choices=Action.choices)
+    protocol = models.CharField(
+        max_length=4,
+        choices=Protocol.choices,
+        default=Protocol.ANY,
+    )
+    port = models.PositiveIntegerField(null=True, blank=True)
+    enabled = models.BooleanField(default=True)
+    priority = models.PositiveIntegerField(default=100)
+
+    class Meta:
+        ordering = ('priority', 'pk')
+        verbose_name_plural = 'segment policies'
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(port__isnull=True)
+                | models.Q(port__gte=1, port__lte=65535),
+                name='hosting_segment_policy_valid_port',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(protocol__in=('tcp', 'udp'))
+                | models.Q(port__isnull=True),
+                name='hosting_segment_policy_port_protocol',
+            ),
+            models.UniqueConstraint(
+                fields=('source', 'destination', 'priority'),
+                name='hosting_segment_policy_unique_priority',
+            ),
+        ]
+
+    def clean(self):
+        super().clean()
+        if self.port is not None and self.protocol not in (
+            self.Protocol.TCP,
+            self.Protocol.UDP,
+        ):
+            raise ValidationError(
+                {'port': 'A port can only be specified for TCP or UDP policies.'}
+            )
+
+    def __str__(self):
+        return f'{self.source} → {self.destination}: {self.action}'
 
 
 class Hosting(models.Model):
@@ -19,14 +111,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    # class Meta:
-    #     verbose_name = 'Категория'
-    #     verbose_name_plural = 'Категории'
-    #     ordering = ['id']
 
 
 class Host(models.Model):
-    """store host information"""
+    """Store host information."""
     ipaddr = models.GenericIPAddressField(max_length=15)
     hostname = models.CharField(max_length=50, null=True, blank=True)
     vendor = models.CharField(max_length=30, null=True, blank=True)
@@ -69,12 +157,19 @@ class Host(models.Model):
     nagios_flag = models.BooleanField(default=False)
     hide_flag = models.BooleanField(default=False)
     parents = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
+    segment = models.ForeignKey(
+        NetworkSegment,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='hosts',
+    )
 
     DEVICE_CHOICES = (
         ('servers', 'Сервер'),
         ('switches', 'Коммутатор'),
-        ('routers', 'Маршрутизатор'),  # ДОБАВЛЕНО
-        ('computers', 'Компьютер'),  # ДОБАВЛЕНО
+        ('routers', 'Маршрутизатор'),
+        ('computers', 'Компьютер'),
         ('network-printers', 'Принтер'),
         ('UPS', 'ИБП'),
     )
@@ -86,13 +181,6 @@ class Host(models.Model):
     def __str__(self):
         return self.hostname or self.ipaddr
 
-    def get_absolute_url(self):
-        return reverse("", kwargs={'pk': self.pk})
-
-    # def get_absolute_url(self):
-    #     return reverse('host-update', kwargs={'pk': self.pk})
-from django.db import models
-
 class NodePosition(models.Model):
     ipaddr = models.CharField(max_length=255, unique=True)
     x = models.FloatField()
@@ -103,10 +191,10 @@ class NodePosition(models.Model):
         return f'{self.ipaddr} ({self.x:.1f}, {self.y:.1f})'
 
 class Service(models.Model):
-    """Store service status information for a specific host"""
+    """Store service status information for a specific host."""
     host = models.ForeignKey(Host, related_name='services', on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)  # Например, 'CPU Usage', 'Memory Usage', и т.д.
-    status = models.CharField(max_length=255)  # Например, CRITICAL, OK и т.д.
+    description = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
     last_checked = models.DateTimeField(auto_now=True)
     status_information = models.CharField(max_length=255, blank=True, null=True)
 
@@ -123,10 +211,10 @@ class HostGroup(models.Model):
 
 
 class Ports(models.Model):
-    """Store service status information for a specific host"""
+    """Store interface status information for a specific host."""
     host = models.ForeignKey(Host, related_name='ports', on_delete=models.CASCADE)
-    ifdescr = models.CharField(max_length=255)  # Например, 'CPU Usage', 'Memory Usage', и т.д.
-    status = models.CharField(max_length=255)  # Например, CRITICAL, OK и т.д.
+    ifdescr = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
     last_checked = models.DateTimeField(auto_now=True)
     ifinoct = models.CharField(max_length=255, blank=True, null=True)
     ifoutoct = models.CharField(max_length=255, blank=True, null=True)
@@ -149,9 +237,9 @@ class LineSettings(models.Model):
     ]
 
     line_id = models.CharField(max_length=255, unique=True)
-    color = models.CharField(max_length=7)  # HEX цвет, например, #FF0000
+    color = models.CharField(max_length=7)
     weight = models.IntegerField()
-    line_type = models.CharField(max_length=10, choices=LINE_TYPES, default='solid')  # Новое поле
+    line_type = models.CharField(max_length=10, choices=LINE_TYPES, default='solid')
 
     def __str__(self):
         return f"{self.line_id} - {self.color} - {self.weight} - {self.get_line_type_display()}"
@@ -160,57 +248,7 @@ class LineSettings(models.Model):
 class Route(models.Model):
     parent = models.ForeignKey(Host, on_delete=models.CASCADE, related_name='parent_routes')
     child = models.ForeignKey(Host, on_delete=models.CASCADE, related_name='child_routes')
-    waypoints = models.JSONField(default=list)  # Промежуточные точки маршрута
+    waypoints = models.JSONField(default=list)
 
     def __str__(self):
         return f"Маршрут от {self.parent.ipaddr} до {self.child.ipaddr}"
-
-
-# Добавьте этот метод в класс Host
-def get_neighbors(self):
-    """Получить всех соседей устройства"""
-    neighbors = {
-        'parents': [],
-        'children': []
-    }
-
-    # Устройства, которые подключены к этому устройству
-    children_routes = Route.objects.filter(parent=self)
-    for route in children_routes:
-        neighbors['children'].append(route.child)
-
-    # Устройства, к которым подключено это устройство
-    parent_routes = Route.objects.filter(child=self)
-    for route in parent_routes:
-        neighbors['parents'].append(route.parent)
-
-    return neighbors
-
-
-def get_topology_tree(self):
-    """Получить древовидную структуру топологии начиная с этого устройства"""
-
-    def build_tree(host, visited=None):
-        if visited is None:
-            visited = set()
-
-        if host.ipaddr in visited:
-            return None
-
-        visited.add(host.ipaddr)
-
-        tree = {
-            'host': host,
-            'children': []
-        }
-
-        # Получаем непосредственных детей
-        child_routes = Route.objects.filter(parent=host)
-        for route in child_routes:
-            child_tree = build_tree(route.child, visited)
-            if child_tree:
-                tree['children'].append(child_tree)
-
-        return tree
-
-    return build_tree(self)

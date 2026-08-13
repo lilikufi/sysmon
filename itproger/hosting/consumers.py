@@ -1,11 +1,12 @@
-# your_app/consumers.py
-
-import json
 import asyncio
-import paramiko
-from channels.generic.websocket import AsyncWebsocketConsumer
-from asgiref.sync import sync_to_async
+import ipaddress
+import json
 import logging
+import re
+
+import paramiko
+from asgiref.sync import sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,10 @@ class SSHConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         """Принимаем WebSocket соединение"""
+        user = self.scope.get('user')
+        if user is None or not user.is_authenticated:
+            await self.close(code=4401)
+            return
         self.session_id = self.scope['url_route']['kwargs'].get('session_id', 'unknown')
         logger.info(f"WebSocket connect: {self.session_id}")
         await self.accept()
@@ -44,7 +49,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
         """Очистка ресурсов"""
         self.connected = False
 
-        # Отменяем задачу чтения
         if self.read_task and not self.read_task.done():
             self.read_task.cancel()
             try:
@@ -52,7 +56,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
             except asyncio.CancelledError:
                 pass
 
-        # Закрываем SSH канал
         if self.channel:
             try:
                 self.channel.close()
@@ -60,7 +63,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
                 pass
             self.channel = None
 
-        # Закрываем SSH клиент
         if self.ssh_client:
             try:
                 self.ssh_client.close()
@@ -68,8 +70,11 @@ class SSHConsumer(AsyncWebsocketConsumer):
                 pass
             self.ssh_client = None
 
-    async def receive(self, text_data):
+    async def receive(self, text_data=None, bytes_data=None):
         """Обработка входящих сообщений от клиента"""
+        if text_data is None:
+            await self.send(json.dumps({'type': 'error', 'message': 'Binary messages are not supported'}))
+            return
         try:
             data = json.loads(text_data)
             msg_type = data.get('type')
@@ -111,7 +116,8 @@ class SSHConsumer(AsyncWebsocketConsumer):
     def _create_ssh_connection(self, host, username, password, port):
         """Создаём SSH соединение (синхронно, обёрнуто в async)"""
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.RejectPolicy())
 
         client.connect(
             hostname=host,
@@ -141,18 +147,23 @@ class SSHConsumer(AsyncWebsocketConsumer):
 
     async def handle_ssh_connect(self, data):
         """Подключаемся к SSH серверу"""
-        host = data.get('host', '').strip()
-        username = data.get('username', 'root').strip()
-        password = data.get('password', '')
-        port = int(data.get('port', 22))
-        cols = int(data.get('cols', 120))
-        rows = int(data.get('rows', 30))
-
-        # Валидация
-        if not host:
+        try:
+            host = str(ipaddress.ip_address(data.get('host', '').strip()))
+            username = data.get('username', 'root').strip()
+            password = data.get('password', '')
+            port = int(data.get('port', 22))
+            cols = int(data.get('cols', 120))
+            rows = int(data.get('rows', 30))
+            if not re.fullmatch(r'[A-Za-z0-9._-]{1,64}', username):
+                raise ValueError('Invalid username')
+            if not 1 <= port <= 65535:
+                raise ValueError('Port must be between 1 and 65535')
+            if not 20 <= cols <= 500 or not 5 <= rows <= 200:
+                raise ValueError('Invalid terminal size')
+        except (AttributeError, TypeError, ValueError) as exc:
             await self.send(json.dumps({
                 'type': 'error',
-                'message': 'Host IP is required'
+                'message': str(exc) or 'Invalid SSH connection parameters'
             }))
             return
 
@@ -171,24 +182,20 @@ class SSHConsumer(AsyncWebsocketConsumer):
         }))
 
         try:
-            # Создаём SSH соединение
             self.ssh_client = await self._create_ssh_connection(
                 host, username, password, port
             )
 
-            # Создаём shell канал
             self.channel = await self._create_shell_channel(cols, rows)
             self.connected = True
 
             logger.info(f"SSH connected to {host}")
 
-            # Отправляем успех
             await self.send(json.dumps({
                 'type': 'connected',
                 'message': f'Connected to {username}@{host}'
             }))
 
-            # Запускаем чтение вывода SSH
             self.read_task = asyncio.create_task(self._read_ssh_output())
 
         except paramiko.AuthenticationException:
@@ -237,7 +244,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
 
         try:
             while self.connected and self.channel:
-                # Проверяем, есть ли данные для чтения
                 if self.channel.recv_ready():
                     try:
                         data = self.channel.recv(4096)
@@ -251,7 +257,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
                         logger.error(f"Error reading SSH data: {e}")
                         break
 
-                # Проверяем stderr
                 if self.channel.recv_stderr_ready():
                     try:
                         data = self.channel.recv_stderr(4096)
@@ -264,7 +269,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
                     except Exception as e:
                         logger.error(f"Error reading SSH stderr: {e}")
 
-                # Проверяем, закрыт ли канал
                 if self.channel.closed or self.channel.exit_status_ready():
                     logger.info("SSH channel closed by server")
                     self.connected = False
@@ -274,7 +278,6 @@ class SSHConsumer(AsyncWebsocketConsumer):
                     }))
                     break
 
-                # Небольшая пауза для снижения нагрузки CPU
                 await asyncio.sleep(0.01)
 
         except asyncio.CancelledError:
@@ -296,8 +299,14 @@ class SSHConsumer(AsyncWebsocketConsumer):
         if not self.connected or not self.channel:
             return
 
+        if not isinstance(data, str) or len(data) > 65536:
+            await self.send(json.dumps({
+                'type': 'error',
+                'message': 'Invalid terminal input'
+            }))
+            return
+
         try:
-            # Отправляем синхронно, но в thread pool
             await sync_to_async(self.channel.send)(data.encode('utf-8'))
         except Exception as e:
             logger.error(f"Error sending to SSH: {e}")
@@ -312,10 +321,16 @@ class SSHConsumer(AsyncWebsocketConsumer):
             return
 
         try:
+            cols = int(cols)
+            rows = int(rows)
+            if not 20 <= cols <= 500 or not 5 <= rows <= 200:
+                raise ValueError('Invalid terminal size')
             await sync_to_async(self.channel.resize_pty)(
                 width=cols,
                 height=rows
             )
             logger.debug(f"Terminal resized to {cols}x{rows}")
+        except (TypeError, ValueError) as e:
+            await self.send(json.dumps({'type': 'error', 'message': str(e)}))
         except Exception as e:
             logger.warning(f"Resize error: {e}")
