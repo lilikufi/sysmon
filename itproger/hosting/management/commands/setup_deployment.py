@@ -10,7 +10,7 @@ from hosting.models import Category, Host, NodePosition, Service
 
 
 class Command(BaseCommand):
-    help = 'Interactively create an administrator and optionally load demo data.'
+    help = 'Interactively create an administrator and optionally load sample data.'
 
     def handle(self, *args, **options):
         self._create_admin()
@@ -55,11 +55,11 @@ class Command(BaseCommand):
         raise CommandError('Administrator password was not accepted after three attempts.')
 
     def _load_demo_data(self):
-        answer = input('Load anonymized demo inventory? [y/N]: ').strip().lower()
+        answer = input('Load sample inventory? [y/N]: ').strip().lower()
         if answer not in {'y', 'yes', 'д', 'да'}:
-            self.stdout.write('Demo data was not requested.')
+            self.stdout.write('Sample data was not requested.')
             return
         if any(model.objects.exists() for model in (Host, Service, NodePosition, Category)):
-            raise CommandError('Inventory is not empty; demo data was not loaded.')
+            raise CommandError('Inventory is not empty; sample data was not loaded.')
         call_command('loaddata', 'demo_hosts', verbosity=0)
-        self.stdout.write(self.style.SUCCESS('Loaded anonymized demo inventory.'))
+        self.stdout.write(self.style.SUCCESS('Loaded sample inventory.'))

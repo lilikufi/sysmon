@@ -1,6 +1,7 @@
 import ipaddress
 import json
 import math
+import re
 from pathlib import Path
 from unittest.mock import patch
 
@@ -8,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import TestCase
 
-from hosting.models import Host
+from hosting.models import Host, Service
 
 
 FIXTURE_PATH = Path(__file__).resolve().parent / 'fixtures' / 'demo_hosts.json'
@@ -33,6 +34,27 @@ class DeploymentSetupTests(TestCase):
         self.assertNotEqual(user.password, 'Safe-River-824!')
         self.assertEqual(Host.objects.count(), 163)
 
+    def test_existing_sample_inventory_can_be_normalized(self):
+        host = Host.objects.create(
+            ipaddr='192.0.2.10',
+            hostname='srv-demo-001',
+            place='Demo zone A',
+        )
+        service = Service.objects.create(
+            host=host,
+            description='PING',
+            status='OK',
+            status_information='PING: OK (anonymized demo)',
+        )
+
+        call_command('normalize_sample_data', verbosity=0)
+
+        host.refresh_from_db()
+        service.refresh_from_db()
+        self.assertEqual(host.hostname, 'srv-001')
+        self.assertEqual(host.place, 'Zone A')
+        self.assertEqual(service.status_information, 'PING: OK')
+
 
 class DemoFixturePrivacyTests(TestCase):
     def test_fixture_contains_only_documentation_addresses_and_safe_names(self):
@@ -45,10 +67,19 @@ class DemoFixturePrivacyTests(TestCase):
                 for host in host_fields
             )
         )
-        self.assertTrue(all('-demo-' in host['hostname'] for host in host_fields))
+        safe_name = re.compile(r'^(srv|sw|rtr|pc|prn|ups)-\d{3}$')
+        self.assertTrue(all(safe_name.fullmatch(host['hostname']) for host in host_fields))
 
         text = FIXTURE_PATH.read_text(encoding='utf-8').lower()
-        for forbidden in ('kbm', 'lvsro', 'lvs-ro', '192.168.', '"com_str": "'):
+        for forbidden in (
+            'kbm',
+            'lvsro',
+            'lvs-ro',
+            '192.168.',
+            '"com_str": "',
+            'demo-',
+            'anonymized demo',
+        ):
             self.assertNotIn(forbidden, text)
 
     def test_fixture_uses_grouped_core_distribution_topology(self):

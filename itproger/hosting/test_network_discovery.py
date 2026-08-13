@@ -53,7 +53,7 @@ class NetworkDiscoveryCommandTests(SimpleTestCase):
 
 class NetworkDiscoveryPersistenceTests(TestCase):
     def test_hosts_and_connections_are_saved_in_one_operation(self):
-        discovery = NetworkDiscovery(community="demo")
+        discovery = NetworkDiscovery(community="test-community")
         discovery.discovered_hosts = {
             "192.0.2.1": {
                 "hostname": "router",
@@ -76,4 +76,4 @@ class NetworkDiscoveryPersistenceTests(TestCase):
         child = Host.objects.get(ipaddr="192.0.2.2")
         self.assertEqual(child.parents, parent)
         self.assertTrue(Route.objects.filter(parent=parent, child=child).exists())
-        self.assertEqual(parent.com_str, "demo")
+        self.assertEqual(parent.com_str, "test-community")

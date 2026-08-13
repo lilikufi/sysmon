@@ -277,7 +277,7 @@
         border-left: 2px solid var(--neon-orange);
     }
 
-    .log-line.info {
+    .log-line.log-info {
         color: var(--neon-cyan);
         border-left: 2px solid var(--neon-cyan);
     }
@@ -416,9 +416,9 @@
 
             <div class="log-output" id="logOutput">
                 {% for line in log_content %}
-                    <div class="log-line {% if 'ERROR' in line or 'CRITICAL' in line %}error{% elif 'WARNING' in line or 'WARN' in line or 'Warning' in line %}warning{% elif 'INFO' in line %}info{% elif 'SUCCESS' in line or 'OK' in line %}success{% elif 'DEBUG' in line %}debug{% endif %}" data-original="{{ line }}">{{ line }}</div>
+                    <div class="log-line {% if 'ERROR' in line or 'CRITICAL' in line %}error{% elif 'WARNING' in line or 'WARN' in line or 'Warning' in line %}warning{% elif 'INFO' in line %}log-info{% elif 'SUCCESS' in line or 'OK' in line %}success{% elif 'DEBUG' in line %}debug{% endif %}" data-original="{{ line }}">{{ line }}</div>
                 {% empty %}
-                    <div class="log-line info">Логи отсутствуют</div>
+                    <div class="log-line log-info">Логи отсутствуют</div>
                 {% endfor %}
             </div>
         </div>

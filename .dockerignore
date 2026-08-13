@@ -16,6 +16,7 @@ htmlcov
 *.sqlite3
 *.log
 *.log.*
+!itproger/hosting/fixtures/demo_nagios.log
 itproger/staticfiles
 itproger/uploads
 nagios_stat

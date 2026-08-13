@@ -92,13 +92,13 @@ DOCUMENTATION_NETWORKS = (
 
 
 class Command(BaseCommand):
-    help = 'Replace local users, hosts and graph positions with safe demo data.'
+    help = 'Replace local users, hosts and graph positions with safe sample data.'
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--seed',
             type=int,
-            help='Optional seed for reproducible demo data.',
+            help='Optional seed for reproducible sample data.',
         )
 
     def handle(self, *args, **options):
@@ -127,7 +127,7 @@ class Command(BaseCommand):
             position.ipaddr not in host_ips for position in positions
         )
         if required_ips > len(ip_pool):
-            raise CommandError('Not enough documentation IP addresses for demo data.')
+            raise CommandError('Not enough documentation IP addresses for sample data.')
 
         identities = rng.sample(PEOPLE, len(users))
         selected_tokens = rng.sample(host_tokens, len(hosts))

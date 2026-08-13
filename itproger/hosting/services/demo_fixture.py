@@ -95,12 +95,12 @@ def _documentation_ips(count):
         for address in ipaddress.ip_network(network).hosts()
     ]
     if count > len(addresses):
-        raise ValueError('Not enough documentation addresses for demo fixture')
+        raise ValueError('Not enough documentation addresses for sample fixture')
     return addresses[:count]
 
 
 def _assign_topology(hosts):
-    """Arrange demo hosts as an elliptical core-and-branches topology."""
+    """Arrange sample hosts as an elliptical core-and-branches topology."""
     root = next((host for host in hosts if host['device_type'] == 'routers'), None)
     root = root or next(
         (host for host in hosts if host['device_type'] == 'switches'),
@@ -194,7 +194,7 @@ def build_demo_fixture(status_path, scan_path=None):
             original_name, descriptions
         )
         type_counters[device_type] += 1
-        hostname = f'{DEVICE_PREFIXES[device_type]}-demo-{type_counters[device_type]:03d}'
+        hostname = f'{DEVICE_PREFIXES[device_type]}-{type_counters[device_type]:03d}'
         original_to_pk[original_name] = index
         hosts.append(
             {
@@ -232,7 +232,7 @@ def build_demo_fixture(status_path, scan_path=None):
                     'online': host['online'],
                     'SNMP': host['device_type'] in {'switches', 'routers', 'UPS'},
                     'com_str': None,
-                    'place': f'Demo zone {chr(65 + index % 4)}',
+                    'place': f'Zone {chr(65 + index % 4)}',
                     'nagios_flag': True,
                     'hide_flag': False,
                     'parents': host['parents'],
@@ -271,7 +271,7 @@ def build_demo_fixture(status_path, scan_path=None):
                     'description': description,
                     'status': status,
                     'last_checked': FIXED_TIMESTAMP,
-                    'status_information': f'{description}: {status} (anonymized demo)',
+                    'status_information': f'{description}: {status}',
                 },
             }
         )

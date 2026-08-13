@@ -25,14 +25,14 @@
     "pk": 1,
     "fields": {
       "ipaddr": "192.0.2.1",
-      "hostname": "srv-demo-001",
+      "hostname": "srv-001",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -57,14 +57,14 @@
     "pk": 2,
     "fields": {
       "ipaddr": "192.0.2.2",
-      "hostname": "srv-demo-002",
+      "hostname": "srv-002",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -89,14 +89,14 @@
     "pk": 3,
     "fields": {
       "ipaddr": "192.0.2.3",
-      "hostname": "srv-demo-003",
+      "hostname": "srv-003",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -121,14 +121,14 @@
     "pk": 4,
     "fields": {
       "ipaddr": "192.0.2.4",
-      "hostname": "srv-demo-004",
+      "hostname": "srv-004",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -153,14 +153,14 @@
     "pk": 5,
     "fields": {
       "ipaddr": "192.0.2.5",
-      "hostname": "srv-demo-005",
+      "hostname": "srv-005",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -185,14 +185,14 @@
     "pk": 6,
     "fields": {
       "ipaddr": "192.0.2.6",
-      "hostname": "srv-demo-006",
+      "hostname": "srv-006",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -217,14 +217,14 @@
     "pk": 7,
     "fields": {
       "ipaddr": "192.0.2.7",
-      "hostname": "srv-demo-007",
+      "hostname": "srv-007",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -249,14 +249,14 @@
     "pk": 8,
     "fields": {
       "ipaddr": "192.0.2.8",
-      "hostname": "srv-demo-008",
+      "hostname": "srv-008",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -281,14 +281,14 @@
     "pk": 9,
     "fields": {
       "ipaddr": "192.0.2.9",
-      "hostname": "srv-demo-009",
+      "hostname": "srv-009",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -313,14 +313,14 @@
     "pk": 10,
     "fields": {
       "ipaddr": "192.0.2.10",
-      "hostname": "srv-demo-010",
+      "hostname": "srv-010",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -345,14 +345,14 @@
     "pk": 11,
     "fields": {
       "ipaddr": "192.0.2.11",
-      "hostname": "srv-demo-011",
+      "hostname": "srv-011",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -377,14 +377,14 @@
     "pk": 12,
     "fields": {
       "ipaddr": "192.0.2.12",
-      "hostname": "srv-demo-012",
+      "hostname": "srv-012",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -409,14 +409,14 @@
     "pk": 13,
     "fields": {
       "ipaddr": "192.0.2.13",
-      "hostname": "srv-demo-013",
+      "hostname": "srv-013",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -441,14 +441,14 @@
     "pk": 14,
     "fields": {
       "ipaddr": "192.0.2.14",
-      "hostname": "srv-demo-014",
+      "hostname": "srv-014",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -473,14 +473,14 @@
     "pk": 15,
     "fields": {
       "ipaddr": "192.0.2.15",
-      "hostname": "srv-demo-015",
+      "hostname": "srv-015",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -505,14 +505,14 @@
     "pk": 16,
     "fields": {
       "ipaddr": "192.0.2.16",
-      "hostname": "srv-demo-016",
+      "hostname": "srv-016",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -537,14 +537,14 @@
     "pk": 17,
     "fields": {
       "ipaddr": "192.0.2.17",
-      "hostname": "srv-demo-017",
+      "hostname": "srv-017",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -569,14 +569,14 @@
     "pk": 18,
     "fields": {
       "ipaddr": "192.0.2.18",
-      "hostname": "sw-demo-001",
+      "hostname": "sw-001",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": null,
@@ -601,14 +601,14 @@
     "pk": 19,
     "fields": {
       "ipaddr": "192.0.2.19",
-      "hostname": "srv-demo-018",
+      "hostname": "srv-018",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -633,14 +633,14 @@
     "pk": 20,
     "fields": {
       "ipaddr": "192.0.2.20",
-      "hostname": "sw-demo-002",
+      "hostname": "sw-002",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -665,14 +665,14 @@
     "pk": 21,
     "fields": {
       "ipaddr": "192.0.2.21",
-      "hostname": "sw-demo-003",
+      "hostname": "sw-003",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -697,14 +697,14 @@
     "pk": 22,
     "fields": {
       "ipaddr": "192.0.2.22",
-      "hostname": "sw-demo-004",
+      "hostname": "sw-004",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -729,14 +729,14 @@
     "pk": 23,
     "fields": {
       "ipaddr": "192.0.2.23",
-      "hostname": "sw-demo-005",
+      "hostname": "sw-005",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -761,14 +761,14 @@
     "pk": 24,
     "fields": {
       "ipaddr": "192.0.2.24",
-      "hostname": "srv-demo-019",
+      "hostname": "srv-019",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -793,14 +793,14 @@
     "pk": 25,
     "fields": {
       "ipaddr": "192.0.2.25",
-      "hostname": "sw-demo-006",
+      "hostname": "sw-006",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -825,14 +825,14 @@
     "pk": 26,
     "fields": {
       "ipaddr": "192.0.2.26",
-      "hostname": "sw-demo-007",
+      "hostname": "sw-007",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -857,14 +857,14 @@
     "pk": 27,
     "fields": {
       "ipaddr": "192.0.2.27",
-      "hostname": "sw-demo-008",
+      "hostname": "sw-008",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -889,14 +889,14 @@
     "pk": 28,
     "fields": {
       "ipaddr": "192.0.2.28",
-      "hostname": "srv-demo-020",
+      "hostname": "srv-020",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -921,14 +921,14 @@
     "pk": 29,
     "fields": {
       "ipaddr": "192.0.2.29",
-      "hostname": "srv-demo-021",
+      "hostname": "srv-021",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -953,14 +953,14 @@
     "pk": 30,
     "fields": {
       "ipaddr": "192.0.2.30",
-      "hostname": "srv-demo-022",
+      "hostname": "srv-022",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -985,14 +985,14 @@
     "pk": 31,
     "fields": {
       "ipaddr": "192.0.2.31",
-      "hostname": "srv-demo-023",
+      "hostname": "srv-023",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -1017,14 +1017,14 @@
     "pk": 32,
     "fields": {
       "ipaddr": "192.0.2.32",
-      "hostname": "srv-demo-024",
+      "hostname": "srv-024",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -1049,14 +1049,14 @@
     "pk": 33,
     "fields": {
       "ipaddr": "192.0.2.33",
-      "hostname": "srv-demo-025",
+      "hostname": "srv-025",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -1081,14 +1081,14 @@
     "pk": 34,
     "fields": {
       "ipaddr": "192.0.2.34",
-      "hostname": "srv-demo-026",
+      "hostname": "srv-026",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -1113,14 +1113,14 @@
     "pk": 35,
     "fields": {
       "ipaddr": "192.0.2.35",
-      "hostname": "srv-demo-027",
+      "hostname": "srv-027",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -1145,14 +1145,14 @@
     "pk": 36,
     "fields": {
       "ipaddr": "192.0.2.36",
-      "hostname": "srv-demo-028",
+      "hostname": "srv-028",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -1177,14 +1177,14 @@
     "pk": 37,
     "fields": {
       "ipaddr": "192.0.2.37",
-      "hostname": "srv-demo-029",
+      "hostname": "srv-029",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -1209,14 +1209,14 @@
     "pk": 38,
     "fields": {
       "ipaddr": "192.0.2.38",
-      "hostname": "srv-demo-030",
+      "hostname": "srv-030",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -1241,14 +1241,14 @@
     "pk": 39,
     "fields": {
       "ipaddr": "192.0.2.39",
-      "hostname": "srv-demo-031",
+      "hostname": "srv-031",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -1273,14 +1273,14 @@
     "pk": 40,
     "fields": {
       "ipaddr": "192.0.2.40",
-      "hostname": "srv-demo-032",
+      "hostname": "srv-032",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -1305,14 +1305,14 @@
     "pk": 41,
     "fields": {
       "ipaddr": "192.0.2.41",
-      "hostname": "srv-demo-033",
+      "hostname": "srv-033",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -1337,14 +1337,14 @@
     "pk": 42,
     "fields": {
       "ipaddr": "192.0.2.42",
-      "hostname": "srv-demo-034",
+      "hostname": "srv-034",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -1369,14 +1369,14 @@
     "pk": 43,
     "fields": {
       "ipaddr": "192.0.2.43",
-      "hostname": "srv-demo-035",
+      "hostname": "srv-035",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -1401,14 +1401,14 @@
     "pk": 44,
     "fields": {
       "ipaddr": "192.0.2.44",
-      "hostname": "srv-demo-036",
+      "hostname": "srv-036",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -1433,14 +1433,14 @@
     "pk": 45,
     "fields": {
       "ipaddr": "192.0.2.45",
-      "hostname": "srv-demo-037",
+      "hostname": "srv-037",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -1465,14 +1465,14 @@
     "pk": 46,
     "fields": {
       "ipaddr": "192.0.2.46",
-      "hostname": "srv-demo-038",
+      "hostname": "srv-038",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -1497,14 +1497,14 @@
     "pk": 47,
     "fields": {
       "ipaddr": "192.0.2.47",
-      "hostname": "srv-demo-039",
+      "hostname": "srv-039",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -1529,14 +1529,14 @@
     "pk": 48,
     "fields": {
       "ipaddr": "192.0.2.48",
-      "hostname": "srv-demo-040",
+      "hostname": "srv-040",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -1561,14 +1561,14 @@
     "pk": 49,
     "fields": {
       "ipaddr": "192.0.2.49",
-      "hostname": "pc-demo-001",
+      "hostname": "pc-001",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -1593,14 +1593,14 @@
     "pk": 50,
     "fields": {
       "ipaddr": "192.0.2.50",
-      "hostname": "srv-demo-041",
+      "hostname": "srv-041",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -1625,14 +1625,14 @@
     "pk": 51,
     "fields": {
       "ipaddr": "192.0.2.51",
-      "hostname": "srv-demo-042",
+      "hostname": "srv-042",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -1657,14 +1657,14 @@
     "pk": 52,
     "fields": {
       "ipaddr": "192.0.2.52",
-      "hostname": "srv-demo-043",
+      "hostname": "srv-043",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -1689,14 +1689,14 @@
     "pk": 53,
     "fields": {
       "ipaddr": "192.0.2.53",
-      "hostname": "srv-demo-044",
+      "hostname": "srv-044",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -1721,14 +1721,14 @@
     "pk": 54,
     "fields": {
       "ipaddr": "192.0.2.54",
-      "hostname": "srv-demo-045",
+      "hostname": "srv-045",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -1753,14 +1753,14 @@
     "pk": 55,
     "fields": {
       "ipaddr": "192.0.2.55",
-      "hostname": "srv-demo-046",
+      "hostname": "srv-046",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -1785,14 +1785,14 @@
     "pk": 56,
     "fields": {
       "ipaddr": "192.0.2.56",
-      "hostname": "srv-demo-047",
+      "hostname": "srv-047",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -1817,14 +1817,14 @@
     "pk": 57,
     "fields": {
       "ipaddr": "192.0.2.57",
-      "hostname": "srv-demo-048",
+      "hostname": "srv-048",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -1849,14 +1849,14 @@
     "pk": 58,
     "fields": {
       "ipaddr": "192.0.2.58",
-      "hostname": "srv-demo-049",
+      "hostname": "srv-049",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -1881,14 +1881,14 @@
     "pk": 59,
     "fields": {
       "ipaddr": "192.0.2.59",
-      "hostname": "srv-demo-050",
+      "hostname": "srv-050",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -1913,14 +1913,14 @@
     "pk": 60,
     "fields": {
       "ipaddr": "192.0.2.60",
-      "hostname": "srv-demo-051",
+      "hostname": "srv-051",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -1945,14 +1945,14 @@
     "pk": 61,
     "fields": {
       "ipaddr": "192.0.2.61",
-      "hostname": "srv-demo-052",
+      "hostname": "srv-052",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -1977,14 +1977,14 @@
     "pk": 62,
     "fields": {
       "ipaddr": "192.0.2.62",
-      "hostname": "srv-demo-053",
+      "hostname": "srv-053",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -2009,14 +2009,14 @@
     "pk": 63,
     "fields": {
       "ipaddr": "192.0.2.63",
-      "hostname": "srv-demo-054",
+      "hostname": "srv-054",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -2041,14 +2041,14 @@
     "pk": 64,
     "fields": {
       "ipaddr": "192.0.2.64",
-      "hostname": "srv-demo-055",
+      "hostname": "srv-055",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -2073,14 +2073,14 @@
     "pk": 65,
     "fields": {
       "ipaddr": "192.0.2.65",
-      "hostname": "srv-demo-056",
+      "hostname": "srv-056",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -2105,14 +2105,14 @@
     "pk": 66,
     "fields": {
       "ipaddr": "192.0.2.66",
-      "hostname": "srv-demo-057",
+      "hostname": "srv-057",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -2137,14 +2137,14 @@
     "pk": 67,
     "fields": {
       "ipaddr": "192.0.2.67",
-      "hostname": "srv-demo-058",
+      "hostname": "srv-058",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -2169,14 +2169,14 @@
     "pk": 68,
     "fields": {
       "ipaddr": "192.0.2.68",
-      "hostname": "sw-demo-009",
+      "hostname": "sw-009",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": true,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 18,
@@ -2201,14 +2201,14 @@
     "pk": 69,
     "fields": {
       "ipaddr": "192.0.2.69",
-      "hostname": "srv-demo-059",
+      "hostname": "srv-059",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -2233,14 +2233,14 @@
     "pk": 70,
     "fields": {
       "ipaddr": "192.0.2.70",
-      "hostname": "srv-demo-060",
+      "hostname": "srv-060",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -2265,14 +2265,14 @@
     "pk": 71,
     "fields": {
       "ipaddr": "192.0.2.71",
-      "hostname": "srv-demo-061",
+      "hostname": "srv-061",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -2297,14 +2297,14 @@
     "pk": 72,
     "fields": {
       "ipaddr": "192.0.2.72",
-      "hostname": "srv-demo-062",
+      "hostname": "srv-062",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -2329,14 +2329,14 @@
     "pk": 73,
     "fields": {
       "ipaddr": "192.0.2.73",
-      "hostname": "srv-demo-063",
+      "hostname": "srv-063",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -2361,14 +2361,14 @@
     "pk": 74,
     "fields": {
       "ipaddr": "192.0.2.74",
-      "hostname": "srv-demo-064",
+      "hostname": "srv-064",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -2393,14 +2393,14 @@
     "pk": 75,
     "fields": {
       "ipaddr": "192.0.2.75",
-      "hostname": "srv-demo-065",
+      "hostname": "srv-065",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -2425,14 +2425,14 @@
     "pk": 76,
     "fields": {
       "ipaddr": "192.0.2.76",
-      "hostname": "srv-demo-066",
+      "hostname": "srv-066",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -2457,14 +2457,14 @@
     "pk": 77,
     "fields": {
       "ipaddr": "192.0.2.77",
-      "hostname": "srv-demo-067",
+      "hostname": "srv-067",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -2489,14 +2489,14 @@
     "pk": 78,
     "fields": {
       "ipaddr": "192.0.2.78",
-      "hostname": "srv-demo-068",
+      "hostname": "srv-068",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -2521,14 +2521,14 @@
     "pk": 79,
     "fields": {
       "ipaddr": "192.0.2.79",
-      "hostname": "pc-demo-002",
+      "hostname": "pc-002",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -2553,14 +2553,14 @@
     "pk": 80,
     "fields": {
       "ipaddr": "192.0.2.80",
-      "hostname": "prn-demo-001",
+      "hostname": "prn-001",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -2585,14 +2585,14 @@
     "pk": 81,
     "fields": {
       "ipaddr": "192.0.2.81",
-      "hostname": "srv-demo-069",
+      "hostname": "srv-069",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -2617,14 +2617,14 @@
     "pk": 82,
     "fields": {
       "ipaddr": "192.0.2.82",
-      "hostname": "pc-demo-003",
+      "hostname": "pc-003",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": false,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -2649,14 +2649,14 @@
     "pk": 83,
     "fields": {
       "ipaddr": "192.0.2.83",
-      "hostname": "srv-demo-070",
+      "hostname": "srv-070",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -2681,14 +2681,14 @@
     "pk": 84,
     "fields": {
       "ipaddr": "192.0.2.84",
-      "hostname": "srv-demo-071",
+      "hostname": "srv-071",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -2713,14 +2713,14 @@
     "pk": 85,
     "fields": {
       "ipaddr": "192.0.2.85",
-      "hostname": "srv-demo-072",
+      "hostname": "srv-072",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -2745,14 +2745,14 @@
     "pk": 86,
     "fields": {
       "ipaddr": "192.0.2.86",
-      "hostname": "srv-demo-073",
+      "hostname": "srv-073",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -2777,14 +2777,14 @@
     "pk": 87,
     "fields": {
       "ipaddr": "192.0.2.87",
-      "hostname": "srv-demo-074",
+      "hostname": "srv-074",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -2809,14 +2809,14 @@
     "pk": 88,
     "fields": {
       "ipaddr": "192.0.2.88",
-      "hostname": "srv-demo-075",
+      "hostname": "srv-075",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -2841,14 +2841,14 @@
     "pk": 89,
     "fields": {
       "ipaddr": "192.0.2.89",
-      "hostname": "srv-demo-076",
+      "hostname": "srv-076",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -2873,14 +2873,14 @@
     "pk": 90,
     "fields": {
       "ipaddr": "192.0.2.90",
-      "hostname": "srv-demo-077",
+      "hostname": "srv-077",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -2905,14 +2905,14 @@
     "pk": 91,
     "fields": {
       "ipaddr": "192.0.2.91",
-      "hostname": "prn-demo-002",
+      "hostname": "prn-002",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -2937,14 +2937,14 @@
     "pk": 92,
     "fields": {
       "ipaddr": "192.0.2.92",
-      "hostname": "prn-demo-003",
+      "hostname": "prn-003",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -2969,14 +2969,14 @@
     "pk": 93,
     "fields": {
       "ipaddr": "192.0.2.93",
-      "hostname": "srv-demo-078",
+      "hostname": "srv-078",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -3001,14 +3001,14 @@
     "pk": 94,
     "fields": {
       "ipaddr": "192.0.2.94",
-      "hostname": "srv-demo-079",
+      "hostname": "srv-079",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -3033,14 +3033,14 @@
     "pk": 95,
     "fields": {
       "ipaddr": "192.0.2.95",
-      "hostname": "prn-demo-004",
+      "hostname": "prn-004",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -3065,14 +3065,14 @@
     "pk": 96,
     "fields": {
       "ipaddr": "192.0.2.96",
-      "hostname": "prn-demo-005",
+      "hostname": "prn-005",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -3097,14 +3097,14 @@
     "pk": 97,
     "fields": {
       "ipaddr": "192.0.2.97",
-      "hostname": "pc-demo-004",
+      "hostname": "pc-004",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -3129,14 +3129,14 @@
     "pk": 98,
     "fields": {
       "ipaddr": "192.0.2.98",
-      "hostname": "prn-demo-006",
+      "hostname": "prn-006",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -3161,14 +3161,14 @@
     "pk": 99,
     "fields": {
       "ipaddr": "192.0.2.99",
-      "hostname": "prn-demo-007",
+      "hostname": "prn-007",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -3193,14 +3193,14 @@
     "pk": 100,
     "fields": {
       "ipaddr": "192.0.2.100",
-      "hostname": "prn-demo-008",
+      "hostname": "prn-008",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -3225,14 +3225,14 @@
     "pk": 101,
     "fields": {
       "ipaddr": "192.0.2.101",
-      "hostname": "pc-demo-005",
+      "hostname": "pc-005",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -3257,14 +3257,14 @@
     "pk": 102,
     "fields": {
       "ipaddr": "192.0.2.102",
-      "hostname": "prn-demo-009",
+      "hostname": "prn-009",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -3289,14 +3289,14 @@
     "pk": 103,
     "fields": {
       "ipaddr": "192.0.2.103",
-      "hostname": "srv-demo-080",
+      "hostname": "srv-080",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -3321,14 +3321,14 @@
     "pk": 104,
     "fields": {
       "ipaddr": "192.0.2.104",
-      "hostname": "prn-demo-010",
+      "hostname": "prn-010",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -3353,14 +3353,14 @@
     "pk": 105,
     "fields": {
       "ipaddr": "192.0.2.105",
-      "hostname": "prn-demo-011",
+      "hostname": "prn-011",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -3385,14 +3385,14 @@
     "pk": 106,
     "fields": {
       "ipaddr": "192.0.2.106",
-      "hostname": "prn-demo-012",
+      "hostname": "prn-012",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -3417,14 +3417,14 @@
     "pk": 107,
     "fields": {
       "ipaddr": "192.0.2.107",
-      "hostname": "pc-demo-006",
+      "hostname": "pc-006",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -3449,14 +3449,14 @@
     "pk": 108,
     "fields": {
       "ipaddr": "192.0.2.108",
-      "hostname": "prn-demo-013",
+      "hostname": "prn-013",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -3481,14 +3481,14 @@
     "pk": 109,
     "fields": {
       "ipaddr": "192.0.2.109",
-      "hostname": "srv-demo-081",
+      "hostname": "srv-081",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -3513,14 +3513,14 @@
     "pk": 110,
     "fields": {
       "ipaddr": "192.0.2.110",
-      "hostname": "pc-demo-007",
+      "hostname": "pc-007",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -3545,14 +3545,14 @@
     "pk": 111,
     "fields": {
       "ipaddr": "192.0.2.111",
-      "hostname": "prn-demo-014",
+      "hostname": "prn-014",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -3577,14 +3577,14 @@
     "pk": 112,
     "fields": {
       "ipaddr": "192.0.2.112",
-      "hostname": "prn-demo-015",
+      "hostname": "prn-015",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -3609,14 +3609,14 @@
     "pk": 113,
     "fields": {
       "ipaddr": "192.0.2.113",
-      "hostname": "prn-demo-016",
+      "hostname": "prn-016",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -3641,14 +3641,14 @@
     "pk": 114,
     "fields": {
       "ipaddr": "192.0.2.114",
-      "hostname": "pc-demo-008",
+      "hostname": "pc-008",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -3673,14 +3673,14 @@
     "pk": 115,
     "fields": {
       "ipaddr": "192.0.2.115",
-      "hostname": "prn-demo-017",
+      "hostname": "prn-017",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -3705,14 +3705,14 @@
     "pk": 116,
     "fields": {
       "ipaddr": "192.0.2.116",
-      "hostname": "prn-demo-018",
+      "hostname": "prn-018",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -3737,14 +3737,14 @@
     "pk": 117,
     "fields": {
       "ipaddr": "192.0.2.117",
-      "hostname": "pc-demo-009",
+      "hostname": "pc-009",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -3769,14 +3769,14 @@
     "pk": 118,
     "fields": {
       "ipaddr": "192.0.2.118",
-      "hostname": "pc-demo-010",
+      "hostname": "pc-010",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -3801,14 +3801,14 @@
     "pk": 119,
     "fields": {
       "ipaddr": "192.0.2.119",
-      "hostname": "prn-demo-019",
+      "hostname": "prn-019",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -3833,14 +3833,14 @@
     "pk": 120,
     "fields": {
       "ipaddr": "192.0.2.120",
-      "hostname": "prn-demo-020",
+      "hostname": "prn-020",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -3865,14 +3865,14 @@
     "pk": 121,
     "fields": {
       "ipaddr": "192.0.2.121",
-      "hostname": "prn-demo-021",
+      "hostname": "prn-021",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -3897,14 +3897,14 @@
     "pk": 122,
     "fields": {
       "ipaddr": "192.0.2.122",
-      "hostname": "prn-demo-022",
+      "hostname": "prn-022",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -3929,14 +3929,14 @@
     "pk": 123,
     "fields": {
       "ipaddr": "192.0.2.123",
-      "hostname": "prn-demo-023",
+      "hostname": "prn-023",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -3961,14 +3961,14 @@
     "pk": 124,
     "fields": {
       "ipaddr": "192.0.2.124",
-      "hostname": "pc-demo-011",
+      "hostname": "pc-011",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -3993,14 +3993,14 @@
     "pk": 125,
     "fields": {
       "ipaddr": "192.0.2.125",
-      "hostname": "prn-demo-024",
+      "hostname": "prn-024",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -4025,14 +4025,14 @@
     "pk": 126,
     "fields": {
       "ipaddr": "192.0.2.126",
-      "hostname": "pc-demo-012",
+      "hostname": "pc-012",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -4057,14 +4057,14 @@
     "pk": 127,
     "fields": {
       "ipaddr": "192.0.2.127",
-      "hostname": "pc-demo-013",
+      "hostname": "pc-013",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -4089,14 +4089,14 @@
     "pk": 128,
     "fields": {
       "ipaddr": "192.0.2.128",
-      "hostname": "prn-demo-025",
+      "hostname": "prn-025",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -4121,14 +4121,14 @@
     "pk": 129,
     "fields": {
       "ipaddr": "192.0.2.129",
-      "hostname": "pc-demo-014",
+      "hostname": "pc-014",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -4153,14 +4153,14 @@
     "pk": 130,
     "fields": {
       "ipaddr": "192.0.2.130",
-      "hostname": "srv-demo-082",
+      "hostname": "srv-082",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -4185,14 +4185,14 @@
     "pk": 131,
     "fields": {
       "ipaddr": "192.0.2.131",
-      "hostname": "pc-demo-015",
+      "hostname": "pc-015",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -4217,14 +4217,14 @@
     "pk": 132,
     "fields": {
       "ipaddr": "192.0.2.132",
-      "hostname": "prn-demo-026",
+      "hostname": "prn-026",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -4249,14 +4249,14 @@
     "pk": 133,
     "fields": {
       "ipaddr": "192.0.2.133",
-      "hostname": "pc-demo-016",
+      "hostname": "pc-016",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -4281,14 +4281,14 @@
     "pk": 134,
     "fields": {
       "ipaddr": "192.0.2.134",
-      "hostname": "srv-demo-083",
+      "hostname": "srv-083",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -4313,14 +4313,14 @@
     "pk": 135,
     "fields": {
       "ipaddr": "192.0.2.135",
-      "hostname": "prn-demo-027",
+      "hostname": "prn-027",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -4345,14 +4345,14 @@
     "pk": 136,
     "fields": {
       "ipaddr": "192.0.2.136",
-      "hostname": "pc-demo-017",
+      "hostname": "pc-017",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -4377,14 +4377,14 @@
     "pk": 137,
     "fields": {
       "ipaddr": "192.0.2.137",
-      "hostname": "prn-demo-028",
+      "hostname": "prn-028",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -4409,14 +4409,14 @@
     "pk": 138,
     "fields": {
       "ipaddr": "192.0.2.138",
-      "hostname": "pc-demo-018",
+      "hostname": "pc-018",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -4441,14 +4441,14 @@
     "pk": 139,
     "fields": {
       "ipaddr": "192.0.2.139",
-      "hostname": "pc-demo-019",
+      "hostname": "pc-019",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -4473,14 +4473,14 @@
     "pk": 140,
     "fields": {
       "ipaddr": "192.0.2.140",
-      "hostname": "srv-demo-084",
+      "hostname": "srv-084",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -4505,14 +4505,14 @@
     "pk": 141,
     "fields": {
       "ipaddr": "192.0.2.141",
-      "hostname": "prn-demo-029",
+      "hostname": "prn-029",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -4537,14 +4537,14 @@
     "pk": 142,
     "fields": {
       "ipaddr": "192.0.2.142",
-      "hostname": "pc-demo-020",
+      "hostname": "pc-020",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -4569,14 +4569,14 @@
     "pk": 143,
     "fields": {
       "ipaddr": "192.0.2.143",
-      "hostname": "prn-demo-030",
+      "hostname": "prn-030",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -4601,14 +4601,14 @@
     "pk": 144,
     "fields": {
       "ipaddr": "192.0.2.144",
-      "hostname": "prn-demo-031",
+      "hostname": "prn-031",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -4633,14 +4633,14 @@
     "pk": 145,
     "fields": {
       "ipaddr": "192.0.2.145",
-      "hostname": "prn-demo-032",
+      "hostname": "prn-032",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -4665,14 +4665,14 @@
     "pk": 146,
     "fields": {
       "ipaddr": "192.0.2.146",
-      "hostname": "pc-demo-021",
+      "hostname": "pc-021",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -4697,14 +4697,14 @@
     "pk": 147,
     "fields": {
       "ipaddr": "192.0.2.147",
-      "hostname": "pc-demo-022",
+      "hostname": "pc-022",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -4729,14 +4729,14 @@
     "pk": 148,
     "fields": {
       "ipaddr": "192.0.2.148",
-      "hostname": "prn-demo-033",
+      "hostname": "prn-033",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -4761,14 +4761,14 @@
     "pk": 149,
     "fields": {
       "ipaddr": "192.0.2.149",
-      "hostname": "srv-demo-085",
+      "hostname": "srv-085",
       "cat": 1,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -4793,14 +4793,14 @@
     "pk": 150,
     "fields": {
       "ipaddr": "192.0.2.150",
-      "hostname": "pc-demo-023",
+      "hostname": "pc-023",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -4825,14 +4825,14 @@
     "pk": 151,
     "fields": {
       "ipaddr": "192.0.2.151",
-      "hostname": "pc-demo-024",
+      "hostname": "pc-024",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -4857,14 +4857,14 @@
     "pk": 152,
     "fields": {
       "ipaddr": "192.0.2.152",
-      "hostname": "prn-demo-034",
+      "hostname": "prn-034",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -4889,14 +4889,14 @@
     "pk": 153,
     "fields": {
       "ipaddr": "192.0.2.153",
-      "hostname": "prn-demo-035",
+      "hostname": "prn-035",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -4921,14 +4921,14 @@
     "pk": 154,
     "fields": {
       "ipaddr": "192.0.2.154",
-      "hostname": "prn-demo-036",
+      "hostname": "prn-036",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -4953,14 +4953,14 @@
     "pk": 155,
     "fields": {
       "ipaddr": "192.0.2.155",
-      "hostname": "prn-demo-037",
+      "hostname": "prn-037",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -4985,14 +4985,14 @@
     "pk": 156,
     "fields": {
       "ipaddr": "192.0.2.156",
-      "hostname": "prn-demo-038",
+      "hostname": "prn-038",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 22,
@@ -5017,14 +5017,14 @@
     "pk": 157,
     "fields": {
       "ipaddr": "192.0.2.157",
-      "hostname": "prn-demo-039",
+      "hostname": "prn-039",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 23,
@@ -5049,14 +5049,14 @@
     "pk": 158,
     "fields": {
       "ipaddr": "192.0.2.158",
-      "hostname": "pc-demo-025",
+      "hostname": "pc-025",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 25,
@@ -5081,14 +5081,14 @@
     "pk": 159,
     "fields": {
       "ipaddr": "192.0.2.159",
-      "hostname": "pc-demo-026",
+      "hostname": "pc-026",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 26,
@@ -5113,14 +5113,14 @@
     "pk": 160,
     "fields": {
       "ipaddr": "192.0.2.160",
-      "hostname": "prn-demo-040",
+      "hostname": "prn-040",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone D",
+      "place": "Zone D",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 27,
@@ -5145,14 +5145,14 @@
     "pk": 161,
     "fields": {
       "ipaddr": "192.0.2.161",
-      "hostname": "prn-demo-041",
+      "hostname": "prn-041",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone A",
+      "place": "Zone A",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 68,
@@ -5177,14 +5177,14 @@
     "pk": 162,
     "fields": {
       "ipaddr": "192.0.2.162",
-      "hostname": "pc-demo-027",
+      "hostname": "pc-027",
       "cat": 2,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone B",
+      "place": "Zone B",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 20,
@@ -5209,14 +5209,14 @@
     "pk": 163,
     "fields": {
       "ipaddr": "192.0.2.163",
-      "hostname": "prn-demo-042",
+      "hostname": "prn-042",
       "cat": 3,
       "time_create": "2026-01-01T00:00:00Z",
       "time_update": "2026-01-01T00:00:00Z",
       "online": true,
       "SNMP": false,
       "com_str": null,
-      "place": "Demo zone C",
+      "place": "Zone C",
       "nagios_flag": true,
       "hide_flag": false,
       "parents": 21,
@@ -5244,7 +5244,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5255,7 +5255,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5266,7 +5266,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5277,7 +5277,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5288,7 +5288,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5299,7 +5299,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5310,7 +5310,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5321,7 +5321,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5332,7 +5332,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5343,7 +5343,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5354,7 +5354,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5365,7 +5365,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5376,7 +5376,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5387,7 +5387,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5398,7 +5398,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5409,7 +5409,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5420,7 +5420,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5431,7 +5431,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5442,7 +5442,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5453,7 +5453,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5464,7 +5464,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5475,7 +5475,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5486,7 +5486,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5497,7 +5497,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5508,7 +5508,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5519,7 +5519,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5530,7 +5530,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5541,7 +5541,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5552,7 +5552,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5563,7 +5563,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5574,7 +5574,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5585,7 +5585,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5596,7 +5596,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5607,7 +5607,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5618,7 +5618,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5629,7 +5629,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5640,7 +5640,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5651,7 +5651,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5662,7 +5662,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5673,7 +5673,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5684,7 +5684,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5695,7 +5695,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5706,7 +5706,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5717,7 +5717,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5728,7 +5728,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5739,7 +5739,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5750,7 +5750,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5761,7 +5761,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5772,7 +5772,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5783,7 +5783,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5794,7 +5794,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5805,7 +5805,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5816,7 +5816,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5827,7 +5827,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5838,7 +5838,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5849,7 +5849,7 @@
       "description": "Uptime",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Uptime: CRITICAL (anonymized demo)"
+      "status_information": "Uptime: CRITICAL"
     }
   },
   {
@@ -5860,7 +5860,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5871,7 +5871,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5882,7 +5882,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5893,7 +5893,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5904,7 +5904,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5915,7 +5915,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5926,7 +5926,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5937,7 +5937,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -5948,7 +5948,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5959,7 +5959,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -5970,7 +5970,7 @@
       "description": "Memory Free",
       "status": "UNKNOWN",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Memory Free: UNKNOWN (anonymized demo)"
+      "status_information": "Memory Free: UNKNOWN"
     }
   },
   {
@@ -5981,7 +5981,7 @@
       "description": "Memory Used",
       "status": "UNKNOWN",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Memory Used: UNKNOWN (anonymized demo)"
+      "status_information": "Memory Used: UNKNOWN"
     }
   },
   {
@@ -5992,7 +5992,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6003,7 +6003,7 @@
       "description": "Uptime",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Uptime: OK (anonymized demo)"
+      "status_information": "Uptime: OK"
     }
   },
   {
@@ -6014,7 +6014,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6025,7 +6025,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6036,7 +6036,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6047,7 +6047,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6058,7 +6058,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6069,7 +6069,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -6080,7 +6080,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -6091,7 +6091,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6102,7 +6102,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6113,7 +6113,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6124,7 +6124,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6135,7 +6135,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6146,7 +6146,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6157,7 +6157,7 @@
       "description": "PING",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: CRITICAL (anonymized demo)"
+      "status_information": "PING: CRITICAL"
     }
   },
   {
@@ -6168,7 +6168,7 @@
       "description": "Printer Status",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Printer Status: CRITICAL (anonymized demo)"
+      "status_information": "Printer Status: CRITICAL"
     }
   },
   {
@@ -6179,7 +6179,7 @@
       "description": "Current Load",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Current Load: OK (anonymized demo)"
+      "status_information": "Current Load: OK"
     }
   },
   {
@@ -6190,7 +6190,7 @@
       "description": "Current Users",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Current Users: OK (anonymized demo)"
+      "status_information": "Current Users: OK"
     }
   },
   {
@@ -6201,7 +6201,7 @@
       "description": "HTTP",
       "status": "WARNING",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "HTTP: WARNING (anonymized demo)"
+      "status_information": "HTTP: WARNING"
     }
   },
   {
@@ -6212,7 +6212,7 @@
       "description": "PING",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "PING: OK (anonymized demo)"
+      "status_information": "PING: OK"
     }
   },
   {
@@ -6223,7 +6223,7 @@
       "description": "Root Partition",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Root Partition: OK (anonymized demo)"
+      "status_information": "Root Partition: OK"
     }
   },
   {
@@ -6234,7 +6234,7 @@
       "description": "SSH",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "SSH: OK (anonymized demo)"
+      "status_information": "SSH: OK"
     }
   },
   {
@@ -6245,7 +6245,7 @@
       "description": "Swap Usage",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Swap Usage: OK (anonymized demo)"
+      "status_information": "Swap Usage: OK"
     }
   },
   {
@@ -6256,7 +6256,7 @@
       "description": "Total Processes",
       "status": "OK",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Total Processes: OK (anonymized demo)"
+      "status_information": "Total Processes: OK"
     }
   },
   {
@@ -6267,7 +6267,7 @@
       "description": "C:\\ Drive Space",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "C:\\ Drive Space: CRITICAL (anonymized demo)"
+      "status_information": "C:\\ Drive Space: CRITICAL"
     }
   },
   {
@@ -6278,7 +6278,7 @@
       "description": "CPU Load",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "CPU Load: CRITICAL (anonymized demo)"
+      "status_information": "CPU Load: CRITICAL"
     }
   },
   {
@@ -6289,7 +6289,7 @@
       "description": "Explorer",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Explorer: CRITICAL (anonymized demo)"
+      "status_information": "Explorer: CRITICAL"
     }
   },
   {
@@ -6300,7 +6300,7 @@
       "description": "Memory Usage",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Memory Usage: CRITICAL (anonymized demo)"
+      "status_information": "Memory Usage: CRITICAL"
     }
   },
   {
@@ -6311,7 +6311,7 @@
       "description": "NSClient++ Version",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "NSClient++ Version: CRITICAL (anonymized demo)"
+      "status_information": "NSClient++ Version: CRITICAL"
     }
   },
   {
@@ -6322,7 +6322,7 @@
       "description": "Uptime",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "Uptime: CRITICAL (anonymized demo)"
+      "status_information": "Uptime: CRITICAL"
     }
   },
   {
@@ -6333,7 +6333,7 @@
       "description": "W3SVC",
       "status": "CRITICAL",
       "last_checked": "2026-01-01T00:00:00Z",
-      "status_information": "W3SVC: CRITICAL (anonymized demo)"
+      "status_information": "W3SVC: CRITICAL"
     }
   }
 ]

@@ -214,6 +214,34 @@ class ExternalIntegrationFlowTests(TestCase):
         )
         self.client.force_login(self.user)
 
+    @patch.dict(
+        'os.environ',
+        {'NAGIOS_STATUS_DIR': '/missing-nagios-directory'},
+    )
+    def test_monitoring_log_uses_sample_fallback(self):
+        Host.objects.create(
+            ipaddr='192.0.2.72',
+            hostname='srv-001',
+            online=True,
+        )
+
+        response = self.client.get(reverse('front'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Nagios Core 4.x starting')
+        self.assertContains(response, 'srv-001')
+        self.assertContains(response, 'PING OK')
+        self.assertNotIn('demo', response.content.decode().lower())
+        self.assertNotContains(response, 'Ошибка чтения лога')
+
+    @patch('hosting.inventory_views.Path.read_text', side_effect=FileNotFoundError)
+    def test_monitoring_log_explains_missing_live_file(self, _read_text):
+        response = self.client.get(reverse('front'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'NAGIOS_STATUS_HOST_DIR')
+        self.assertNotContains(response, '[Errno 2]')
+
     @patch('hosting.inventory_views.subprocess.run')
     def test_ping_returns_command_output(self, run):
         run.return_value = subprocess.CompletedProcess(

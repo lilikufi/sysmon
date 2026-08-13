@@ -14,7 +14,44 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET
 
 from .forms import CheckForm
-from .models import Host
+from .models import Host, Service
+
+
+SAMPLE_LOG_PATH = Path(__file__).resolve().parent / 'fixtures' / 'demo_nagios.log'
+SAMPLE_LOG_TIMESTAMP = 1767226200
+
+
+def _sample_log_lines():
+    lines = SAMPLE_LOG_PATH.read_text(
+        encoding='utf-8',
+        errors='replace',
+    ).splitlines(True)
+    timestamp = SAMPLE_LOG_TIMESTAMP
+
+    for host in Host.objects.order_by('pk'):
+        state = 'UP' if host.online else 'DOWN'
+        output = (
+            'PING OK - Packet loss = 0%, RTA = 1.50 ms'
+            if host.online
+            else 'CRITICAL - Host unreachable'
+        )
+        lines.append(
+            f'[{timestamp}] HOST ALERT: {host.hostname or host.ipaddr};'
+            f'{state};HARD;1;{output}\n'
+        )
+        timestamp += 15
+
+    for service in Service.objects.select_related('host').order_by('pk'):
+        status = service.status.upper()
+        lines.append(
+            f'[{timestamp}] SERVICE ALERT: '
+            f'{service.host.hostname or service.host.ipaddr};'
+            f'{service.description};{status};HARD;1;'
+            f'{service.status_information or "Service check completed"}\n'
+        )
+        timestamp += 15
+
+    return lines[-1000:]
 
 
 @login_required
@@ -64,8 +101,14 @@ def monitoring_log(request):
     log_path = Path(os.getenv('NAGIOS_STATUS_DIR', 'nagios_stat')) / 'nagios.log'
     try:
         lines = log_path.read_text(encoding='utf-8', errors='replace').splitlines(True)[-1000:]
-    except OSError as exc:
-        lines = [f'Ошибка чтения лога: {exc}']
+    except OSError:
+        if Host.objects.filter(ipaddr__startswith='192.0.2.').exists():
+            lines = _sample_log_lines()
+        else:
+            lines = [
+                'INFO: Файл nagios.log пока недоступен. '
+                'Настройте NAGIOS_STATUS_HOST_DIR и синхронизацию с Nagios.'
+            ]
     else:
         processed = []
         for line in lines:
