@@ -1,6 +1,11 @@
 {% extends 'front/layout.html' %}
 {% load static %}
 {% block title%}Hosts{% endblock %}
+{% block page_class %}map-gradient-page hosts-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'front/css/map_gradient_pages.css' %}">
+{% endblock %}
 
 {% block content %}
 <style>

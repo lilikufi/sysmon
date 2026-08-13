@@ -1,6 +1,11 @@
 {% extends 'front/layout.html' %}
 {% load static %}
 {% block title %}Логи Nagios{% endblock %}
+{% block page_class %}map-gradient-page logs-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'front/css/map_gradient_pages.css' %}">
+{% endblock %}
 
 {% block search %}
 <!-- Кастомный поиск для логов в backheader -->
@@ -142,26 +147,10 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        background: radial-gradient(1200px 800px at 20% 20%, rgba(0, 240, 255, 0.07), transparent 60%),
-                    radial-gradient(1000px 600px at 80% 70%, rgba(255, 43, 214, 0.07), transparent 65%),
-                    linear-gradient(115deg, var(--bg1), var(--bg2) 60%, var(--bg1));
-        background-attachment: fixed;
+        background: #090a0f;
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         height: 100vh;
-    }
-
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background:
-            repeating-linear-gradient(to right, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 80px),
-            repeating-linear-gradient(to bottom, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 80px);
-        opacity: 0.15;
-        mix-blend-mode: overlay;
-        pointer-events: none;
-        z-index: 1;
     }
 
     .log-container {

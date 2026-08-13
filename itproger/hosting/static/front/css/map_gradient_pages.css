@@ -1,0 +1,21 @@
+.map-gradient-page {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+.map-gradient-page > .backfeater,
+.map-gradient-page main,
+.map-gradient-page main > .untitled-page.root,
+.map-gradient-page main .backfeater {
+    background: transparent;
+    background-image: none;
+}
+
+.map-gradient-page .backheader,
+.map-gradient-page .dropdown-menu-container {
+    z-index: 10;
+}
+
+.map-gradient-page.logs-page::before {
+    display: none;
+}

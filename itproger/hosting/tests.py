@@ -75,6 +75,18 @@ class HostingSmokeTests(TestCase):
             with self.subTest(url=url):
                 self.assertEqual(self.client.get(url).status_code, 200)
 
+    def test_inventory_pages_use_map_gradient_without_stars(self):
+        self.client.force_login(self.user)
+
+        for url in [reverse('front'), reverse('hosts'), reverse('scan')]:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertContains(response, 'map-gradient-page')
+                self.assertContains(response, 'front/css/map_gradient_pages.css')
+                self.assertNotContains(response, 'id="stars"')
+                self.assertNotContains(response, 'id="stars2"')
+                self.assertNotContains(response, 'id="stars3"')
+
     def test_sensitive_endpoints_require_authentication(self):
         endpoints = [
             ('post', reverse('host-hide', args=[self.host.pk])),
