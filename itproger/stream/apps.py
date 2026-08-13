@@ -8,5 +8,4 @@ class StreamConfig(AppConfig):
 
     def ready(self):
         if settings.SYSMON_ENABLE_SCHEDULER:
-            # Disabled by default so management commands and tests stay deterministic.
-            from . import sheduler  # noqa: F401
+            from . import scheduler  # noqa: F401

@@ -1576,7 +1576,6 @@ const DEVICE_TYPE_CONFIG = {
     'virtual': { icon: '☁️', label: 'Виртуальные', class: 'icon-server', group: 'endpoints' },
     'unknown': { icon: '❓', label: 'Неизвестные', class: 'icon-other', group: 'other' },
     'other': { icon: '📦', label: 'Другие', class: 'icon-other', group: 'other' },
-    'sysmon': { icon: '🌐', label: 'Sysmon', class: 'icon-all', group: 'system' },
 };
 
 function getDeviceTypeConfig(type) {
@@ -1629,7 +1628,9 @@ function buildGraphData(data) {
         if (item.parent && nodesMap.has(item.parent)) {
             links.push({
                 source: item.parent,
-                target: item.ipaddr
+                target: item.ipaddr,
+                segmentationAllowed: item.segmentation_allowed,
+                segmentationReason: item.segmentation_reason
             });
         }
 
@@ -1645,7 +1646,9 @@ function buildGraphData(data) {
                     if (!exists) {
                         links.push({
                             source: item.ipaddr,
-                            target: childIp
+                            target: childIp,
+                            segmentationAllowed: nodesMap.get(childIp).data.segmentation_allowed,
+                            segmentationReason: nodesMap.get(childIp).data.segmentation_reason
                         });
                     }
                 }
@@ -1666,38 +1669,6 @@ function buildGraphData(data) {
     });
 
     console.log(`Created ${uniqueLinks.length} unique links`);
-
-    // Проверяем "осиротевшие" узлы (без связей)
-    const connectedNodes = new Set();
-    uniqueLinks.forEach(link => {
-        connectedNodes.add(link.source);
-        connectedNodes.add(link.target);
-    });
-
-    const orphanNodes = [];
-    nodesMap.forEach((node, ip) => {
-        if (!connectedNodes.has(ip)) {
-            orphanNodes.push(ip);
-        }
-    });
-
-    if (orphanNodes.length > 0) {
-        console.warn(`Found ${orphanNodes.length} orphan nodes (no connections):`, orphanNodes);
-
-        // Подключаем осиротевших к первому узлу (sysmon или первый в списке)
-        const rootIp = data.find(d => d.ipaddr === 'sysmon')?.ipaddr || data[0]?.ipaddr;
-        if (rootIp) {
-            orphanNodes.forEach(ip => {
-                if (ip !== rootIp) {
-                    uniqueLinks.push({
-                        source: rootIp,
-                        target: ip
-                    });
-                    console.log(`Connected orphan ${ip} to ${rootIp}`);
-                }
-            });
-        }
-    }
 
     return {
         nodes: Array.from(nodesMap.values()),
@@ -2245,7 +2216,6 @@ function stopPing() {
 }
 
 function statusColor(d) {
-    if (d.data.ipaddr === 'sysmon') return 'var(--neon-cyan)';
     if (d.data.status === false) return 'var(--neon-red)';
     if (d.data.status_serv === 'critical') return 'var(--neon-red)';
     if (d.data.status_serv === 'warning') return 'var(--neon-orange)';
@@ -2254,7 +2224,6 @@ function statusColor(d) {
 }
 
 function getStatusClass(d) {
-    if (d.data.ipaddr === 'sysmon') return 'status-sysmon';
     if (d.data.status === false) return 'status-down';
     if (d.data.status_serv === 'critical') return 'status-critical';
     if (d.data.status_serv === 'warning') return 'status-critical';
@@ -2263,7 +2232,6 @@ function getStatusClass(d) {
 }
 
 function getStatusText(d) {
-    if (d.data.ipaddr === 'sysmon') return 'Sysmon Node';
     if (d.data.status === false) return 'Host Down';
     if (d.data.status_serv === 'critical') return 'Services Critical';
     if (d.data.status_serv === 'warning') return 'Services Warning';
@@ -2295,7 +2263,12 @@ linkElements = g.append("g")
     .selectAll("line")
     .data(links)
     .join("line")
-    .attr("class", "link");
+    .attr("class", d => d.segmentationAllowed === false ? "link segmentation-denied" : "link")
+    .attr("stroke", d => d.segmentationAllowed === false ? "#ff3864" : null)
+    .attr("stroke-dasharray", d => d.segmentationAllowed === false ? "6 4" : null);
+
+linkElements.append("title")
+    .text(d => d.segmentationReason || "No segmentation decision");
 
 // Создаём узлы
 nodeElements = g.append("g")

@@ -4,13 +4,9 @@
  {% block search %}
     {% endblock %}
 {% block content %}
-<!--<script>-->
-<!--    alert(" Выбор родителя временно недоступен");</script>-->
 <link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
-<!--<link rel="stylesheet" href="{%static '/main/css/css1/bootstrap.min.css' %}">-->
 <script src="{% static 'front/js/create.js' %}"></script>
 <div class="untitled-page root">
-    <!--    отмена scale для кнопки назад-->
     <style>
         a[href="{% url 'scan' %}"]:hover {
             transform: scale(1);
@@ -52,7 +48,6 @@
                         <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
                                class="form-control ip-read"
                                placeholder="Введите ip address" value="{{ form.ipaddr.value }}" readonly>
-                        <!--                <div id="warning-message" style="display: none; color: red;">-->
                     </div>
                     <div class="form-ip">
                         {{ form.hostname.errors }}
@@ -78,9 +73,7 @@
                             <option value="{{ parent.id }}" >
 
                                 {{ parent.ipaddr }}
-<!--                                 {% if host.parents.hostname %}{{ host.parents.ipaddr }}{% else %}{{ host.parents.ipaddr }}{% endif %}-->
                             </option>
-<!--                            <option value="{{ parent.id }}">  {% if host.parents.hostname %}{{ host.parents.ipaddr }}{% else %}{{ host.parents.ipaddr }}{% endif %}</option>-->
 
                             {% endfor %}
 
@@ -92,32 +85,9 @@
                         <option value="{{ host }}"></option>
                         {% endfor %}
                     </datalist>
-<!---->
                     <div class="choi">
                         <label for="device_type">тип устройства:</label>
-<!--                        <select name="device_type" id="device_type" class="choices form-ip ">-->
-<!--&lt;!&ndash;                            {% if host.device_type != False %}&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="{{ form.device_type.value}}"> {{ host.device_type}}</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                             {% else %}&ndash;&gt;-->
-<!--                              <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>-->
-<!--                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Сервер</option>-->
-<!--                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>-->
-
-<!--                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Принтер</option>-->
-<!--&lt;!&ndash;                            {% endif %}&ndash;&gt;-->
-
-<!--&lt;!&ndash;                            <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Сервер</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Принтер</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="switches">Коммутатор</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <option value="servers">Сервер</option>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <option value="printers">Принтер</option>&ndash;&gt;-->
-<!--                        </select>-->
                         <select name="device_type" id="device_type" class="choices form-ip ">
-<!--                            <option value="switches">Коммутатор</option>-->
-<!--                            <option value="servers">Сервер</option>-->
                              {% if host.device_type != "False"  %}
                                 <option value="{{ form.device_type.value}}"> {{ host.device_type}}</option>
 
@@ -232,7 +202,6 @@
 
             </form>
 
-            <!-- href="javascript:history.back()" заставит браузер вернуться назад -->
             <a href="javascript:history.back()">
                 <button type="button" class="submit1 modal-back">Назад</button>
             </a>
@@ -244,7 +213,6 @@
 </div>
 <script>
 
-    <!--        замена запятых на точки -->
     document.getElementById('{{ form.ipaddr.id_for_label }}').addEventListener('input', function () {
         this.value = this.value.replace(/,/g, '.');
     });

@@ -1,0 +1,97 @@
+name: sysmon
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sysmon}
+      POSTGRES_USER: ${POSTGRES_USER:-sysmon}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-before-production}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build:
+      context: .
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DJANGO_DB_ENGINE: postgresql
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-sysmon}
+      POSTGRES_USER: ${POSTGRES_USER:-sysmon}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-before-production}
+      REDIS_URL: redis://redis:6379/0
+      NAGIOS_STATUS_DIR: /app/nagios_stat
+    ports:
+      - "${SYSMON_PORT:-8000}:8000"
+    volumes:
+      - static_data:/app/itproger/staticfiles
+      - uploads_data:/app/itproger/uploads
+      - ${NAGIOS_STATUS_HOST_DIR:-./nagios_stat}:/app/nagios_stat:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/accounts/login/', timeout=3)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  setup:
+    build:
+      context: .
+    profiles: ["setup"]
+    init: true
+    stdin_open: true
+    tty: true
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DJANGO_DB_ENGINE: postgresql
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-sysmon}
+      POSTGRES_USER: ${POSTGRES_USER:-sysmon}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-before-production}
+      REDIS_URL: redis://redis:6379/0
+    entrypoint: ["/app/docker/setup.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_data:
+  uploads_data:
