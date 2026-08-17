@@ -1,7 +1,8 @@
-from django.contrib.auth import get_user_model
-import json
 import ipaddress
+import json
+from pathlib import Path
 
+from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -86,6 +87,25 @@ class HostingSmokeTests(TestCase):
                 self.assertNotContains(response, 'id="stars"')
                 self.assertNotContains(response, 'id="stars2"')
                 self.assertNotContains(response, 'id="stars3"')
+
+    def test_map_gradient_keeps_navigation_menu_above_header(self):
+        stylesheet = (
+            Path(__file__).resolve().parent
+            / 'static'
+            / 'front'
+            / 'css'
+            / 'map_gradient_pages.css'
+        ).read_text(encoding='utf-8')
+
+        self.assertIn('.map-gradient-page .dropdown-menu-container', stylesheet)
+        self.assertIn('z-index: 1000', stylesheet)
+        self.assertIn('.map-gradient-page .dropdown-toggle', stylesheet)
+        self.assertIn('.map-gradient-page .log-search-wrapper', stylesheet)
+        self.assertIn('background: rgba(18, 23, 41, 0.96)', stylesheet)
+        self.assertIn(
+            'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)',
+            stylesheet,
+        )
 
     def test_sensitive_endpoints_require_authentication(self):
         endpoints = [

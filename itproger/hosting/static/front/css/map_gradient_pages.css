@@ -11,9 +11,35 @@
     background-image: none;
 }
 
-.map-gradient-page .backheader,
-.map-gradient-page .dropdown-menu-container {
+.map-gradient-page .backheader {
     z-index: 10;
+    background: rgba(18, 23, 41, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.map-gradient-page .dropdown-menu-container {
+    z-index: 1000;
+}
+
+@media (min-width: 851px) {
+    .map-gradient-page .dropdown-menu-container {
+        top: 26px;
+    }
+
+    .map-gradient-page .dropdown-toggle {
+        margin-top: 0;
+    }
+
+    .map-gradient-page .search {
+        top: 26px;
+    }
+
+    .map-gradient-page .log-search-wrapper {
+        margin-top: 0;
+    }
 }
 
 .map-gradient-page.logs-page::before {
