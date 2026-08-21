@@ -143,7 +143,7 @@ def create_host(request):
             'front/create_host.html',
             {
                 'form': form,
-                'error': 'Форма была неверной',
+                'error': 'The form was invalid',
                 'hosts': Host.objects.filter(nagios_flag=True).values_list('ipaddr', flat=True),
                 'available_hosts': Host.objects.filter(nagios_flag=True),
             },
@@ -152,7 +152,7 @@ def create_host(request):
 
     existing = Host.objects.filter(ipaddr=form.cleaned_data['ipaddr']).first()
     if existing:
-        messages.info(request, 'Хост с таким IP уже существует')
+        messages.info(request, 'A host with this IP already exists')
         return redirect('host-update', pk=existing.pk)
 
     monitored_host = form.save(commit=False)
@@ -179,7 +179,7 @@ def delete_host(request, pk):
         status, message = delete_host_configuration(host.device_type, host.hostname)
         if status is True:
             host.delete()
-            logging.info('Хост удален из Nagios и инвентаря: %s', message)
+            logging.info('Host removed from Nagios and inventory: %s', message)
             messages.success(request, message)
         else:
             logging.error(message)
@@ -187,7 +187,7 @@ def delete_host(request, pk):
     else:
         status, message = delete_host_configuration(host.device_type, host.ipaddr)
         if status is True:
-            logging.info('Хост удален из Nagios и инвентаря: %s', host.ipaddr)
+            logging.info('Host removed from Nagios and inventory: %s', host.ipaddr)
             host.delete()
             messages.success(request, message)
         else:

@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 class SSHConsumer(AsyncWebsocketConsumer):
     """
-    WebSocket consumer для SSH терминала.
-    Работает как мост между браузером и SSH сервером.
+    WebSocket consumer for the SSH terminal.
+    Works as a bridge between the browser and the SSH server.
     """
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
         self.session_id = None
 
     async def connect(self):
-        """Принимаем WebSocket соединение"""
+        """Accept the WebSocket connection"""
         user = self.scope.get('user')
         if user is None or not user.is_authenticated:
             await self.close(code=4401)
@@ -41,12 +41,12 @@ class SSHConsumer(AsyncWebsocketConsumer):
         }))
 
     async def disconnect(self, close_code):
-        """Закрываем все соединения"""
+        """Close all connections"""
         logger.info(f"WebSocket disconnect: {self.session_id}, code: {close_code}")
         await self.cleanup()
 
     async def cleanup(self):
-        """Очистка ресурсов"""
+        """Resource cleanup"""
         self.connected = False
 
         if self.read_task and not self.read_task.done():
@@ -71,7 +71,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
             self.ssh_client = None
 
     async def receive(self, text_data=None, bytes_data=None):
-        """Обработка входящих сообщений от клиента"""
+        """Handle incoming client messages"""
         if text_data is None:
             await self.send(json.dumps({'type': 'error', 'message': 'Binary messages are not supported'}))
             return
@@ -114,7 +114,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def _create_ssh_connection(self, host, username, password, port):
-        """Создаём SSH соединение (синхронно, обёрнуто в async)"""
+        """Create an SSH connection (synchronous, wrapped in async)"""
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.RejectPolicy())
@@ -134,7 +134,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def _create_shell_channel(self, cols, rows):
-        """Создаём интерактивный shell канал"""
+        """Create an interactive shell channel"""
         channel = self.ssh_client.invoke_shell(
             term='xterm-256color',
             width=cols,
@@ -146,7 +146,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
         return channel
 
     async def handle_ssh_connect(self, data):
-        """Подключаемся к SSH серверу"""
+        """Connect to the SSH server"""
         try:
             host = str(ipaddress.ip_address(data.get('host', '').strip()))
             username = data.get('username', 'root').strip()
@@ -239,7 +239,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
             await self.cleanup()
 
     async def _read_ssh_output(self):
-        """Читаем вывод SSH и отправляем в браузер"""
+        """Read SSH output and send it to the browser"""
         logger.debug("Starting SSH output reader")
 
         try:
@@ -295,7 +295,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
             logger.debug("SSH output reader stopped")
 
     async def handle_ssh_input(self, data):
-        """Отправляем данные в SSH"""
+        """Send data to SSH"""
         if not self.connected or not self.channel:
             return
 
@@ -316,7 +316,7 @@ class SSHConsumer(AsyncWebsocketConsumer):
             }))
 
     async def handle_ssh_resize(self, cols, rows):
-        """Изменяем размер терминала"""
+        """Resize the terminal"""
         if not self.connected or not self.channel:
             return
 

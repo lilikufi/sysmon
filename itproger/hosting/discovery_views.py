@@ -77,7 +77,7 @@ def discover_network(request):
         name='network-discovery',
     )
     worker.start()
-    messages.success(request, f'Обнаружение сети запущено с IP {start_ip}')
+    messages.success(request, f'Network discovery started from IP {start_ip}')
     return redirect('service')
 
 

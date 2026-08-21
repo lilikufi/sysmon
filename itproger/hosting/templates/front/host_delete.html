@@ -6,11 +6,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'front/css/scan.css' %}"/>
 <div class="untitled-page root">
     <div class="backfeater" style="color:#FFFFFF">
-        <h4>Удаление хоста на совсем!</h4>
-        <p>прям совсем совсем</p>
+        <h4>Delete host permanently!</h4>
+        <p>This action is permanent.</p>
         <form method="post">
             {% csrf_token %}<br>
-            <button class="btn btn-success" type="submit">Удалить хост</button>
+            <button class="btn btn-success" type="submit">Delete host</button>
 
         </form>
         <div id="modal-container"></div>

@@ -42,7 +42,7 @@ def send_error_email(message, subject):
             logger.info('Notification email sent')
         except Exception as exc:
             logger.exception('Unable to send notification email')
-            return HttpResponse(f'Ошибка отправки письма: {exc}')
+            return HttpResponse(f'Email send error: {exc}')
 
 notify = False
 
@@ -135,7 +135,7 @@ def check_hosts_status_back():
                             ping_output = host_info.get('plugin_output')
                             ping_status = 'UNKNOWN'
                             if 'PING OK' in ping_output:
-                                ping_status = 'ОК'
+                                ping_status = 'OK'
 
                             elif 'WARNING' in ping_output in ping_output:
                                 ping_status = 'WARNING'
@@ -143,7 +143,7 @@ def check_hosts_status_back():
                                 ping_status = 'CRITICAL'
 
                             if host_name not in last_notified_status or last_notified_status[host_name] != ping_status:
-                                host.online = (ping_status == "ОК")
+                                host.online = (ping_status == "OK")
                                 host.save()
 
                                 if ping_status == 'CRITICAL':
@@ -189,7 +189,7 @@ def check_hosts_status_back():
                                         if "plugin_output" in service_info:
                                             output = service_info["plugin_output"]
                                             if 'OK' in output:
-                                                service_status = 'ОК'
+                                                service_status = 'OK'
                                             elif 'CRITICAL' in output:
                                                 service_status = 'CRITICAL'
 

@@ -1,52 +1,52 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title%}Создание хоста{% endblock %}
+{% block title%}Create Host{% endblock %}
 
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
 <script src="{% static 'front/js/create.js' %}"></script>
-<!--<script> alert(" Выбор родителя временно недоступен");</script>-->
+<!--<script> alert(" Parent selection is temporarily unavailable");</script>-->
 <div class="untitled-page root">
  {% block search %}
     {% endblock %}
     <div class="backfeater" style="color:#cce5ff ">
         <div class="modal">
             <form method="post" class="check-form" action="{{ request.path}}">
-                {% block header %}<div class="theader">Форма создания нового хоста</div>{% endblock %}
+                {% block header %}<div class="theader">New Host Form</div>{% endblock %}
                 {% csrf_token %}
 
                 <div class="header">
 
                     <div class="form-ip">
                         {{ form.ipaddr.errors }}
-                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">ip адрес:</label>
+                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">IP address:</label>
                         <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
                                class="form-control ip-read"
-                               placeholder="Введите ip address"
+                               placeholder="Enter IP address"
                                pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
-                               title="Введите IP-адрес в формате XXX.XXX.XXX.XXX" autocomplete="on">
+                               title="Enter an IP address in XXX.XXX.XXX.XXX format" autocomplete="on">
 
                         <!--                <div id="warning-message" style="display: none; color: red;">-->
                     </div>
                     <div class="form-ip">
                         {{ form.hostname.errors }}
-                        <label for="{{ form.hostname.id_for_label }}">имя хоста:</label>
+                        <label for="{{ form.hostname.id_for_label }}">Host name:</label>
                         <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
                                name="hostname"
-                               placeholder="Введите имя хоста"
+                               placeholder="Enter host name"
                         >
                     </div>
 
                    <div class="form-ip">
                         {{ form.parents.errors }}
-                        <label for="{{ form.parents.id_for_label }}">Родитель:</label>
+                        <label for="{{ form.parents.id_for_label }}">Parent:</label>
                         <select id="{{ form.parents.id_for_label }}" class="form-control hostname" name="parents">
 
                             {% if host.parents %}
                             <option value="{{ host.id }}"> {{ host.parents.ipaddr }}</option>
                              {% else %}
-                            <option value="">Выберите родителя</option>
+                            <option value="">Select parent</option>
                              {% endif %}
                             {% for host in available_hosts %}
                             <option value="{{ host.id }}" >
@@ -60,17 +60,17 @@
 
 
                     <div class="choi">
-                        <label for="device_type">тип устройства:</label>
+                        <label for="device_type">Device type:</label>
 
                         <select name="device_type" id="device_type" class="choices form-ip ">
-<!--                            <option value="switches">Коммутатор</option>-->
-<!--                            <option value="servers">Сервер</option>-->
-                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>
-                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Сервер</option>
-                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>
+<!--                            <option value="switches">Switch</option>-->
+<!--                            <option value="servers">Server</option>-->
+                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Switch</option>
+                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Server</option>
+                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >UPS</option>
 
-                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Принтер</option>
-                            <!--                            <option value="printers">Принтер</option>-->
+                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Printer</option>
+                            <!--                            <option value="printers">Printer</option>-->
                         </select>
                     </div>
 
@@ -79,11 +79,11 @@
                         <label for="{{ form.com_str.id_for_label }}">community string:</label>
                         <input type="text" id="{{ form.com_str.id_for_label }}" class="form-control hostname"
                                name="com_str"
-                               placeholder="Введите community string" value="public">
+                               placeholder="Enter community string" value="public">
                     </div>
 
                     <a href="#" class="check-snmp-link" data-url="{% url 'check_snmp' %}" data-ip=""
-                       title="Проверить snmp name по введенному IP">
+                       title="Check SNMP name for the entered IP">
                         <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">
                         <span class="loader"></span>
                     </a>
@@ -99,15 +99,15 @@
 
                     <!--                <img class="arrow-check" src="{% static 'front/img/arrow_1.svg' %}" alt="refresh name">-->
 
-                    <p class="check-snmp-text">проверить хост <br> на SNMP </p>
+                    <p class="check-snmp-text">check host <br> with SNMP </p>
                     <div class="ttt"></div>
-                    <div class="text1">Выбор служб для мониторинга</div>
-                    <p class="check-snmp-text1">Хост с адресом {{ host.ipaddr }} уже существует. Перейдите на <a
-                            href="{% url 'scan' %}">страницу Scan</a>. </p>
+                    <div class="text1">Select services to monitor</div>
+                    <p class="check-snmp-text1">Host with address {{ host.ipaddr }} already exists. Go to the <a
+                            href="{% url 'scan' %}">Scan page</a>. </p>
 
                     <div class="grid">
 <!--                        <div>-->
-<!--                            <label for="select-all">Выбрать все</label>-->
+<!--                            <label for="select-all">Select all</label>-->
 <!--                            <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">-->
 
 <!--                        </div>-->
@@ -174,7 +174,7 @@
 
 
                 <div>
-                    <button type="submit" class="submit1  modal-add">Сохранить</button>
+                    <button type="submit" class="submit1  modal-add">Save</button>
                 </div>
 
                 {% if form.errors %}
@@ -189,7 +189,7 @@
                 {% endif %}
                 {% if form.is_bound %}
                 <div class="error-message">
-                    <strong> Нельзя сохранить пустую форму </strong>
+                    <strong> Cannot save an empty form </strong>
                 </div>
                 {% endif %}
 
@@ -197,7 +197,7 @@
             </form>
 
             <a href="{% url 'scan' %}">
-                <button type="submit" class="submit1  modal-back ">Назад</button>
+                <button type="submit" class="submit1  modal-back ">Back</button>
             </a>
         </div>
 
@@ -207,28 +207,28 @@
         document.querySelector('.check-snmp-link').addEventListener('click', function (e) {
             e.preventDefault();
 
-            // Получаем IP и com_str
+            // Get IP and com_str
             let ip = document.querySelector('.ip-read').value;
             let communityString = document.querySelector('input[name="com_str"]').value;
 
-            // Проверяем, что IP и com_str не пустые
+            // Check that IP and com_str are not empty
             if (ip.trim() === '') {
-                alert('Пожалуйста, введите IP адрес');
+                alert('Please enter an IP address');
                 return;
             }
             if (communityString.trim() === '') {
-                alert('Пожалуйста, введите com_str');
+                alert('Please enter com_str');
                 return;
             }
 
-            // Формируем URL с параметрами IP и com_str
+            // Build a URL with IP and com_str parameters
             let url = this.dataset.url + '?ipaddr=' + encodeURIComponent(ip) + '&com_str=' + encodeURIComponent(communityString);
 
-            // Находим иконку и loader
+            // Find the icon and loader
             let icon = this.querySelector('.refresh');
             let loader = this.querySelector('.loader');
 
-            // Показываем loader и скрываем иконку
+            // Show the loader and hide the icon
             if (loader) {
                 loader.style.display = 'block';
             }
@@ -241,89 +241,89 @@
                     loader.style.display = 'none';
 
                     function extractHostName(data) {
-                        // находим индекс начала фразы "Имя хоста"
-                        let hostNameIndex = data.indexOf("Имя хоста");
-                        // если фраза найдена
+                        // find the start index of the phrase "Host name"
+                        let hostNameIndex = data.indexOf("Host name");
+                        // if the phrase is found
                         if (hostNameIndex !== -1) {
-                            // отделяем часть строки после "Имя хоста"
-                            let afterHostName = data.substring(hostNameIndex + "Имя хоста".length).trim();
-                            // находим конец первого слова после "Имя хоста"
+                            // separate the string after "Host name"
+                            let afterHostName = data.substring(hostNameIndex + "Host name".length).trim();
+                            // find the end of the first word after "Host name"
                             let nextSpaceIndex = afterHostName.indexOf(' ');
 
-                            // если есть пробел, берем слово до него, иначе берем всю оставшуюся строку
+                            // if there is a space, take the word before it; otherwise, take the rest of the string
                             let hostName = (nextSpaceIndex !== -1) ?
-                                afterHostName.substring(0, nextSpaceIndex).trim() : // trim для очистки от лишних пробелов
+                                afterHostName.substring(0, nextSpaceIndex).trim() : // trim extra spaces
                                 afterHostName.trim();
-                            console.log(hostName); // выводим полученное имя хоста
-                            // Получаем элемент ввода
+                            console.log(hostName); // log the extracted host name
+                            // Get the input element
                             return hostName;
                         } else {
-                            console.log("Фраза 'Имя хоста' не найдена в строке.");
+                            console.log("Phrase 'Host name' was not found in the string.");
                         }
 
                     }
 
                     function extractHostNameups(data) {
-                        // находим индекс начала фразы "Имя хоста"
-                        let hostNameIndex = data.indexOf("Имя хоста");
+                        // find the start index of the phrase "Host name"
+                        let hostNameIndex = data.indexOf("Host name");
 
-                        // если фраза найдена
+                        // if the phrase is found
                         if (hostNameIndex !== -1) {
-                            // отделяем часть строки после "Имя хоста"
-                            let afterHostName = data.substring(hostNameIndex + "Имя хоста".length).trim();
+                            // separate the string after "Host name"
+                            let afterHostName = data.substring(hostNameIndex + "Host name".length).trim();
 
-                            // находим индекс первой кавычки
+                            // find the first quote index
                             let startQuoteIndex = afterHostName.indexOf('"');
 
-                            // если кавычка найдена
+                            // if the quote is found
                             if (startQuoteIndex !== -1) {
-                                // находим индекс второй кавычки
+                                // find the second quote index
                                 let endQuoteIndex = afterHostName.indexOf('"', startQuoteIndex + 1);
 
-                                // если вторая кавычка найдена
+                                // if the second quote is found
                                 if (endQuoteIndex !== -1) {
-                                    // извлекаем хостнейм между кавычками
+                                    // extract the host name between quotes
                                     let hostName = afterHostName.substring(startQuoteIndex + 1, endQuoteIndex).trim();
-                                    console.log(hostName); // выводим полученное имя хоста
+                                    console.log(hostName); // log the extracted host name
                                     return hostName;
                                 } else {
-                                    console.log("Вторая кавычка не найдена после имени хоста.");
+                                    console.log("The second quote was not found after the host name.");
                                 }
                             } else {
-                                console.log("Первая кавычка не найдена после имени хоста.");
+                                console.log("The first quote was not found after the host name.");
                             }
                         } else {
-                            console.log("Фраза 'Имя хоста' не найдена в строке.");
+                            console.log("Phrase 'Host name' was not found in the string.");
                         }
                     }
 
-                    if (data === 'SNMP не настроен') {
-                        // alert('Начинаю настройку SNMP...');
+                    if (data === 'SNMP is not configured') {
+                        // alert('Starting SNMP setup...');
                         document.querySelector('.refresh').style.display = 'block';
                         document.querySelector('.ttt').style.display = 'none';
                         document.querySelector('.check-snmp-text').style.display = 'block';
                         document.querySelector('.check-snmp-text1').style.display = 'block';
-                        document.querySelector('.check-snmp-text1').innerText = `Ошибка проверки SNMP на ${ip}.
-                         Проверьте правильность заполнения полей.`;
-                    } else if (data === 'Хост не в сети. Выбор служб недоступен') {
-                        // alert('Начинаю настройку 22222...');
+                        document.querySelector('.check-snmp-text1').innerText = `SNMP check failed for ${ip}.
+                         Check that the fields are filled in correctly.`;
+                    } else if (data === 'Host is offline. Service selection is unavailable') {
+                        // alert('Starting setup 22222...');
                         document.querySelector('.check-snmp-text1').style.display = 'none';
                         document.querySelector('.refresh').style.display = 'block';
                         document.querySelector('.check-snmp-text').style.display = 'display';
                         document.querySelector('.ttt').innerText = ` ${data}`;
-                    } else if (data === 'уже существует') {
-                        // alert('Уже существует');
+                    } else if (data === 'already exists') {
+                        // alert('Already exists');
                         document.querySelector('.ttt').style.display = 'none';
                         document.querySelector('.refresh').style.display = 'block';
                         document.querySelector('.check-snmp-text').style.display = 'block';
                         document.querySelector('.check-snmp-text1').style.display = 'block';
-                        document.querySelector('.check-snmp-text1').innerText = `Хост уже существует.
-                         Нажми кнопку "Редактировать" чтобы перейти на форму редактирования`;
-                        document.querySelector('.modal-add').innerText = `Редактировать`;
+                        document.querySelector('.check-snmp-text1').innerText = `Host already exists.
+                         Click "Edit" to open the edit form`;
+                        document.querySelector('.modal-add').innerText = `Edit`;
                     }
 
-                    // Разновидности коммутаторов
-                    else if (data.indexOf('SNMP настроенd.') === 0) {
+                    // Switch variants
+                    else if (data.indexOf('SNMP is configured.') === 0) {
                         document.querySelector('.osver1').innerText = ` dlink`;
                         document.querySelector('.check-snmp-text1').style.display = 'none';
                         document.querySelector('.text1').style.display = 'block';
@@ -337,7 +337,7 @@
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
 
-                    } else if (data.indexOf('SNMP настроенn.') === 0) {
+                    } else if (data.indexOf('SNMP is configured. nexus') === 0) {
                         document.querySelector('.osver1').innerText = ` nexus`;
                         document.querySelector('.check-snmp-text1').style.display = 'none';
                         document.querySelector('.text1').style.display = 'block';
@@ -349,7 +349,7 @@
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
 
-                    } else if (data.indexOf('SNMP настроенq.') === 0) {
+                    } else if (data.indexOf('SNMP is configured. qtech') === 0) {
                         document.querySelector('.osver1').innerText = ` qtech`;
                         document.querySelector('.check-snmp-text1').style.display = 'none';
                         document.querySelector('.text1').style.display = 'block';
@@ -361,8 +361,8 @@
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
 
-                    } else if (data.indexOf('SNMP настроенl.') === 0) {
-                        // alert(`Начинаю настройку 5555...  ${data}`);
+                    } else if (data.indexOf('SNMP is configured. lenovo') === 0) {
+                        // alert(`Starting setup 5555...  ${data}`);
                         document.querySelector('.osver1').innerText = ` lenovo`;
                         document.querySelector('.check-snmp-text1').style.display = 'none';
                         document.querySelector('.text1').style.display = 'block';
@@ -373,11 +373,11 @@
                         const hostName = extractHostName(data);
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
-                    } else if (data.indexOf('SNMP настроен.') === 0) {
+                    } else if (data.indexOf('SNMP is configured.') === 0) {
                         // document.querySelector('.osver1').innerText = ` lenovo`;
                         document.querySelector('.check-snmp-text1').style.display = 'block';
                         document.querySelector('.refresh').style.display = 'block';
-                        // document.querySelector('.check-snmp-text1').innerText = `SNMP настроен, но на эту модель нет mibs`;
+                        // document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, but there are no MIBs for this model`;
 
                         document.querySelector('.grid').classList.remove('hidden');
                         document.querySelector('.bat_temp').style.display = 'block';
@@ -392,19 +392,19 @@
                         const hostName = extractHostName(data);
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
-                    }else if (data.indexOf('SNMP настроенups') === 0) {
+                    }else if (data.indexOf('SNMP is configured. ups') === 0) {
                         document.getElementById('device_type').selectedIndex = 2 ;
 
                         // alert('data')
                         // document.querySelector('.osver1').innerText = ` lenovo`;
                         document.querySelector('.check-snmp-text1').style.display = 'block';
                         document.querySelector('.refresh').style.display = 'block';
-                        // document.querySelector('.check-snmp-text1').innerText = `SNMP настроен,но на эту модель нет mibs`;
+                        // document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, but there are no MIBs for this model`;
                         const hostName = extractHostNameups(data);
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
                     }
-                    else if (data.indexOf('SNMP настроенAPC.') === 0) {
+                    else if (data.indexOf('SNMP is configured. APC') === 0) {
                         document.getElementById('device_type').selectedIndex = 2 ;
 
                         document.querySelector('.osver1').innerText = ` APC`;
@@ -429,7 +429,7 @@
                         const inputElement = document.querySelector('.form-ip input[name="hostname"]');
                         inputElement.value = hostName;
                     }
-                    else if (data.indexOf('SNMP настроенapc36CA32.') === 0) {
+                    else if (data.indexOf('SNMP is configured. apc36CA32') === 0) {
                         document.getElementById('device_type').selectedIndex = 2 ;
 
                         document.querySelector('.osver1').innerText = ` apc36CA32`;
@@ -458,7 +458,7 @@
                         document.getElementById('device_type').selectedIndex = 2 ;
                         document.querySelector('.osver1').innerText = ` apc_hw05_aos_513`;
                         document.querySelector('.check-snmp-text1').style.display = 'block';
-                        document.querySelector('.check-snmp-text1').innerText = `SNMP настроен, службы временно не доступны`;
+                        document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, services are temporarily unavailable`;
                         document.querySelector('.refresh').style.display = 'block';
                         document.querySelector('.check-snmp-text').style.display = 'block';
 
@@ -468,12 +468,12 @@
                     }
 
                     else {
-                        // alert(`Начинаю настройку 5555...  ${data}`);
+                        // alert(`Starting setup 5555...  ${data}`);
                         document.querySelector('.refresh').style.display = 'block';
                         document.querySelector('.check-snmp-text1').style.display = 'block';
                         document.querySelector('.check-snmp-text').style.display = 'block';
-                        // document.querySelector('.ttt').innerText = ` SNMP настроен`;
-                        document.querySelector('.chck-snmp-text1').innerText = `Службы временно недоступны для отслеживания`
+                        // document.querySelector('.ttt').innerText = ` SNMP is configured`;
+                        document.querySelector('.chck-snmp-text1').innerText = `Services are temporarily unavailable for monitoring`
                         document.querySelector('.mem_fr').style.display = 'none';
                         document.querySelector('.mem_us').style.display = 'none';
                         document.querySelector('.bat_temp').style.display = 'none';
@@ -487,13 +487,13 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Ошибка проверки SNMP:', error);
+                    console.error('SNMP check error:', error);
                     loader.style.display = 'none';
                     icon.style.display = 'block';
                 });
         });
 
-        // Изначально скрываем чекбоксы и показываем надпись
+        // Initially hide checkboxes and show the label
         document.querySelector('.text1').style.display = 'none';
         document.querySelector('.grid').classList.add('hidden');
         document.querySelector('.check-snmp-text').style.display = 'block';
@@ -514,7 +514,7 @@
 
     </script>
     <script>
-        <!--        замена запятых на точки -->
+        <!--        replace commas with dots -->
         document.getElementById('{{ form.ipaddr.id_for_label }}').addEventListener('input', function () {
             this.value = this.value.replace(/,/g, '.');
         });

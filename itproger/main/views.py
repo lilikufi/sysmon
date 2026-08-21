@@ -1,7 +1,7 @@
 from django.shortcuts import render
 def index(request):
     data = {
-        'title': 'Главная страница',
+        'title': 'Home page',
         'values': ['Some', 'Hello', '123'],
         'obj': {
             'car': 'bww',

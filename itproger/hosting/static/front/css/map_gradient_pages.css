@@ -1,6 +1,6 @@
 .map-gradient-page {
     min-height: 100vh;
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 .map-gradient-page > .backfeater,
@@ -13,11 +13,11 @@
 
 .map-gradient-page .backheader {
     z-index: 10;
-    background: rgba(18, 23, 41, 0.96);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .map-gradient-page .dropdown-menu-container {

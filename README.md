@@ -1,38 +1,36 @@
 # Sysmon
 
-Система инвентаризации и мониторинга сетевых узлов на Django. В проект входят
-карта сети, SNMP-обнаружение, интеграция с Nagios, микросегментация и браузерный
-SSH-терминал через Django Channels.
+Sysmon is a Django-based network node inventory and monitoring system. The project includes a network map, SNMP discovery, Nagios integration, microsegmentation, and a browser-based SSH terminal through Django Channels.
 
-## Скриншоты
+## Screenshots
 
-### Карта сети
+### Network Map
 
-![Интерактивная карта сети Sysmon](docs/map.png)
+![Interactive Sysmon network map](docs/map.png)
 
-### Управление отображением и фильтры
+### Display Controls and Filters
 
-![Фильтры и управление картой](docs/map_2.png)
+![Map filters and controls](docs/map_2.png)
 
-### Статусы узлов
+### Host Statuses
 
-![Статусы узлов на карте](docs/host_status_map.png)
+![Host statuses on the map](docs/host_status_map.png)
 
-### Логи
+### Logs
 
-![Логи](docs/logs.png)
+![Logs](docs/logs.png)
 
-### Поиск новых хостов
+### New Host Discovery
 
-![Сканирование сети](docs/scan.png)
+![Network scanning](docs/scan.png)
 
-### Авторизация
+### Sign In
 
-![Страница входа в Sysmon](docs/autorization.png)
+![Sysmon sign-in page](docs/autorization.png)
 
 ## Docker
 
-Требуются Docker Engine и Docker Compose.
+Docker Engine and Docker Compose are required.
 
 ```bash
 cp .env.example .env
@@ -41,20 +39,13 @@ docker compose run --rm setup
 docker compose up -d
 ```
 
-Приложение будет доступно по адресу <http://127.0.0.1:8000/>. Контейнер `web`
-самостоятельно применяет миграции и собирает статику. PostgreSQL, Redis,
-пользовательские загрузки и собранная статика хранятся в именованных volumes.
+The application will be available at <http://127.0.0.1:8000/>. The `web` container automatically applies migrations and collects static files. PostgreSQL, Redis, user uploads, and collected static files are stored in named volumes.
 
-Команда `setup` интерактивно запрашивает имя администратора, необязательный
-email, пароль с подтверждением и выбор между тестовыми данными и пустым инвентарём.
-Пароль при вводе не отображается и не сохраняется в `.env`, конфигурации
-Compose или истории команд. В PostgreSQL сохраняется только его хеш.
+The `setup` command interactively asks for the administrator username, optional email, password with confirmation, and a choice between demo data and an empty inventory. The password is hidden during entry and is not saved to `.env`, Compose configuration, or shell history. Only its hash is stored in PostgreSQL.
 
-Повторный запуск `setup` не требуется. Чтобы позднее создать другого
-администратора, выполните `docker compose exec web python
-itproger/manage.py createsuperuser`.
+Running `setup` again is not required. To create another administrator later, run `docker compose exec web python itproger/manage.py createsuperuser`.
 
-Основные команды:
+Main commands:
 
 ```bash
 docker compose ps
@@ -63,16 +54,13 @@ docker compose exec web python itproger/manage.py check
 docker compose down
 ```
 
-`docker compose down -v` дополнительно удаляет volumes и базу данных.
+`docker compose down -v` also removes volumes and the database.
 
-## Синхронизация с Nagios
+## Nagios Synchronization
 
-Приложение читает `status.dat` и `nagios.log` из каталога, указанного в
-`NAGIOS_STATUS_HOST_DIR`. В Docker этот каталог подключается к контейнеру
-только для чтения. По умолчанию используется `./nagios_stat` рядом с
-`compose.yaml`.
+The application reads `status.dat` and `nagios.log` from the directory specified by `NAGIOS_STATUS_HOST_DIR`. In Docker, this directory is mounted into the container read-only. By default, `./nagios_stat` next to `compose.yaml` is used.
 
-На сервере приложения создайте отдельный SSH-ключ для получения файлов:
+On the application server, create a dedicated SSH key for fetching files:
 
 ```bash
 mkdir -p ~/.ssh
@@ -81,48 +69,42 @@ ssh-copy-id -i ~/.ssh/sysmon_nagios.pub nagios-reader@nagios.example.org
 ssh -i ~/.ssh/sysmon_nagios nagios-reader@nagios.example.org true
 ```
 
-При первом подключении сверьте fingerprint сервера Nagios с данными
-администратора. Закрытый ключ и содержимое `nagios_stat` не добавляйте в Git.
-Пользователю `nagios-reader` достаточно прав только на чтение нужных файлов.
+On the first connection, verify the Nagios server fingerprint with the administrator. Do not add the private key or the contents of `nagios_stat` to Git. The `nagios-reader` user only needs read permissions for the required files.
 
-Создайте каталог назначения:
+Create the destination directory:
 
 ```bash
 sudo install -d -o "$USER" -g "$USER" -m 755 /srv/sysmon/nagios_stat
 ```
 
-Пример cron-задачи для атомарного обновления файлов раз в минуту:
+Example cron job for atomically updating the files once per minute:
 
 ```cron
 * * * * * flock -n /tmp/sysmon-nagios-sync.lock sh -c 'scp -q -i "$HOME/.ssh/sysmon_nagios" nagios-reader@nagios.example.org:/usr/local/nagios/var/status.dat /srv/sysmon/nagios_stat/status.dat.new && mv /srv/sysmon/nagios_stat/status.dat.new /srv/sysmon/nagios_stat/status.dat && scp -q -i "$HOME/.ssh/sysmon_nagios" nagios-reader@nagios.example.org:/usr/local/nagios/var/nagios.log /srv/sysmon/nagios_stat/nagios.log.new && mv /srv/sysmon/nagios_stat/nagios.log.new /srv/sysmon/nagios_stat/nagios.log'
 ```
 
-Пути и пользователя замените на настройки своего Nagios. В `.env` сервера
-приложения укажите:
+Replace paths and the user with your Nagios settings. In the application server `.env`, set:
 
 ```dotenv
 NAGIOS_STATUS_HOST_DIR=/srv/sysmon/nagios_stat
 SYSMON_ENABLE_SCHEDULER=true
 ```
 
-Планировщик раз в минуту читает новую копию `status.dat`. Проверка самого
-сервера Nagios по SSH запускается только при заполненном `NAG_SERVER`.
+The scheduler reads a fresh copy of `status.dat` once per minute. Checking the Nagios server itself over SSH runs only when `NAG_SERVER` is set.
 
-После первого копирования проверьте доступ контейнера:
+After the first copy, verify container access:
 
 ```bash
 docker compose exec web ls -l /app/nagios_stat
 ```
 
-Переменные `NAG_SERVER`, `NAG_USERNAME` и `NAG_PASSWORD` нужны только функциям,
-которые изменяют конфигурацию Nagios по SSH. Для одного импорта файлов через
-cron их можно оставить пустыми.
+The variables `NAG_SERVER`, `NAG_USERNAME`, and `NAG_PASSWORD` are only needed by functions that modify Nagios configuration over SSH. For one-way file imports via cron, they can be left empty.
 
-## Локальный запуск
+## Local Run
 
-Требуется Python 3.12.
+Python 3.12 is required.
 
-### Linux и macOS
+### Linux and macOS
 
 ```bash
 python3.12 -m venv .venv
@@ -144,69 +126,58 @@ Copy-Item .env.example .env
 .\.venv\Scripts\python.exe -m uvicorn itproger.asgi:application --app-dir itproger --reload
 ```
 
-Без Docker используются SQLite и in-memory Channels. Локальный графический
-терминал доступен только в этом режиме; в Docker используйте браузерный
-WebSocket-терминал.
+Without Docker, SQLite and in-memory Channels are used. The local graphical terminal is available only in this mode; in Docker, use the browser-based WebSocket terminal.
 
-## Данные и служебные команды
+## Data and Utility Commands
 
-Загрузить тестовый набор данных вручную:
+Load the demo dataset manually:
 
 ```bash
 .venv/bin/python itproger/manage.py loaddata demo_hosts
 ```
 
-Fixture содержит 163 обезличенных хоста, 100 сервисов и 163 позиции карты. Для
-IP-адресов используются документационные сети RFC 5737, имена узлов
-сгенерированы.
+The fixture contains 163 anonymized hosts, 100 services, and 163 map positions. RFC 5737 documentation networks are used for IP addresses, and hostnames are generated.
 
-Пересобрать fixture из каталога с `status.dat` и необязательным
-`scan-stat.txt`:
+Rebuild the fixture from a directory with `status.dat` and optional `scan-stat.txt`:
 
 ```bash
 .venv/bin/python itproger/manage.py build_demo_fixture /path/to/nagios_stat
 ```
 
-Исходные файлы не изменяются и не копируются в репозиторий.
+Source files are not modified and are not copied into the repository.
 
-Обнаружить топологию через SNMP:
+Discover topology through SNMP:
 
 ```bash
 .venv/bin/python itproger/manage.py discover_network 192.0.2.1 --community public
 ```
 
-Проверить политики микросегментации:
+Audit microsegmentation policies:
 
 ```bash
 .venv/bin/python itproger/manage.py audit_segments
 .venv/bin/python itproger/manage.py audit_segments --protocol tcp --port 443
 ```
 
-Для CI доступен флаг `audit_segments --fail-on-violations`. Правила применяются
-по возрастанию `priority`; первое совпавшее правило определяет результат.
+For CI, the `audit_segments --fail-on-violations` flag is available. Rules are applied in ascending `priority` order; the first matching rule determines the result.
 
-## Настройка
+## Configuration
 
-Локальные параметры задаются в `.env`; файл `.env.example` содержит полный
-список переменных. `.env`, базы, загрузки, журналы и ключи не должны попадать в
-Git.
+Local settings are defined in `.env`; `.env.example` contains the full list of variables. `.env`, databases, uploads, logs, and keys must not be committed to Git.
 
-Основные группы настроек:
+Main setting groups:
 
-- `DJANGO_*` — Django, база, HTTPS и доверенные адреса;
-- `POSTGRES_*`, `REDIS_URL` — PostgreSQL и Redis;
-- `NAG_*` — подключение к Nagios;
-- `SYSMON_SNMP_*` — параметры SNMP;
-- `SYSMON_MAIL_*` — почтовые уведомления;
-- `SYSMON_ENABLE_SCHEDULER` — встроенный планировщик;
-- `DJANGO_ENABLE_LDAP` — LDAP после установки `requirements/ldap.txt`.
+- `DJANGO_*` — Django, database, HTTPS, and trusted hosts;
+- `POSTGRES_*`, `REDIS_URL` — PostgreSQL and Redis;
+- `NAG_*` — Nagios connection;
+- `SYSMON_SNMP_*` — SNMP settings;
+- `SYSMON_MAIL_*` — mail notifications;
+- `SYSMON_ENABLE_SCHEDULER` — built-in scheduler;
+- `DJANGO_ENABLE_LDAP` — LDAP after installing `requirements/ldap.txt`.
 
-Для публикации задайте `DJANGO_DEBUG=false`, длинный случайный
-`DJANGO_SECRET_KEY`, реальные `DJANGO_ALLOWED_HOSTS` и
-`DJANGO_CSRF_TRUSTED_ORIGINS`. HTTPS-параметры включайте после настройки reverse
-proxy. HSTS следует включать только после проверки постоянной работы HTTPS.
+For production, set `DJANGO_DEBUG=false`, a long random `DJANGO_SECRET_KEY`, real `DJANGO_ALLOWED_HOSTS`, and `DJANGO_CSRF_TRUSTED_ORIGINS`. Enable HTTPS settings after configuring the reverse proxy. HSTS should be enabled only after verifying stable HTTPS operation.
 
-## Проверки
+## Checks
 
 ```bash
 .venv/bin/python itproger/manage.py check
@@ -215,10 +186,10 @@ proxy. HSTS следует включать только после провер
 .venv/bin/python -m ruff check itproger
 ```
 
-## Структура
+## Structure
 
-- `itproger/itproger/` — настройки и ASGI;
-- `itproger/hosting/` — инвентарь, карта, мониторинг и терминал;
-- `itproger/accounts/` — аутентификация;
-- `itproger/stream/` — фоновые проверки;
-- `requirements/` — наборы зависимостей.
+- `itproger/itproger/` — settings and ASGI;
+- `itproger/hosting/` — inventory, map, monitoring, and terminal;
+- `itproger/accounts/` — authentication;
+- `itproger/stream/` — background checks;
+- `requirements/` — dependency sets.

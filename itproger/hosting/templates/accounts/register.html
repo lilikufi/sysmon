@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title%}Создание хоста{% endblock %}
+{% block title%}Create Host{% endblock %}
  {% block search %}
     {% endblock %}
 {% block content %}
@@ -11,11 +11,11 @@
     <div class="backfeater" style="color:#cce5ff ">
         <div class="modal">
             <form method="post" class="check-form" action="{{ request.path}}">
-                <div class="theader">Регистрация</div>
+                <div class="theader">Registration</div>
                 {% csrf_token %}
                 {{ form.as_p }}
             </form>
-            <button type="submit" class="submit1  modal-back ">Войти</button>
+            <button type="submit" class="submit1  modal-back ">Sign in</button>
 
         </div>
 

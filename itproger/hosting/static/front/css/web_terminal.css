@@ -121,7 +121,7 @@
     height: 100%;
 }
 
-/* Логин форма */
+/* Login form */
 .terminal-login {
     display: flex;
     flex-direction: column;
@@ -209,7 +209,7 @@
     margin-top: 12px;
 }
 
-/* Кастомизация xterm.js */
+/* xterm.js customization */
 .xterm {
     padding: 8px;
     height: 100%;

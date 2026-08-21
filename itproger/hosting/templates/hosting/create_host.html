@@ -1,13 +1,13 @@
 {% extends 'main/layout.html' %}
 {& load hosting_tags &}
-{% block title%}Форма по добавлению хоста{% endblock %}
+{% block title%}Host creation form{% endblock %}
 {% block content %}
 
 <!--<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />-->
 <!--<script defer src="https://pyscript.net/latest/pyscript.js"></script>-->
 
     <div class="features">
-        <h1>Форма по добавлению хоста и его свойств </h1>
+        <h1>Form for adding a host and its properties </h1>
 
         <form method="post">
 
@@ -17,7 +17,7 @@
 
             <span>{{ error }}</span>
             <a href="{% url 'hosting_home' %}"></a>
-            <button class="btn btn-success" type="submit">Добавить хост</button>
+            <button class="btn btn-success" type="submit">Add Host</button>
         </form>
     </div>
 <script>
@@ -28,18 +28,18 @@
                 el.addEventListener('click', function () {
                     const ip = this.querySelector('h3').textContent;
                     document.querySelector('.header1').textContent = ip;
-                    modal_container.classList.add('show'); // Открываем модальное окно при клике на любую плашку
+                    modal_container.classList.add('show'); // Open the modal window when any tile is clicked
                     document.getElementById('id_ipaddr').value = ip;
                 });
             });
 
             close.addEventListener('click', () => {
-                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Закрыть"
+                modal_container.classList.remove('show'); // Close the modal window when the "Close" button is clicked
             });
             const back = document.getElementById('back');
 
             back.addEventListener('click', () => {
-                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Назад"
+                modal_container.classList.remove('show'); // Close the modal window when the "Back" button is clicked
             });
         </script>
 {% endblock %}

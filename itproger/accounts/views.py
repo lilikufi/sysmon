@@ -32,7 +32,7 @@ def my_custom_404_view(request, exception):
 class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
     form_class = UserPasswordChangeForm
     template_name = 'accounts/change_password.html'
-    success_message = 'Ваш пароль был успешно изменён!'
+    success_message = 'Your password was changed successfully!'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

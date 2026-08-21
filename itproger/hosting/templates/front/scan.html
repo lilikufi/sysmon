@@ -54,9 +54,9 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный */
-        backdrop-filter: blur(5px); /* Эффект размытия */
-        z-index: 3; /* Устанавливаем z-index для перекрытия основного контента */
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        backdrop-filter: blur(5px); /* Blur effect */
+        z-index: 3; /* Set z-index to overlay the main content */
     }
 
     #load {
@@ -249,10 +249,10 @@
         </script>
 
 <script>
-    // Проверяем наличие параметра reload=true в URL
+    // Check for the reload=true parameter in the URL
     const params = new URLSearchParams(window.location.search);
     if (params.get('reload') === 'true') {
-        // Если параметр есть, обновляем страницу
+        // If the parameter exists, reload the page
         window.onload = function () {
             location.reload();
         };
@@ -264,7 +264,7 @@
 <script src="{% static 'front/js/create.js' %}"></script>
 <script>
     function loadData() {
-        var loadContainer = document.querySelector('#load'); // Находим контейнер #load
+        var loadContainer = document.querySelector('#load'); // Find the #load container
         loadContainer.style.display = 'block';
     }
 </script>
@@ -297,27 +297,27 @@
             <div class="form-row">
 
 
-                <input type="text" class="form-control form-main" name="start_ip" placeholder="начальный ip" value=""
+                <input type="text" class="form-control form-main" name="start_ip" placeholder="start IP" value=""
                        required id="start_ip">
-                <input type="text" class="form-control form-main" name="end_ip" placeholder="конечный ip" value=""
+                <input type="text" class="form-control form-main" name="end_ip" placeholder="end IP" value=""
                        required id="end_ip">
                 <!--                <input type="text" class="form-control form-main" name="community_string" placeholder="community string" value=""-->
                 <!--                       required id="">-->
-                <input type="submit" value="сканировать" class="submit modal-create" onclick="loadData()">
+                <input type="submit" value="scan" class="submit modal-create" onclick="loadData()">
             </div>
         </form>
 
 
         {% if today_hosts %}
         <div class="form-row-text">
-            Новые сканирования
+            New scans
         </div>
         <div class="plashki">
             {% for host in today_hosts %}
             {% if not host %}
-            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+            <div class="plug">Page for finding hosts that can be added to Nagios monitoring</div>
             {% elif not host in today_hosts %}
-            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+            <div class="plug">Page for finding hosts that can be added to Nagios monitoring</div>
             {% endif %}
             {% if host and host.hide_flag == False%}
             <div class="alert alert-primary">
@@ -335,7 +335,7 @@
                     {% if host.hostname %}
                     <div class="alert-text-2">{{ host.hostname }}</div>
                     {% else %}
-                    <div class="alert-text-2">snmp не настроен</div>
+                    <div class="alert-text-2">SNMP is not configured</div>
                     {% endif %}
                     {% if host.nagios_flag %}
                     <div class="alert-primary-nagios">
@@ -347,12 +347,12 @@
                         <div class="dropdown-content">
                             {% if host.nagios_flag == False %}
                             <a href="{% url 'host-update' host.id %}"><img class="more"
-                                                                           src="{% static 'front/img/host.svg' %}">Добавить</a>
+                                                                           src="{% static 'front/img/host.svg' %}">Add</a>
                             {% else %}
                             <a href="{% url 'host-update' host.id %}"><img class="more"
-                                                                           src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                                                                           src="{% static 'front/img/edit.svg' %}">Edit</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Delete</button></form>
                         </div>
                     </div>
 
@@ -421,7 +421,7 @@
 
         {% if host and all_hosts%}
         <div class="form-row-text2">
-            Результат предыдущих сканирований
+            Previous scan results
         </div>
         <div class="plashki">
             {% for host in all_hosts %}
@@ -433,12 +433,12 @@
                         <div class="dropdown-content">
                             {% if host.nagios_flag == False %}
                             <a href="{% url 'host-update' host.id %}"><img class="more"
-                                                                           src="{% static 'front/img/host.svg' %}">Добавить</a>
+                                                                           src="{% static 'front/img/host.svg' %}">Add</a>
                             {% else %}
                             <a href="{% url 'host-update' host.id %}"><img class="more"
-                                                                           src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                                                                           src="{% static 'front/img/edit.svg' %}">Edit</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+                            <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Delete</button></form>
 
                         </div>
                     </div>
@@ -449,7 +449,7 @@
                     {% if host.hostname %}
                     <div class="alert-text-2">{{ host.hostname }}</div>
                     {% else %}
-                    <div class="alert-text-2">snmp не настроен</div>
+                    <div class="alert-text-2">SNMP is not configured</div>
                     {% endif %}
                     {% if host.nagios_flag %}
                     <div class="alert-primary-nagios">
@@ -464,13 +464,13 @@
             {% endfor %}
             {% if today_hosts %}
             <!--             <img class="more" src="{% static 'front/img/arrow.svg' %}" alt="more"> -->
-            <!-- <button id="showMoreButton" class="btn btn-primary more">Показать еще</button> -->
+            <!-- <button id="showMoreButton" class="btn btn-primary more">Show more</button> -->
             {% else %}
-            <!--            <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>-->
+            <!--            <div class="plug">Page for finding hosts that can be added to Nagios monitoring</div>-->
             {% endif %}
         </div>
         {% elif not host %}
-        <div class="plug">Страница для поиска хостов, доступных к постановке на мониторинг в Nagios</div>
+        <div class="plug">Page for finding hosts that can be added to Nagios monitoring</div>
         {% endif %}
         <script>
             document.querySelectorAll('.osver').forEach(function (element) {

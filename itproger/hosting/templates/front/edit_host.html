@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title%}Редактирование хоста{% endblock %}
+{% block title%}Edit Host{% endblock %}
  {% block search %}
     {% endblock %}
 {% block content %}
@@ -37,37 +37,37 @@
         <div class="modal">
 
             <form method="post" class="check-form" action="{{ request.path}}">
-                <div class="theader">Форма редактирования хоста</div>
+                <div class="theader">Host Edit Form</div>
                 {% csrf_token %}
 
                 <div class="header">
 
                     <div class="form-ip">
                         {{ form.ipaddr.errors }}
-                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">ip адрес:</label>
+                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">IP address:</label>
                         <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
                                class="form-control ip-read"
-                               placeholder="Введите ip address" value="{{ form.ipaddr.value }}" readonly>
+                               placeholder="Enter IP address" value="{{ form.ipaddr.value }}" readonly>
                     </div>
                     <div class="form-ip">
                         {{ form.hostname.errors }}
-                        <label for="{{ form.hostname.id_for_label }}">имя хоста:</label>
+                        <label for="{{ form.hostname.id_for_label }}">Host name:</label>
                         <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
                                name="hostname"
-                               placeholder="Введите имя хоста"
+                               placeholder="Enter host name"
                                value="{{ form.hostname.value }}"
                         >
                     </div>
 
                     <div class="form-ip">
                         {{ form.parents.errors }}
-                        <label for="{{ form.parents.id_for_label }}">родитель:</label>
+                        <label for="{{ form.parents.id_for_label }}">Parent:</label>
                         <select id="{{ form.parents.id_for_label }}" class="form-control hostname" name="parents">
 
                             {% if host.parents %}
                             <option value="{{ parent.id }}"> {{ host.parents.ipaddr }}</option>
                              {% else %}
-                            <option value="">Выберите родителя</option>
+                            <option value="">Select parent</option>
                              {% endif %}
                             {% for parent in available_hosts %}
                             <option value="{{ parent.id }}" >
@@ -86,18 +86,18 @@
                         {% endfor %}
                     </datalist>
                     <div class="choi">
-                        <label for="device_type">тип устройства:</label>
+                        <label for="device_type">Device type:</label>
                         <select name="device_type" id="device_type" class="choices form-ip ">
                              {% if host.device_type != "False"  %}
                                 <option value="{{ form.device_type.value}}"> {{ host.device_type}}</option>
 
-                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>
-                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Сервер</option>
-                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >ИБП</option>
+                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Switch</option>
+                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Server</option>
+                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >UPS</option>
 
-                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Принтер</option>
+                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Printer</option>
                             {% else %}
-                                                         <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Коммутатор</option>
+                                                         <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Switch</option>
 
                             {% endif %}
                         </select>
@@ -107,7 +107,7 @@
                         <label for="{{ form.com_str.id_for_label }}">community string:</label>
                         <input type="text" id="{{ form.com_str.id_for_label }}" class="form-control hostname"
                                name="com_str"
-                               placeholder="Введите community string"
+                               placeholder="Enter community string"
                                value="{% if form.com_str.value %}{{ form.com_str.value }}{% else %}public{% endif %}  "
                         >
                     </div>
@@ -118,7 +118,7 @@
                 <div class="body">
                     <div class="result-text"></div>
                     {% if  host.osver != "apc_hw05_aos_513" %}
-                    <div class="text1">Выбор служб для мониторинга</div>
+                    <div class="text1">Select services to monitor</div>
                     <div class="grid">
 
                         {% if host.device_type == "switches" or host.device_type == "servers" %}
@@ -179,12 +179,12 @@
                 {% endif %}
                 {% endif %}
                 {% if host.osver %}
-                <p class="osver1">Тип коммутатора {{host.osver}}
+                <p class="osver1">Switch type {{host.osver}}
                 <p>
                     {% endif %}
 
                 <div>
-                    <button type="submit" class="submit1  modal-add">Сохранить</button>
+                    <button type="submit" class="submit1  modal-add">Save</button>
                 </div>
 
                 {% if form.errors %}
@@ -196,14 +196,14 @@
 
                 {% if form.is_bound and not form.data %}
                 <div class="error-message">
-                    <strong> Нельзя сохранить пустую форму </strong>
+                    <strong> Cannot save an empty form </strong>
                 </div>
                 {% endif %}
 
             </form>
 
             <a href="javascript:history.back()">
-                <button type="button" class="submit1 modal-back">Назад</button>
+                <button type="button" class="submit1 modal-back">Back</button>
             </a>
         </div>
 
@@ -227,14 +227,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const selectElement = document.getElementById("{{ form.parents.id_for_label }}");
-        const defaultValue = "{{ host.parents.id }}"; // Значение по умолчанию
-        const defaultText = "{{ host.parents.ipaddr }}"; // Текст по умолчанию
+        const defaultValue = "{{ host.parents.id }}"; // Default value
+        const defaultText = "{{ host.parents.ipaddr }}"; // Default text
 
-        // Функция, вызываемая при отправке формы
+        // Function called on form submit
         document.querySelector("form").addEventListener("submit", function (event) {
-            // Проверка, выбрано ли что-то в селекте
+            // Check whether anything is selected
             if (!selectElement.value) {
-                // Если ничего не выбрано, устанавливаем значение по умолчанию
+                // If nothing is selected, set the default value
                 const newOption = new Option(defaultText, defaultValue, true, true);
                 selectElement.add(newOption);
             }

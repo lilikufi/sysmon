@@ -4,7 +4,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DEFAULT_TIMEOUT=120
+    PIP_DEFAULT_TIMEOUT=120 \
+    PIP_TRUSTED_HOST="pypi.org files.pythonhosted.org"
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
@@ -23,8 +24,7 @@ WORKDIR /app
 
 COPY requirements.txt requirements.txt
 COPY requirements requirements
-RUN python -m pip install --upgrade pip \
-    && python -m pip install -r requirements.txt
+RUN python -m pip install -r requirements.txt
 
 COPY . .
 

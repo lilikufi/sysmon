@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title%}Вход{% endblock %}
+{% block title%}Sign In{% endblock %}
 {% block sidebar  %}
 {% endblock %}
 {% block user  %}
@@ -90,14 +90,14 @@
     <div class="backfeater" style="color:#cce5ff ">
 
         <div class="modal">
-            <div class="theader">ВХОД</div>
+            <div class="theader">SIGN IN</div>
             <form method="post" class="form-ip" action="{{ request.path}}">
 
                 {% csrf_token %}
                 {{ form.as_p }}
 
 
-                <button type="submit" class="submit1  modal-back ">Войти</button>
+                <button type="submit" class="submit1  modal-back ">Sign in</button>
 
 
                 {% if messages %}

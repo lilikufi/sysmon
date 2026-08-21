@@ -54,7 +54,7 @@ class NagiosServiceTests(SimpleTestCase):
             status, message = delete_host_configuration('servers', 'srv-01')
 
         self.assertTrue(status)
-        self.assertEqual(message, 'Хост удален')
+        self.assertEqual(message, 'Host removed')
         self.assertEqual(run.call_count, 2)
 
     def test_configuration_contains_host_parent_and_selected_service(self):
@@ -88,7 +88,7 @@ class NagiosServiceTests(SimpleTestCase):
             status, message = sync_host_configuration(host)
 
         self.assertFalse(status)
-        self.assertIn('Nagios недоступен', message)
+        self.assertIn('Nagios is unavailable', message)
 
     def test_sync_writes_file_and_restarts_nagios(self):
         host = Host(

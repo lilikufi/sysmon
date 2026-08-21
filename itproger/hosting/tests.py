@@ -101,11 +101,8 @@ class HostingSmokeTests(TestCase):
         self.assertIn('z-index: 1000', stylesheet)
         self.assertIn('.map-gradient-page .dropdown-toggle', stylesheet)
         self.assertIn('.map-gradient-page .log-search-wrapper', stylesheet)
-        self.assertIn('background: rgba(18, 23, 41, 0.96)', stylesheet)
-        self.assertIn(
-            'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)',
-            stylesheet,
-        )
+        self.assertIn('background: var(--sysmon-photo-bg)', stylesheet)
+        self.assertIn('background: transparent', stylesheet)
 
     def test_sensitive_endpoints_require_authentication(self):
         endpoints = [

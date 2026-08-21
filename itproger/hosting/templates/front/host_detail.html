@@ -15,8 +15,8 @@
             {{ form.uptime }}<br>
             {{ form.mem_free }}<br>
             {{ form.mem_used }}<br>
-        <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Удалить</button></form>
-        <a href="{% url 'host-update' host.id %}" class="btn btn-info">Редактировать</a>
+        <form method="post" action="{% url 'host-delete' host.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form>
+        <a href="{% url 'host-update' host.id %}" class="btn btn-info">Edit</a>
 
     </div>
 </div>

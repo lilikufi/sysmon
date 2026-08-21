@@ -10,15 +10,15 @@
 </style>
 
 <div class="features">
-    <h1 class="fw-light">Главная</h1>
+    <h1 class="fw-light">Home</h1>
     {% for el in host %}
 
     <div class=" alert alert-primary ">
         <div>
             <h3>{{ el.ipaddr }}</h3>
             <p>{{ el.hostname }}</p>
-            <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Удалить</button></form>
-            <a href="{% url 'host-update' el.id %}"  class="btn btn-info">Редактировать</a>
+            <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form>
+            <a href="{% url 'host-update' el.id %}"  class="btn btn-info">Edit</a>
 
         </div>
     </div>
@@ -28,7 +28,7 @@
 <!--        <div class="row">-->
 <!--            <div class="col-lg-6 col-md-8 col-sm-12 mx-auto">-->
 <!--                <a href="{% url 'hosting_create' %}" class="btn btn-primary">-->
-<!--                    Добавить-->
+<!--                    Add-->
 <!--                </a>-->
 <!--            </div>-->
 <!--        </div>-->

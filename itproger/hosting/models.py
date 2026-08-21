@@ -132,7 +132,7 @@ class Host(models.Model):
     device_size = models.CharField(max_length=30, null=True, blank=True)
     osver = models.CharField(max_length=30, null=True, blank=True)
     os_release = models.CharField(max_length=30, null=True, blank=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория', blank=True)
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Category', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     time_update = models.DateTimeField(auto_now=True, null=True)
     online = models.BooleanField(default=False)
@@ -166,12 +166,12 @@ class Host(models.Model):
     )
 
     DEVICE_CHOICES = (
-        ('servers', 'Сервер'),
-        ('switches', 'Коммутатор'),
-        ('routers', 'Маршрутизатор'),
-        ('computers', 'Компьютер'),
-        ('network-printers', 'Принтер'),
-        ('UPS', 'ИБП'),
+        ('servers', 'Server'),
+        ('switches', 'Switch'),
+        ('routers', 'Router'),
+        ('computers', 'Computer'),
+        ('network-printers', 'Printer'),
+        ('UPS', 'UPS'),
     )
     device_type = models.CharField(max_length=50, choices=DEVICE_CHOICES, default=False, blank=True, null=True)
 
@@ -230,10 +230,10 @@ class Ports(models.Model):
 
 class LineSettings(models.Model):
     LINE_TYPES = [
-        ('solid', 'Сплошная'),
-        ('dashed', 'Пунктирная'),
-        ('dotted', 'Точечная'),
-        ('dash-dot', 'Штрих-пунктирная'),
+        ('solid', 'Solid'),
+        ('dashed', 'Dashed'),
+        ('dotted', 'Dotted'),
+        ('dash-dot', 'Dash-dot'),
     ]
 
     line_id = models.CharField(max_length=255, unique=True)
@@ -251,4 +251,4 @@ class Route(models.Model):
     waypoints = models.JSONField(default=list)
 
     def __str__(self):
-        return f"Маршрут от {self.parent.ipaddr} до {self.child.ipaddr}"
+        return f"Route from {self.parent.ipaddr} to {self.child.ipaddr}"

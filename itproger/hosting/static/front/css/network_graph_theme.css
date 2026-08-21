@@ -9,7 +9,7 @@
 .map-page {
   /* Palette */
   --design-bg: #101321;
-  --design-header: rgba(18, 23, 41, 0.96);
+  --design-header: transparent;
   --design-surface: rgba(255, 255, 255, 0.075);
   --design-surface-hover: rgba(255, 255, 255, 0.11);
   --design-border: rgba(255, 255, 255, 0.16);
@@ -33,9 +33,9 @@
 .map-page .backheader {
   gap: var(--design-header-gap);
   background: var(--design-header);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(16px);
+  border-bottom: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .map-page .map-header-actions {

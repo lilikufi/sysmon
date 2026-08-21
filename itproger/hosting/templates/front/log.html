@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title %}Логи Nagios{% endblock %}
+{% block title %}Nagios Logs{% endblock %}
 {% block page_class %}map-gradient-page logs-page{% endblock %}
 
 {% block extra_css %}
@@ -8,32 +8,32 @@
 {% endblock %}
 
 {% block search %}
-<!-- Кастомный поиск для логов в backheader -->
+<!-- Custom log search in the backheader -->
 <div class="log-search-wrapper">
-    <input type="text" id="searchInput" class="form-control5 log-search-input" placeholder="🔍 Поиск в логах...">
-<!--    <div class="search-counter" id="counter">Всего: 0</div>-->
+    <input type="text" id="searchInput" class="form-control5 log-search-input" placeholder="🔍 Search logs...">
+<!--    <div class="search-counter" id="counter">Total: 0</div>-->
     <div class="filter-buttons">
-        <button type="button" class="filter-btn active" data-filter="all">Все</button>
+        <button type="button" class="filter-btn active" data-filter="all">All</button>
         <div class="log-stats">
                     <div class="stat-item" data-filter="error">
                         <span class="stat-dot error"></span>
-                        <span id="errorCount">0 ошибок</span>
+                        <span id="errorCount">0 errors</span>
                     </div>
                     <div class="stat-item" data-filter="warning">
                         <span class="stat-dot warning"></span>
-                        <span id="warningCount">0 предупр.</span>
+                        <span id="warningCount">0 warnings</span>
                     </div>
                     <div class="stat-item" data-filter="success">
                         <span class="stat-dot success"></span>
-                        <span id="successCount">0 успешных</span>
+                        <span id="successCount">0 successful</span>
                     </div>
                 </div>
         <div class="log-controls">
-                    <button class="control-btn" onclick="refreshLogs()">⭮ Обновить</button>
-                    <button class="control-btn" onclick="exportLogs()">📥 Экспорт</button>
+                    <button class="control-btn" onclick="refreshLogs()">⭮ Refresh</button>
+                    <button class="control-btn" onclick="exportLogs()">📥 Export</button>
                 </div>
     </div>
-<!--    <button type="button" class="modal-back1" onclick="clearSearch()">Сбросить</button>-->
+<!--    <button type="button" class="modal-back1" onclick="clearSearch()">Reset</button>-->
 </div>
 {% endblock %}
 
@@ -58,7 +58,7 @@
         --text-secondary: rgba(234, 247, 255, 0.7);
     }
 
-    /* Стили для поиска в header */
+    /* Styles for search in the header */
        .log-search-wrapper {
         display: flex;
         align-items: center;
@@ -142,12 +142,12 @@
         color: var(--neon-green);
     }
 
-    /* Основные стили страницы */
+    /* Main page styles */
     body {
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        background: #090a0f;
+        background: var(--sysmon-photo-bg);
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         height: 100vh;
@@ -349,7 +349,7 @@
         transform: translateY(-1px);
     }
 
-    /* Подсветка найденного текста */
+    /* Highlight matched text */
     .search-match {
         background: rgba(255, 255, 0, 0.4);
         padding: 0 2px;
@@ -394,12 +394,12 @@
 
 <div class="backfeater">
     <div class="log-container">
-        <!-- Заголовок страницы -->
+        <!-- Page header -->
 <!--        <div class="log-title">-->
-<!--            <h1>📋 Логи Nagios</h1>-->
+<!--            <h1>📋 Nagios Logs</h1>-->
 <!--        </div>-->
 
-        <!-- Панель с логами -->
+        <!-- Log panel -->
         <div class="log-panel">
 
 
@@ -407,7 +407,7 @@
                 {% for line in log_content %}
                     <div class="log-line {% if 'ERROR' in line or 'CRITICAL' in line %}error{% elif 'WARNING' in line or 'WARN' in line or 'Warning' in line %}warning{% elif 'INFO' in line %}log-info{% elif 'SUCCESS' in line or 'OK' in line %}success{% elif 'DEBUG' in line %}debug{% endif %}" data-original="{{ line }}">{{ line }}</div>
                 {% empty %}
-                    <div class="log-line log-info">Логи отсутствуют</div>
+                    <div class="log-line log-info">No logs available</div>
                 {% endfor %}
             </div>
         </div>
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const statItems = document.querySelectorAll('.stat-item');
     
-    // Проверка наличия элементов
+    // Check whether elements exist
     if (!searchInput || !logOutput) {
         console.error('Required elements not found');
         return;
@@ -431,14 +431,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentFilter = 'all';
     let allLogLines = [];
     
-    // Инициализация
+    // Initialization
     function init() {
         allLogLines = Array.from(logOutput.querySelectorAll('.log-line'));
         updateStats();
         updateCounter();
     }
     
-    // Подсчет статистики
+    // Calculate statistics
     function updateStats() {
         const errorCount = allLogLines.filter(l => l.classList.contains('error')).length;
         const warningCount = allLogLines.filter(l => l.classList.contains('warning')).length;
@@ -448,12 +448,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const warningEl = document.getElementById('warningCount');
         const successEl = document.getElementById('successCount');
         
-        if (errorEl) errorEl.textContent = `${errorCount} ошибок`;
-        if (warningEl) warningEl.textContent = `${warningCount} предупр.`;
-        if (successEl) successEl.textContent = `${successCount} успешных`;
+        if (errorEl) errorEl.textContent = `${errorCount} errors`;
+        if (warningEl) warningEl.textContent = `${warningCount} warnings`;
+        if (successEl) successEl.textContent = `${successCount} successful`;
     }
     
-    // Обновление счетчика
+    // Update counter
     function updateCounter() {
         if (!counter) return;
         
@@ -461,17 +461,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const highlightedLines = allLogLines.filter(l => l.classList.contains('highlight'));
         
         if (searchInput.value.trim()) {
-            counter.textContent = `Найдено: ${highlightedLines.length}`;
+            counter.textContent = `Found: ${highlightedLines.length}`;
             counter.style.borderColor = highlightedLines.length > 0 ? 'var(--neon-green)' : 'var(--neon-red)';
             counter.style.color = highlightedLines.length > 0 ? 'var(--neon-green)' : 'var(--neon-red)';
         } else {
-            counter.textContent = `Показано: ${visibleLines.length}`;
+            counter.textContent = `Shown: ${visibleLines.length}`;
             counter.style.borderColor = 'rgba(0, 240, 255, 0.3)';
             counter.style.color = 'var(--neon-cyan)';
         }
     }
     
-    // Функция поиска
+    // Search function
     function performSearch() {
         const query = searchInput.value.toLowerCase().trim();
         
@@ -479,11 +479,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalText = line.getAttribute('data-original') || line.textContent;
             const text = originalText.toLowerCase();
             
-            // Сброс HTML к оригиналу
+            // Reset HTML to the original
             line.textContent = originalText;
             line.classList.remove('highlight');
             
-            // Проверка фильтра
+            // Check filter
             let matchesFilter = currentFilter === 'all' || line.classList.contains(currentFilter);
             
             if (!matchesFilter) {
@@ -491,13 +491,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Проверка поиска
+            // Check search
             if (query) {
                 if (text.includes(query)) {
                     line.classList.remove('hidden');
                     line.classList.add('highlight');
                     
-                    // Подсветка найденного текста
+                    // Highlight matched text
                     const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
                     line.innerHTML = originalText.replace(regex, '<span class="search-match">$1</span>');
                 } else {
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateCounter();
         
-        // Скролл к первому найденному
+        // Scroll to the first match
         if (query) {
             const firstMatch = logOutput.querySelector('.log-line.highlight');
             if (firstMatch) {
@@ -519,12 +519,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Экранирование спецсимволов для regex
+    // Escape special characters for regex
     function escapeRegex(string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
     
-    // Фильтрация по типу
+    // Filter by type
     function setFilter(filter) {
         currentFilter = filter;
         
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners
     searchInput.addEventListener('input', performSearch);
     
-    // Предотвращаем отправку формы при Enter
+    // Prevent form submission on Enter
     searchInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Глобальные функции
+    // Global functions
     window.clearSearch = function() {
         searchInput.value = '';
         currentFilter = 'all';
@@ -609,10 +609,10 @@ document.addEventListener('DOMContentLoaded', function() {
         URL.revokeObjectURL(url);
     };
     
-    // Инициализация
+    // Initialization
     init();
     
-    // Скролл вниз
+    // Scroll down
     // logOutput.scrollTop = logOutput.scrollHeight;
 });
 </script>

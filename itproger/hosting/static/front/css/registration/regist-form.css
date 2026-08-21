@@ -1,5 +1,5 @@
 .untitled-page.root {
-    background: radial-gradient(circle, #131667 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 /* Keep the animated star layers visible behind the login form. */
@@ -9,7 +9,7 @@ body > .untitled-page.root:has(.login-page) {
     height: 100vh;
     height: 100vh;
     min-height: 100vh;
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 main:has(.login-page) {
@@ -19,7 +19,7 @@ main:has(.login-page) {
     min-height: 100vh;
     padding-top: 83px;
     overflow: hidden;
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 main:has(.login-page) #stars,
@@ -51,7 +51,7 @@ main:has(.login-page) #stars3 {
 }
 
 .backfeater {
-    /*background: radial-gradient(circle, #131667 0%, #1e1d1d 100%);*/
+    /*background: var(--sysmon-photo-bg);*/
 }
 
 .theader {
@@ -374,6 +374,10 @@ input[type="checkbox"]:checked {
     /* align-items: start; */
     grid-auto-rows: 15% 40%;
     justify-content: space-evenly;
+}
+
+.login-page .modal {
+    height: 369px;
 }
 
 .header {

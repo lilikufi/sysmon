@@ -48,7 +48,7 @@
 <!--&lt;!&ndash;    work&ndash;&gt;-->
 <!--    const data = {{ tree|safe }};-->
 
-<!--    // Функция для построения иерархической структуры-->
+<!--    // Function for building a hierarchical structure-->
 <!--    function buildHierarchy(data) {-->
 <!--        const map = {};-->
 <!--        data.forEach(item => map[item.ipaddr] = item);-->
@@ -59,7 +59,7 @@
 <!--            }-->
 <!--        });-->
 
-<!--        // Предполагаем, что первый элемент - корень-->
+<!--        // Assume the first element is the root-->
 <!--        return data[0];-->
 <!--    }-->
 
@@ -76,16 +76,16 @@
 <!--        }));-->
 
 <!--    const g = svg.append("g")-->
-<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Центрирование-->
+<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Centering-->
 
 <!--    const root = d3.hierarchy(treeData);-->
 <!--    const radius = Math.min(width, height) / 2 - 50;-->
 
-<!--    // Установка радиального дерева-->
+<!--    // Set up the radial tree-->
 <!--    const treeLayout = d3.tree()-->
 <!--        .size([360, radius]);-->
 
-<!--    // Преобразование узлов в радиальную структуру-->
+<!--    // Convert nodes to a radial structure-->
 <!--    treeLayout(root);-->
 
 <!--    g.selectAll('.link')-->
@@ -94,8 +94,8 @@
 <!--        .append('path')-->
 <!--        .attr('class', 'link')-->
 <!--        .attr('d', d3.linkRadial()-->
-<!--            .angle(d => d.x * (Math.PI / 180)) // угол в радианах-->
-<!--            .radius(d => d.y)) // радиус-->
+<!--            .angle(d => d.x * (Math.PI / 180)) // angle in radians-->
+<!--            .radius(d => d.y)) // radius-->
 <!--        .style('fill', 'none')-->
 <!--        .style('stroke', 'rgba(255,255,255,0.09)')-->
 <!--        .style('stroke-width', 2);-->
@@ -105,7 +105,7 @@
 <!--        .enter()-->
 <!--        .append('g')-->
 <!--        .attr('class', 'node')-->
-<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Отображение узлов-->
+<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Render nodes-->
 
 <!--    node.append('circle')-->
 <!--        .attr('r', 5)-->
@@ -119,11 +119,11 @@
 <!--        .attr('x', d => d.children ? -8 : 8)-->
 <!--        .style('text-anchor', d => d.children ? 'end' : 'start')-->
 <!--        .text(d => d.data.ipaddr)-->
-<!--       // Отображение узлов-->
+<!--       // Render nodes-->
 
 <!--        .on('click', function(event, d) {-->
 <!--            alert('start ping')-->
-<!--                const hostName = d.data.name;  // Получаем имя хоста-->
+<!--                const hostName = d.data.name;  // Get the host name-->
 <!--                fetch(`/ping/${d.data.ipaddr}/`, {-->
 <!--                    method: 'GET',-->
 <!--                    headers: {-->
@@ -132,8 +132,8 @@
 <!--                })-->
 <!--                .then(response => response.json())-->
 <!--                .then(data => {-->
-<!--                    console.log('Ping output:', data.output);  // Обработка ответа-->
-<!--                    alert(data.output);  // Вывод результата во всплывающем окне-->
+<!--                    console.log('Ping output:', data.output);  // Handle response-->
+<!--                    alert(data.output);  // Show the result in a popup-->
 <!--                })-->
 <!--                .catch(error => {-->
 <!--                    console.error('Error:', error);-->
@@ -260,9 +260,9 @@
 
         })
         // .attr('transform', d => 'rotate(0)')
-        // .attr('x', 10) // Положение текста справа от узлов
+        // .attr('x', 10) // Text position to the right of nodes
         // .attr('x', d => d.x <180 ? 10 : -10)
-        // .style('text-anchor', d => d.x <180 ? 'start': 'end') // Всегда начинаем с текста слева
+        // .style('text-anchor', d => d.x <180 ? 'start': 'end') // Always start with text on the left
         .text(d => d.data.ipaddr)
         .on('click', function(event, d) {
             alert('start ping');
@@ -286,7 +286,7 @@
 <!--<script>-->
 <!--    const data = {{ tree|safe }};-->
 
-<!--    // Функция для построения иерархической структуры-->
+<!--    // Function for building a hierarchical structure-->
 <!--    function buildHierarchy(data) {-->
 <!--        const map = {};-->
 <!--        data.forEach(item => map[item.ipaddr] = item);-->
@@ -297,7 +297,7 @@
 <!--            }-->
 <!--        });-->
 
-<!--        // Предполагаем, что первый элемент - корень-->
+<!--        // Assume the first element is the root-->
 <!--        return data[0];-->
 <!--    }-->
 
@@ -314,16 +314,16 @@
 <!--        }));-->
 
 <!--    const g = svg.append("g")-->
-<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Центрирование-->
+<!--        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Centering-->
 
 <!--    const root = d3.hierarchy(treeData);-->
 <!--    const radius = Math.min(width, height) / 2 - 50;-->
 
-<!--    // Установка радиального дерева-->
+<!--    // Set up the radial tree-->
 <!--    const treeLayout = d3.tree()-->
 <!--        .size([360, radius]);-->
 
-<!--    // Преобразование узлов в радиальную структуру-->
+<!--    // Convert nodes to a radial structure-->
 <!--    treeLayout(root);-->
 
 <!--    g.selectAll('.link')-->
@@ -332,8 +332,8 @@
 <!--        .append('path')-->
 <!--        .attr('class', 'link')-->
 <!--        .attr('d', d3.linkRadial()-->
-<!--            .angle(d => d.x * (Math.PI / 180)) // угол в радианах-->
-<!--            .radius(d => d.y)) // радиус-->
+<!--            .angle(d => d.x * (Math.PI / 180)) // angle in radians-->
+<!--            .radius(d => d.y)) // radius-->
 <!--        .style('fill', 'none')-->
 <!--        .style('stroke', 'rgba(255,255,255,0.09)')-->
 <!--        .style('stroke-width', 2);-->
@@ -343,18 +343,18 @@
 <!--        .enter()-->
 <!--        .append('g')-->
 <!--        .attr('class', 'node')-->
-<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Отображение узлов-->
+<!--        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`); // Render nodes-->
 
 <!--    node.append('g')-->
 <!--        .attr('class', 'icon')-->
 <!--        .each(function (d) {-->
 <!--            if (d.data.host && d.data.host.device_type) {-->
-<!--                const iconPath = getIconPath(d.data.host.device_type); // Получить путь к иконке-->
+<!--                const iconPath = getIconPath(d.data.host.device_type); // Get the icon path-->
 <!--                d3.select(this).append('image')-->
 <!--                    .attr('xlink:href', iconPath)-->
 <!--                    .attr('width', 20)-->
 <!--                    .attr('height', 20)-->
-<!--                    .attr('x', -10) // Центрирование иконки-->
+<!--                    .attr('x', -10) // Center the icon-->
 <!--                    .attr('y', -10);-->
 <!--            } else {-->
 <!--                d3.select(this).append('circle')-->
@@ -372,36 +372,36 @@
 <!--        .text(d => d.data.ipaddr);-->
 
 
-<!--    // Функция для получения пути к иконке по типу устройства-->
+<!--    // Function for getting the icon path by device type-->
 <!--    function getIconPath(deviceType) {-->
 <!--        switch (deviceType) {-->
 <!--            case 'servers':-->
-<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Укажите путь к иконке сервера-->
+<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Specify the server icon path-->
 <!--            case 'routers':-->
-<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Укажите путь к иконке роутера-->
+<!--                return 'itproger/hosting/static/front/img/server-1.png'; // Specify the router icon path-->
 <!--            case 'switches':-->
-<!--                return 'path/to/switch-icon.svg'; // Укажите путь к иконке свитча-->
-<!--            // Добавьте другие устройства здесь...-->
+<!--                return 'path/to/switch-icon.svg'; // Specify the switch icon path-->
+<!--            // Add other devices here...-->
 <!--            default:-->
-<!--                return ''; // Если устройство не распознано, вернуть пустую строку-->
+<!--                return ''; // If the device is not recognized, return an empty string-->
 <!--        }-->
 <!--    }-->
 <!--</script>-->
 <script>
-    // Обработчик нажатия на кнопку "Маршрут"
+    // Handler for the "Route" button
 document.getElementById('route').addEventListener('click', function (e) {
     e.preventDefault();
-    isRouteModeActive = true; // Активируем режим маршрута
-    parentHost = null; // Сбрасываем родительский хост
-    childHost = null; // Сбрасываем дочерний хост
-    waypoints = []; // Очищаем промежуточные точки
-    alert('Режим маршрута активирован. Выберите родительский хост.');
+    isRouteModeActive = true; // Enable route mode
+    parentHost = null; // Reset parent host
+    childHost = null; // Reset child host
+    waypoints = []; // Clear waypoints
+    alert('Route mode enabled. Select the parent host.');
 });
 
-// Добавляем обработчик клика на каждый маркер
+// Add a click handler to each marker
 hosts.forEach(function (host) {
     if (host.latitude && host.longitude) {
-        var iconColor = host.status_color || '#14FF47FF'; // По умолчанию зеленый
+        var iconColor = host.status_color || '#14FF47FF'; // Green by default
 
         var icon = L.divIcon({
             className: 'custom-marker',
@@ -421,40 +421,40 @@ hosts.forEach(function (host) {
 
         markers[host.ipaddr] = marker;
 
-        // Обработчик клика на маркере
+        // Marker click handler
         marker.on('click', function (e) {
             if (isRouteModeActive) {
                 const hostIp = Object.keys(markers).find(key => markers[key] === marker);
 
                 if (!parentHost) {
-                    parentHost = hostIp; // Устанавливаем родительский хост
-                    alert('Родительский хост выбран. Теперь выберите дочерний хост.');
+                    parentHost = hostIp; // Set parent host
+                    alert('Parent host selected. Now select the child host.');
                 } else if (!childHost) {
-                    childHost = hostIp; // Устанавливаем дочерний хост
-                    alert('Дочерний хост выбран. Теперь добавляйте промежуточные точки кликом на карту.');
+                    childHost = hostIp; // Set child host
+                    alert('Child host selected. Now add waypoints by clicking the map.');
                 }
             }
         });
 
-        // Обработчик перемещения маркера
+        // Marker move handler
         marker.on('dragend', function (e) {
             var coords = marker.getLatLng();
             updateHostCoordinates(host.ipaddr, [coords.lat, coords.lng]);
         });
 
-        // Добавление popup с информацией о хосте
+        // Add a popup with host information
         marker.bindPopup(
-            'IP-адрес: ' + host.ipaddr +
-            '<br>Статус: ' + host.status +
-            '<br>Имя: ' + host.hostname +
-            '<br>Секция: ' + host.section +
-            '<br><button id="pingButton_' + host.ipaddr + '" class="pingButton">Пропинговать</button>'
+            'IP address: ' + host.ipaddr +
+            '<br>Status: ' + host.status +
+            '<br>Name: ' + host.hostname +
+            '<br>Section: ' + host.section +
+            '<br><button id="pingButton_' + host.ipaddr + '" class="pingButton">Ping</button>'
         );
 
-        // Обработчик для кнопки пинга
+        // Handler for the ping button
         marker.on('popupopen', function () {
             document.getElementById('pingButton_' + host.ipaddr).onclick = function () {
-                alert('Начинаю пинг для ' + host.ipaddr + '...');
+                alert('Starting ping for ' + host.ipaddr + '...');
 
                 fetch(`/ping/${host.ipaddr}/`, {
                     method: 'GET',
@@ -464,23 +464,23 @@ hosts.forEach(function (host) {
                 })
                     .then(response => response.json())
                     .then(data => {
-                        alert('Результат пинга:\n' + data.output);
+                        alert('Ping result:\n' + data.output);
                     })
                     .catch(error => {
-                        console.error('Ошибка:', error);
-                        alert('Произошла ошибка при выполнении пинга.');
+                        console.error('Error:', error);
+                        alert('An error occurred while running ping.');
                     });
             };
         });
     }
 });
 
-// Обработчик клика на карте для добавления промежуточных точек
+// Map click handler for adding waypoints
 map.on('click', function (e) {
     if (isRouteModeActive && parentHost && childHost) {
-        // Добавляем промежуточную точку
+        // Add waypoint
         waypoints.push(e.latlng);
-        updateRoute(); // Обновляем маршрут
+        updateRoute(); // Update route
     }
 });
 </script>

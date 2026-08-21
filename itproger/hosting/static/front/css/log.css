@@ -6,7 +6,7 @@
 }
 .backfeater {
 
-    background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
 }
 body {
     overflow: hidden;

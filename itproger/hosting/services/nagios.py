@@ -36,9 +36,9 @@ def delete_host_configuration(device_type, hostname):
     """Remove a host configuration and parent references from Nagios."""
     valid_device_types = dict(Host.DEVICE_CHOICES)
     if device_type not in valid_device_types:
-        return False, 'Недопустимый тип устройства'
+        return False, 'Invalid device type'
     if not hostname or not HOSTNAME_PATTERN.fullmatch(hostname):
-        return False, 'Недопустимое имя хоста'
+        return False, 'Invalid host name'
 
     root = shlex.quote(NAGIOS_HOST_ROOT)
     pattern = shlex.quote(f'parents\t{hostname}')
@@ -59,17 +59,17 @@ def delete_host_configuration(device_type, hostname):
 
     remove_file = connector.run(f'rm -f -- {config_path}', hide=True, warn=True)
     if remove_references.ok and remove_file.ok:
-        return True, 'Хост удален'
-    return False, 'Ошибка при удалении конфигурации Nagios'
+        return True, 'Host removed'
+    return False, 'Error while deleting Nagios configuration'
 
 
 def render_host_configuration(host, selected_checks=()):
     hostname = host.hostname or host.ipaddr
     if not HOSTNAME_PATTERN.fullmatch(hostname):
-        raise ValueError('Недопустимое имя хоста')
+        raise ValueError('Invalid host name')
     template = GENERIC_HOST_TEMPLATES.get(host.device_type)
     if template is None:
-        raise ValueError('Недопустимый тип устройства')
+        raise ValueError('Invalid device type')
 
     lines = [
         'define host {',
@@ -119,8 +119,8 @@ def sync_host_configuration(host, selected_checks=(), previous=None):
             config_file.write(content)
         restart = connector.run('sudo systemctl restart nagios', hide=True, warn=True)
     except (OSError, RuntimeError, ValueError) as exc:
-        return False, f'Хост сохранён, но Nagios недоступен: {exc}'
+        return False, f'Host saved, but Nagios is unavailable: {exc}'
 
     if restart.ok:
-        return True, 'Конфигурация Nagios обновлена'
-    return False, 'Хост сохранён, но перезапуск Nagios завершился ошибкой'
+        return True, 'Nagios configuration updated'
+    return False, 'Host saved, but Nagios restart failed'

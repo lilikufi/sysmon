@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='host',
             name='cat',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='hosting.category', verbose_name='Категория'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='hosting.category', verbose_name='Category'),
         ),
     ]

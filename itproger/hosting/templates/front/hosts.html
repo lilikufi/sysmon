@@ -28,7 +28,7 @@
         display: none;
         position: absolute;
         /*background-color: #f9f9f9;*/
-        background: #222233FF;
+        background: #000008;
         min-width: 130px;
 
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -93,8 +93,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th style="width: 550px;">Host (IP адрес / Имя хоста)</th>
-                    <!--                    <th style="width: 200px;">Действия</th>-->
+                    <th style="width: 550px;">Host (IP address / Host name)</th>
+                    <!--                    <th style="width: 200px;">Actions</th>-->
                     <th style="width: 200px;">Service</th>
                     <th>Status</th>
                     <th style="width: 400px;">Status information</th>
@@ -119,12 +119,12 @@
                         <div class="dropdown-content">
                             {% if host.nagios_flag == False %}
                             <a href="{% url 'host-update' el.id %}"><img class="more"
-                                                                         src="{% static 'front/img/host.svg' %}">Добавить</a>
+                                                                         src="{% static 'front/img/host.svg' %}">Add</a>
                             {% else %}
                             <a href="{% url 'host-update' el.id %}"><img class="more"
-                                                                         src="{% static 'front/img/edit.svg' %}">Редактировать</a>
+                                                                         src="{% static 'front/img/edit.svg' %}">Edit</a>
                             {% endif %}
-                            <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Удалить</button></form>
+                            <form method="post" action="{% url 'host-delete' el.id %}">{% csrf_token %}<button type="submit"><img class="more" src="{% static 'front/img/trash.svg' %}">Delete</button></form>
 
                         </div>
         </div>
@@ -141,8 +141,8 @@
         {% else %}
         </tr>
 
-        <tr style="background: {% if service.status == 'ОК' %} var(--gradient-ok) {% elif service.status == 'CRITICAL' %} var(--gradient-critical) {% elif service.status == 'Pending' %} var(--gradient-unknow) {% else %} var(--gradient-warning) {% endif %};">
-            <td></td>  <!-- Пустая ячейка для выравнивания -->
+        <tr style="background: {% if service.status == 'OK' %} var(--gradient-ok) {% elif service.status == 'CRITICAL' %} var(--gradient-critical) {% elif service.status == 'Pending' %} var(--gradient-unknow) {% else %} var(--gradient-warning) {% endif %};">
+            <td></td>  <!-- Empty cell for alignment -->
             <td>
                 {{ service.description }}
             </td>
@@ -156,9 +156,9 @@
         </tr>
         {% endif %}
         {% endfor %}
-        </tr>  <!-- Закрытие последнего tr тега после циклов служб -->
+        </tr>  <!-- Closing the last tr tag after service loops -->
         {% else %}
-        <td colspan="4">службы не настроены</td>
+        <td colspan="4">services are not configured</td>
         {% endif %}
         </tr>
         {% endif %}
@@ -167,7 +167,7 @@
 
         {% else %}
         <tr>
-            <td colspan="4">У вас нет хостов</td>
+            <td colspan="4">You have no hosts</td>
         </tr>
         {% endif %}
 

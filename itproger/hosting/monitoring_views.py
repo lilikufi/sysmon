@@ -78,7 +78,7 @@ def hosting_create(request):
             form.save()
             return redirect('/')
         else:
-            error = 'Форма была не верной'
+            error = 'The form was invalid'
     form = CheckForm()
     data = {
         'form': form,
@@ -234,7 +234,7 @@ def check_snmp(request):
         return JsonResponse({'status': 'error', 'message': str(exc)}, status=400)
 
     if Host.objects.filter(ipaddr=ip_address).exists():
-        return HttpResponse('уже существует')
+        return HttpResponse('already exists')
 
     count_flag = '-n' if platform.system() == 'Windows' else '-c'
     try:
@@ -246,12 +246,12 @@ def check_snmp(request):
             check=False,
         )
     except FileNotFoundError:
-        return HttpResponse('Команда ping не установлена', status=503)
+        return HttpResponse('The ping command is not installed', status=503)
     except subprocess.TimeoutExpired:
-        return HttpResponse('Проверка доступности превысила время ожидания', status=504)
+        return HttpResponse('Availability check timed out', status=504)
 
     if ping_result.returncode != 0:
-        return HttpResponse(f'{ip_address} не в сети')
+        return HttpResponse(f'{ip_address} is offline')
 
     try:
         os_version, hostname, available = get_device_identity(ip_address, community)
@@ -261,10 +261,10 @@ def check_snmp(request):
         hostname = None
 
     if not available:
-        return HttpResponse('SNMP не настроен')
+        return HttpResponse('SNMP is not configured')
 
-    device_label = os_version or 'неизвестный тип'
+    device_label = os_version or 'unknown type'
     return HttpResponse(
-        f'SNMP настроен. Имя хоста {hostname}; тип {device_label}. '
-        'Можно присвоить новое имя, заполнив форму «Имя хоста».'
+        f'SNMP is configured. Host name {hostname}; type {device_label}. '
+        'You can assign a new name by filling in the "Host name" form.'
     )

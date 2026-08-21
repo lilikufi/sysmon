@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title %}Карта сети{% endblock %}
+{% block title %}Network Map{% endblock %}
 {% block page_class %}map-page{% endblock %}
 {% block search %}{% endblock %}
 
@@ -8,8 +8,8 @@
 <div class="map-header-actions">
     <div class="search-panel">
         <div class="search-container">
-            <input type="text" id="nodeSearch" placeholder="Поиск по имени или IP..." class="search-input">
-            <button id="searchBtn" class="search-btn" aria-label="Найти хост">
+            <input type="text" id="nodeSearch" placeholder="Search by name or IP..." class="search-input">
+            <button id="searchBtn" class="search-btn" aria-label="Find host">
                 <img src="{% static 'front/img/search.svg' %}" alt="" width="16" height="16">
             </button>
         </div>
@@ -33,7 +33,7 @@
 <script src="{% static 'front/js/d3.v6.min.js' %}"></script>
 <script src="{% static 'front/js/web_terminal.js' %}"></script>
 <style>
-    /* Добавьте в ваш CSS */
+    /* Add to your CSS */
 .btn-position {
   padding: 6px 12px;
   border-radius: 6px;
@@ -261,7 +261,7 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* Обновление стилей action-buttons для flexbox */
+/* Update action-buttons styles for flexbox */
 .action-buttons {
     display: flex;
     gap: 12px;
@@ -289,7 +289,7 @@
     }, duration);
 }
 
-// Копировать в буфер обмена
+// Copy to clipboard
 async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
@@ -312,9 +312,9 @@ async function copyToClipboard(text) {
     }
 }
 
-// Открыть SSH через сервер (работает на Linux и Windows)
+// Open SSH through the server (works on Linux and Windows)
 async function openSSHTerminal(ip, protocol = 'ssh') {
-    showToast(`Открытие ${protocol.toUpperCase()} соединения к ${ip}...`);
+    showToast(`Opening ${protocol.toUpperCase()} connection to ${ip}...`);
 
     try {
         const response = await fetch('/api/open-terminal/', {
@@ -332,19 +332,19 @@ async function openSSHTerminal(ip, protocol = 'ssh') {
         const data = await response.json();
 
         if (data.success) {
-            showToast(data.message || `${protocol.toUpperCase()} терминал открыт`);
+            showToast(data.message || `${protocol.toUpperCase()} terminal opened`);
         } else {
-            showToast(data.message || 'Не удалось открыть терминал', 3000);
+            showToast(data.message || 'Failed to open terminal', 3000);
             offerAlternatives(ip, protocol);
         }
     } catch (error) {
         console.error('Error opening terminal:', error);
-        showToast('Ошибка подключения к серверу', 2000);
+        showToast('Server connection error', 2000);
         offerAlternatives(ip, protocol);
     }
 }
 
-// Предложить альтернативные способы подключения
+// Suggest alternative connection methods
 function offerAlternatives(ip, protocol) {
     const command = protocol === 'ssh' ? `ssh root@${ip}` : `telnet ${ip}`;
 
@@ -352,16 +352,16 @@ function offerAlternatives(ip, protocol) {
     modal.className = 'terminal-help-modal';
     modal.innerHTML = `
         <div class="terminal-help-content">
-            <h4>Подключение к ${ip}</h4>
-            <p>Выполните команду в терминале:</p>
+            <h4>Connection to ${ip}</h4>
+            <p>Run this command in a terminal:</p>
             <div class="terminal-command">
                 <code>${command}</code>
-                <button class="copy-cmd-btn" onclick="copyToClipboard('${command}').then(() => showToast('Команда скопирована'))">
-                    📋 Копировать
+                <button class="copy-cmd-btn" onclick="copyToClipboard('${command}').then(() => showToast('Command copied'))">
+                    📋 Copy
                 </button>
             </div>
             <div class="terminal-help-actions">
-                <button onclick="this.closest('.terminal-help-modal').remove()">Закрыть</button>
+                <button onclick="this.closest('.terminal-help-modal').remove()">Close</button>
             </div>
         </div>
     `;
@@ -372,9 +372,9 @@ function offerAlternatives(ip, protocol) {
     });
 }
 
-// Инициализация SSH dropdown ddddddd
+// Initialize SSH dropdown ddddddd
 
-// ============ ПОЛНОЦЕННЫЙ SSH ТЕРМИНАЛ ============
+// ============ FULL SSH TERMINAL ============
 const simpleTerminal = {
     currentIP: null,
     socket: null,
@@ -383,7 +383,7 @@ const simpleTerminal = {
     isConnected: false,
     xtermLoaded: false,
     
-    // Загрузка xterm.js
+    // Load xterm.js
     loadXterm: function() {
         return new Promise((resolve, reject) => {
             if (this.xtermLoaded && window.Terminal && window.FitAddon) {
@@ -394,7 +394,7 @@ const simpleTerminal = {
             
             console.log('Loading xterm.js...');
             
-            // CSS для xterm
+            // CSS for xterm
             if (!document.getElementById('xterm-css')) {
                 const css = document.createElement('link');
                 css.id = 'xterm-css';
@@ -403,14 +403,14 @@ const simpleTerminal = {
                 document.head.appendChild(css);
             }
             
-            // Загружаем xterm.js
+            // Load xterm.js
             const xtermScript = document.createElement('script');
             xtermScript.src = 'https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js';
             
             xtermScript.onload = () => {
                 console.log('xterm.js loaded');
                 
-                // Загружаем fit addon
+                // Load the fit addon
                 const fitScript = document.createElement('script');
                 fitScript.src = 'https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js';
                 
@@ -434,13 +434,13 @@ const simpleTerminal = {
         this.currentIP = ip;
         this.cleanup();
         
-        // Создаём модальное окно
+        // Create the modal window
         const modal = document.createElement('div');
         modal.id = 'sshTerminalModal';
         modal.innerHTML = `
             <div class="ssh-modal-backdrop">
                 <div class="ssh-window">
-                    <!-- Заголовок окна -->
+                    <!-- Window header -->
                     <div class="ssh-titlebar">
                         <div class="ssh-titlebar-buttons">
                             <span class="ssh-btn-close" title="Close"></span>
@@ -456,9 +456,9 @@ const simpleTerminal = {
                         </div>
                     </div>
                     
-                    <!-- Область контента -->
+                    <!-- Content area -->
                     <div class="ssh-content">
-                        <!-- Форма логина -->
+                        <!-- Login form -->
                         <div class="ssh-login" id="sshLoginPanel">
                             <div class="ssh-login-box">
                                 <div class="ssh-login-header">
@@ -494,7 +494,7 @@ const simpleTerminal = {
                             </div>
                         </div>
                         
-                        <!-- Терминал -->
+                        <!-- Terminal -->
                         <div class="ssh-terminal-wrapper" id="sshTerminalPanel" style="display:none;">
                             <div class="ssh-terminal-area" id="sshTerminalArea"></div>
                         </div>
@@ -507,7 +507,7 @@ const simpleTerminal = {
         this.injectStyles();
         this.bindEvents();
         
-        // Фокус на пароль
+        // Focus password
         setTimeout(() => {
             document.getElementById('sshInputPass')?.focus();
         }, 100);
@@ -519,7 +519,7 @@ const simpleTerminal = {
         const style = document.createElement('style');
         style.id = 'ssh-terminal-styles';
         style.textContent = `
-            /* ===== МОДАЛЬНОЕ ОКНО ===== */
+            /* ===== MODAL WINDOW ===== */
             #sshTerminalModal {
                 position: fixed;
                 top: 0;
@@ -544,7 +544,7 @@ const simpleTerminal = {
                 to { opacity: 1; }
             }
             
-            /* ===== ОКНО ТЕРМИНАЛА ===== */
+            /* ===== TERMINAL WINDOW ===== */
             .ssh-window {
                 width: 95%;
                 max-width: 1100px;
@@ -573,7 +573,7 @@ const simpleTerminal = {
                 }
             }
             
-            /* ===== ЗАГОЛОВОК ===== */
+            /* ===== HEADER ===== */
             .ssh-titlebar {
                 height: 40px;
                 background: linear-gradient(180deg, #2d2d44 0%, #1f1f35 100%);
@@ -664,7 +664,7 @@ const simpleTerminal = {
                 background: rgba(255,255,255,0.2);
             }
             
-            /* ===== ОБЛАСТЬ КОНТЕНТА ===== */
+            /* ===== CONTENT AREA ===== */
             .ssh-content {
                 flex: 1;
                 display: flex;
@@ -672,7 +672,7 @@ const simpleTerminal = {
                 background: #0d0d1a;
             }
             
-            /* ===== ФОРМА ЛОГИНА ===== */
+            /* ===== LOGIN FORM ===== */
             .ssh-login {
                 flex: 1;
                 display: flex;
@@ -851,7 +851,7 @@ const simpleTerminal = {
                 background: rgba(0, 255, 136, 0.25);
             }
             
-            /* ===== ТЕРМИНАЛ ===== */
+            /* ===== TERMINAL ===== */
             .ssh-terminal-wrapper {
                 flex: 1;
                 display: flex;
@@ -865,7 +865,7 @@ const simpleTerminal = {
                 overflow: hidden;
             }
             
-            /* Переопределяем стили xterm */
+            /* Override xterm styles */
             .ssh-terminal-area .xterm {
                 height: 100% !important;
             }
@@ -884,7 +884,7 @@ const simpleTerminal = {
     bindEvents: function() {
         const modal = document.getElementById('sshTerminalModal');
         
-        // Закрытие
+        // Closing
         modal.querySelector('.ssh-btn-close').addEventListener('click', () => this.close());
         modal.querySelector('.ssh-modal-backdrop').addEventListener('click', (e) => {
             if (e.target.classList.contains('ssh-modal-backdrop')) this.close();
@@ -898,7 +898,7 @@ const simpleTerminal = {
         };
         document.addEventListener('keydown', this._escHandler);
         
-        // Подключение
+        // Connection
         document.getElementById('sshBtnConnect').addEventListener('click', () => this.connect());
         document.getElementById('sshInputPass').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.connect();
@@ -907,7 +907,7 @@ const simpleTerminal = {
         // Reconnect
         document.getElementById('sshBtnReconnect').addEventListener('click', () => this.reconnect());
         
-        // Копирование
+        // Copying
         document.getElementById('sshBtnCopy').addEventListener('click', async () => {
             const user = document.getElementById('sshInputUser').value || 'root';
             const cmd = `ssh ${user}@${this.currentIP}`;
@@ -950,7 +950,7 @@ const simpleTerminal = {
         const btnText = btn.querySelector('.ssh-btn-text');
         const btnLoader = btn.querySelector('.ssh-btn-loader');
         
-        // Валидация
+        // Validation
         if (!password) {
             errorBox.textContent = '⚠️ Password is required';
             document.getElementById('sshInputPass').focus();
@@ -965,10 +965,10 @@ const simpleTerminal = {
         this.setStatus('connecting');
         
         try {
-            // Загружаем xterm.js
+            // Load xterm.js
             await this.loadXterm();
             
-            // Подключаемся к WebSocket
+            // Connect to WebSocket
             await this.connectWebSocket(username, password, port);
             
         } catch (error) {
@@ -1057,17 +1057,17 @@ const simpleTerminal = {
     showTerminal: function() {
         console.log('=== SHOWING TERMINAL ===');
         
-        // Скрываем форму логина
+        // Hide the login form
         document.getElementById('sshLoginPanel').style.display = 'none';
         
-        // Показываем терминал
+        // Show the terminal
         const termPanel = document.getElementById('sshTerminalPanel');
         termPanel.style.display = 'flex';
         
-        // Показываем кнопку reconnect
+        // Show the reconnect button
         document.getElementById('sshBtnReconnect').style.display = 'block';
         
-        // Создаём xterm терминал
+        // Create the xterm terminal
         const termArea = document.getElementById('sshTerminalArea');
         
         console.log('Creating Terminal instance...');
@@ -1113,11 +1113,11 @@ const simpleTerminal = {
         this.fitAddon = new FitAddon.FitAddon();
         this.terminal.loadAddon(this.fitAddon);
         
-        // Монтируем терминал
+        // Mount the terminal
         console.log('Opening terminal in container...');
         this.terminal.open(termArea);
         
-        // Подгоняем размер
+        // Fit size
         setTimeout(() => {
             console.log('Fitting terminal...');
             this.fitAddon.fit();
@@ -1125,7 +1125,7 @@ const simpleTerminal = {
             
             console.log('Terminal size:', this.terminal.cols, 'x', this.terminal.rows);
             
-            // Отправляем размер на сервер
+            // Send size to the server
             if (this.socket?.readyState === WebSocket.OPEN) {
                 this.socket.send(JSON.stringify({
                     type: 'resize',
@@ -1135,7 +1135,7 @@ const simpleTerminal = {
             }
         }, 50);
         
-        // Обработка ввода
+        // Handle input
         this.terminal.onData((data) => {
             if (this.socket?.readyState === WebSocket.OPEN) {
                 this.socket.send(JSON.stringify({
@@ -1145,7 +1145,7 @@ const simpleTerminal = {
             }
         });
         
-        // Изменение размера окна
+        // Window resize
         this._resizeHandler = () => {
             if (this.fitAddon && this.terminal) {
                 this.fitAddon.fit();
@@ -1176,7 +1176,7 @@ const simpleTerminal = {
     },
     
     reconnect: function() {
-        // Закрываем соединения
+        // Close connections
         if (this.socket) {
             this.socket.close();
             this.socket = null;
@@ -1188,12 +1188,12 @@ const simpleTerminal = {
         
         this.isConnected = false;
         
-        // Показываем форму логина
+        // Show the login form
         document.getElementById('sshLoginPanel').style.display = 'flex';
         document.getElementById('sshTerminalPanel').style.display = 'none';
         document.getElementById('sshBtnReconnect').style.display = 'none';
         
-        // Сбрасываем состояние формы
+        // Reset form state
         const btn = document.getElementById('sshBtnConnect');
         btn.disabled = false;
         btn.querySelector('.ssh-btn-text').style.display = 'inline';
@@ -1237,7 +1237,7 @@ const simpleTerminal = {
 
 console.log('✅ simpleTerminal initialized');
 console.log('simpleTerminal object created:', typeof simpleTerminal);
-// ============ ИСПРАВЛЕННЫЙ initSSHDropdown ============
+// ============ FIXED initSSHDropdown ============
 function initSSHDropdown() {
     const dropdown = document.getElementById('sshDropdown');
     const button = document.getElementById('sshButton');
@@ -1247,14 +1247,14 @@ function initSSHDropdown() {
         return;
     }
 
-    // ★ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: сохраняем IP в замыкании
+    // ★ KEY FIX: save IP in the closure
     let savedIP = null;
 
     button.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Сохраняем IP при клике на кнопку (пока модалка открыта)
+        // Save IP when the button is clicked while the modal is open
         if (currentHost && currentHost.data && currentHost.data.ipaddr) {
             savedIP = currentHost.data.ipaddr;
             console.log('Saved IP:', savedIP);
@@ -1274,7 +1274,7 @@ function initSSHDropdown() {
         e.preventDefault();
         e.stopPropagation();
 
-        // Получаем IP: сначала из currentHost, потом из savedIP
+        // Get IP: first from currentHost, then from savedIP
         const ip = (currentHost?.data?.ipaddr) || savedIP;
 
         console.log('Web Terminal clicked, IP:', ip);
@@ -1284,11 +1284,11 @@ function initSSHDropdown() {
             closeModal('hostModal');
             simpleTerminal.open(ip);
         } else {
-            showToast('Сначала выберите хост');
+            showToast('Select a host first');
         }
     });
 
-    // PuTTY/SSH через сервер
+    // PuTTY/SSH through the server
     document.getElementById('sshOpenPutty')?.addEventListener('click', (e) => {
         e.preventDefault();
         const ip = (currentHost?.data?.ipaddr) || savedIP;
@@ -1308,24 +1308,24 @@ function initSSHDropdown() {
         }
     });
 
-    // Копировать команду
+    // Copy command
     document.getElementById('sshCopyCommand')?.addEventListener('click', async (e) => {
         e.preventDefault();
         const ip = (currentHost?.data?.ipaddr) || savedIP;
         if (ip) {
             await copyToClipboard(`ssh root@${ip}`);
-            showToast('Команда скопирована');
+            showToast('Command copied');
             dropdown.classList.remove('active');
         }
     });
 
-    // Копировать IP
+    // Copy IP
     document.getElementById('sshCopyIp')?.addEventListener('click', async (e) => {
         e.preventDefault();
         const ip = (currentHost?.data?.ipaddr) || savedIP;
         if (ip) {
             await copyToClipboard(ip);
-            showToast('IP скопирован: ' + ip);
+            showToast('IP copied: ' + ip);
             dropdown.classList.remove('active');
         }
     });
@@ -1333,26 +1333,26 @@ function initSSHDropdown() {
 <div class="network-graph">
   <div class="backfeater">
       <div id="tree-container"></div>
-<aside class="map-tools-cluster" aria-label="Инструменты карты">
+<aside class="map-tools-cluster" aria-label="Map tools">
 <div class="map-mode-control">
-    <button id="mapModeBtn" class="map-mode-btn" type="button" aria-expanded="false" aria-controls="mapPositionPanel">Режим карты</button>
+    <button id="mapModeBtn" class="map-mode-btn" type="button" aria-expanded="false" aria-controls="mapPositionPanel">Map mode</button>
     <div class="position-panel" id="mapPositionPanel">
         <div class="position-actions">
-            <button id="resetPositionsBtn" class="btn-position red" aria-label="Сбросить позиции" title="Сбросить позиции">Сбросить</button>
-            <button id="savePositionsBtn" class="btn-position green" aria-label="Сохранить все позиции" title="Сохранить все позиции">Сохранить</button>
-            <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Авто-расположение" title="Авто-расположение">Авто</button>
+            <button id="resetPositionsBtn" class="btn-position red" aria-label="Reset positions" title="Reset positions">Reset</button>
+            <button id="savePositionsBtn" class="btn-position green" aria-label="Save all positions" title="Save all positions">Save</button>
+            <button id="autoArrangeBtn" class="btn-position cyan" aria-label="Auto layout" title="Auto layout">Auto</button>
         </div>
         <button id="starfieldToggle" class="starfield-toggle" type="button" aria-pressed="false">
-            Звёзды: движутся
+            Stars: moving
         </button>
-        <div id="saveStatus" class="status-msg green" style="display: none;">✓ Позиции сохранены</div>
+        <div id="saveStatus" class="status-msg green" style="display: none;">✓ Positions saved</div>
         <div id="debugInfo" class="debug-info" style="display: none"></div>
     </div>
 </div>
 <div class="filter-panel" id="filterPanel">
               <div class="filter-header">
-                  <span class="filter-title">Фильтры</span>
-                  <button class="filter-toggle-btn collapsed" id="filterToggle" title="Свернуть/развернуть">
+                  <span class="filter-title">Filters</span>
+                  <button class="filter-toggle-btn collapsed" id="filterToggle" title="Collapse/expand">
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
                           <path d="M2 4l4 4 4-4H2z"/>
                       </svg>
@@ -1360,31 +1360,31 @@ function initSSHDropdown() {
               </div>
 
               <div class="filter-content collapsed" id="filterContent">
-                  <!-- Быстрые фильтры -->
+                  <!-- Quick filters -->
                   <div class="quick-filters">
-                      <button class="quick-filter-btn active" data-filter="all">Все</button>
-                      <button class="quick-filter-btn" data-filter="endpoints">Конечные</button>
+                      <button class="quick-filter-btn active" data-filter="all">All</button>
+                      <button class="quick-filter-btn" data-filter="endpoints">Endpoints</button>
                       <button class="quick-filter-btn" data-filter="online">Online</button>
                   </div>
 
                   <div class="filter-divider"></div>
 
-                  <!-- Фильтры по типу устройств -->
+                  <!-- Filters by device type -->
                   <div class="filter-group">
-                      <div class="filter-group-title">Типы устройств</div>
+                      <div class="filter-group-title">Device Types</div>
                       <div id="deviceTypeFilters"></div>
                   </div>
 
                   <div class="filter-divider"></div>
 
-                  <!-- Фильтры по статусу -->
+                  <!-- Filters by status -->
                   <div class="filter-group">
-                      <div class="filter-group-title">Статус</div>
+                      <div class="filter-group-title">Status</div>
                       <div id="statusFilters">
                           <div class="filter-item active" data-status="all">
                               <div class="filter-checkbox"></div>
                               <div class="filter-icon icon-all">●</div>
-                              <span class="filter-label">Все статусы</span>
+                              <span class="filter-label">All statuses</span>
                           </div>
                           <div class="filter-item" data-status="online">
                               <div class="filter-checkbox"></div>
@@ -1407,34 +1407,34 @@ function initSSHDropdown() {
                       </div>
                   </div>
 
-                  <!-- Действия -->
+                  <!-- Actions -->
                   <div class="filter-actions">
-                      <button class="filter-btn" id="resetFilters">Сбросить</button>
-                      <button class="filter-btn primary" id="invertFilters">Инвертировать</button>
+                      <button class="filter-btn" id="resetFilters">Reset</button>
+                      <button class="filter-btn primary" id="invertFilters">Invert</button>
                   </div>
 
-                  <!-- Статус фильтрации -->
+                  <!-- Filter status -->
                   <div class="filter-status" id="filterStatus">
-                      Показано: <span id="visibleCount">0</span> из <span id="totalCount">0</span>
+                      Shown: <span id="visibleCount">0</span> of <span id="totalCount">0</span>
                   </div>
               </div>
                 </div>
 
   <div class="glass-panel">
-    <div class="tool-info-label">Информация</div>
+    <div class="tool-info-label">Information</div>
     <div class="legend">
-      <div class="legend-item"><span class="dot green"></span><small>OK (сервисы: ok)</small></div>
-      <div class="legend-item"><span class="dot orange"></span><small>Критический</small></div>
-      <div class="legend-item"><span class="dot red"></span><small>Недоступен</small></div>
-      <div class="legend-item"><span class="dot cyan"></span><small>Узел Sysmon</small></div>
-      <div class="legend-item"><small>Перетаскивание: переместить и сохранить</small></div>
+      <div class="legend-item"><span class="dot green"></span><small>OK (services: ok)</small></div>
+      <div class="legend-item"><span class="dot orange"></span><small>Critical</small></div>
+      <div class="legend-item"><span class="dot red"></span><small>Unavailable</small></div>
+      <div class="legend-item"><span class="dot cyan"></span><small>Sysmon node</small></div>
+      <div class="legend-item"><small>Drag: move and save</small></div>
     </div>
   </div>
 </aside>
 
   </div>
 
-  <!-- Модальные окна -->
+  <!-- Modal windows -->
   <div class="modal-overlay" id="hostModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -1447,8 +1447,8 @@ function initSSHDropdown() {
     <span>Ping Host</span>
   </button>
 
-  <!-- Новая кнопка SSH/PuTTY с dropdown -->
-  <!-- В вашем шаблоне, замените dropdown на: -->
+  <!-- New SSH/PuTTY button with dropdown -->
+  <!-- In your template, replace the dropdown with: -->
 
 <div class="ssh-dropdown" id="sshDropdown">
     <button class="ssh-btn" id="sshButton">
@@ -1463,7 +1463,7 @@ function initSSHDropdown() {
         </svg>
     </button>
     <div class="ssh-dropdown-menu" id="sshDropdownMenu">
-        <!-- Web Terminal (основной вариант) -->
+        <!-- Web Terminal (primary option) -->
         <a class="ssh-dropdown-item" id="sshOpenWebTerminal" href="#">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -1524,7 +1524,7 @@ function initSSHDropdown() {
 </div>
 
 <script>
-// ============ ИСХОДНЫЕ ДАННЫЕ ============
+// ============ SOURCE DATA ============
 const rawData = {{ tree|safe }};
 console.log("Raw data received:", rawData);
 console.log("Total hosts in data:", rawData.length);
@@ -1532,10 +1532,10 @@ console.log("Total hosts in data:", rawData.length);
 const POSITIONS_URL = '/api/graph/positions/';
 let currentHost = null;
 let pingInterval = null;
-let pingAbortController = null; // ← НОВОЕ: для отмены fetch
+let pingAbortController = null; // ← NEW: for cancelling fetch
 let pingCount = 0;
 const maxPings = 10;
-let pingActive = false; // ← НОВОЕ: флаг активности ping
+let pingActive = false; // ← NEW: ping activity flag
 
 let allNodes = [];
 let simulation = null;
@@ -1548,7 +1548,7 @@ const HOST_UPDATE_URL_TEMPLATE = "{% url 'host-update' 0 %}".replace('0', '{id}'
 let positionsLoaded = false;
 let savedPositions = {};
 
-// ============ СОСТОЯНИЕ ФИЛЬТРОВ ============
+// ============ FILTER STATE ============
 const filterState = {
     deviceTypes: new Set(),
     statusFilter: 'all',
@@ -1556,26 +1556,26 @@ const filterState = {
     allDeviceTypes: new Set(),
 };
 
-// Маппинг типов устройств
+// Device type mapping
 const DEVICE_TYPE_CONFIG = {
-    'servers': { icon: '🖥️', label: 'Серверы', class: 'icon-server', group: 'endpoints' },
-    'switches': { icon: '🖥️', label: 'Коммутаторы', class: 'icon-switch', group: 'network' },
-    'router': { icon: '📡', label: 'Маршрутизаторы', class: 'icon-router', group: 'network' },
-    'computers': { icon: '💻', label: 'Компьютеры', class: 'icon-computer', group: 'endpoints' },
-    'workstations': { icon: '🖥️', label: 'Рабочие станции', class: 'icon-computer', group: 'endpoints' },
-    'network-printers': { icon: '🖨️', label: 'Принтеры', class: 'icon-printer', group: 'endpoints' },
-    'printers': { icon: '🖨️', label: 'Принтеры', class: 'icon-printer', group: 'endpoints' },
-    'UPS': { icon: '🔋', label: 'ИБП', class: 'icon-ups', group: 'endpoints' },
-    'ups': { icon: '🔋', label: 'ИБП', class: 'icon-ups', group: 'endpoints' },
-    'firewall': { icon: '🛡️', label: 'Файрволы', class: 'icon-firewall', group: 'network' },
-    'firewalls': { icon: '🛡️', label: 'Файрволы', class: 'icon-firewall', group: 'network' },
-    'access_points': { icon: '📶', label: 'Точки доступа', class: 'icon-switch', group: 'network' },
-    'cameras': { icon: '📹', label: 'Камеры', class: 'icon-other', group: 'endpoints' },
-    'phones': { icon: '📞', label: 'IP-телефоны', class: 'icon-other', group: 'endpoints' },
-    'storage': { icon: '💾', label: 'Хранилища', class: 'icon-server', group: 'endpoints' },
-    'virtual': { icon: '☁️', label: 'Виртуальные', class: 'icon-server', group: 'endpoints' },
-    'unknown': { icon: '❓', label: 'Неизвестные', class: 'icon-other', group: 'other' },
-    'other': { icon: '📦', label: 'Другие', class: 'icon-other', group: 'other' },
+    'servers': { icon: '🖥️', label: 'Servers', class: 'icon-server', group: 'endpoints' },
+    'switches': { icon: '🖥️', label: 'Switches', class: 'icon-switch', group: 'network' },
+    'router': { icon: '📡', label: 'Routers', class: 'icon-router', group: 'network' },
+    'computers': { icon: '💻', label: 'Computers', class: 'icon-computer', group: 'endpoints' },
+    'workstations': { icon: '🖥️', label: 'Workstations', class: 'icon-computer', group: 'endpoints' },
+    'network-printers': { icon: '🖨️', label: 'Printers', class: 'icon-printer', group: 'endpoints' },
+    'printers': { icon: '🖨️', label: 'Printers', class: 'icon-printer', group: 'endpoints' },
+    'UPS': { icon: '🔋', label: 'UPS', class: 'icon-ups', group: 'endpoints' },
+    'ups': { icon: '🔋', label: 'UPS', class: 'icon-ups', group: 'endpoints' },
+    'firewall': { icon: '🛡️', label: 'Firewalls', class: 'icon-firewall', group: 'network' },
+    'firewalls': { icon: '🛡️', label: 'Firewalls', class: 'icon-firewall', group: 'network' },
+    'access_points': { icon: '📶', label: 'Access Points', class: 'icon-switch', group: 'network' },
+    'cameras': { icon: '📹', label: 'Cameras', class: 'icon-other', group: 'endpoints' },
+    'phones': { icon: '📞', label: 'IP Phones', class: 'icon-other', group: 'endpoints' },
+    'storage': { icon: '💾', label: 'Storage', class: 'icon-server', group: 'endpoints' },
+    'virtual': { icon: '☁️', label: 'Virtual', class: 'icon-server', group: 'endpoints' },
+    'unknown': { icon: '❓', label: 'Unknown', class: 'icon-other', group: 'other' },
+    'other': { icon: '📦', label: 'Other', class: 'icon-other', group: 'other' },
 };
 
 function getDeviceTypeConfig(type) {
@@ -1596,16 +1596,16 @@ function getCookie(name) {
 }
 const CSRF = getCookie('csrftoken');
 
-// ============ ИСПРАВЛЕННОЕ ПОСТРОЕНИЕ ГРАФА ============
+// ============ FIXED GRAPH BUILDING ============
 /**
- * Строит плоский граф из данных (не дерево!)
- * Возвращает объект { nodes: [], links: [] }
+ * Builds a flat graph from data (not a tree!)
+ * Returns an object { nodes: [], links: [] }
  */
 function buildGraphData(data) {
     const nodesMap = new Map();
     const links = [];
 
-    // Шаг 1: Создаём все узлы
+    // Step 1: Create all nodes
     data.forEach(item => {
         if (!item.ipaddr) {
             console.warn("Item without ipaddr:", item);
@@ -1620,11 +1620,11 @@ function buildGraphData(data) {
 
     console.log(`Created ${nodesMap.size} nodes from ${data.length} items`);
 
-    // Шаг 2: Создаём связи на основе parent и children
+    // Step 2: Create links from parent and children
     data.forEach(item => {
         if (!item.ipaddr) return;
 
-        // Связь от parent к текущему узлу
+        // Link from parent to the current node
         if (item.parent && nodesMap.has(item.parent)) {
             links.push({
                 source: item.parent,
@@ -1634,11 +1634,11 @@ function buildGraphData(data) {
             });
         }
 
-        // Связи от текущего узла к children
+        // Links from the current node to children
         if (item.children && Array.isArray(item.children)) {
             item.children.forEach(childIp => {
                 if (nodesMap.has(childIp)) {
-                    // Проверяем, нет ли уже такой связи (в обратном направлении)
+                    // Check whether this link already exists in the opposite direction
                     const exists = links.some(l =>
                         (l.source === item.ipaddr && l.target === childIp) ||
                         (l.source === childIp && l.target === item.ipaddr)
@@ -1656,7 +1656,7 @@ function buildGraphData(data) {
         }
     });
 
-    // Удаляем дубликаты связей
+    // Remove duplicate links
     const uniqueLinks = [];
     const linkSet = new Set();
     links.forEach(link => {
@@ -1728,17 +1728,17 @@ const zoom = d3.zoom().scaleExtent([0.2, 3]).on("zoom", (event) => {
 });
 svg.call(zoom);
 
-// ============ СТРОИМ ГРАФ ИЗ ПЛОСКИХ ДАННЫХ ============
+// ============ BUILD GRAPH FROM FLAT DATA ============
 const graphData = buildGraphData(rawData);
 const nodes = graphData.nodes;
 const links = graphData.links;
 allNodes = nodes;
 
-// Обновляем отладочную информацию
+// Update debug information
 document.getElementById('debugInfo').textContent =
-    `Узлов: ${nodes.length} | Связей: ${links.length} | Исходных: ${rawData.length}`;
+    `Nodes: ${nodes.length} | Links: ${links.length} | Raw: ${rawData.length}`;
 
-// ============ ФУНКЦИИ СОХРАНЕНИЯ ПОЗИЦИЙ ============
+// ============ POSITION SAVE FUNCTIONS ============
 
 async function loadPositionsFromServer() {
     try {
@@ -1787,7 +1787,7 @@ async function saveAllPositions() {
     const saveBtn = document.getElementById('savePositionsBtn');
 
     saveBtn.disabled = true;
-    saveBtn.textContent = 'Сохранение...';
+    saveBtn.textContent = 'Saving...';
 
     const promises = [];
 
@@ -1804,7 +1804,7 @@ async function saveAllPositions() {
         await Promise.all(promises);
 
         saveStatus.style.display = 'block';
-        saveStatus.textContent = '✓ Все позиции сохранены';
+        saveStatus.textContent = '✓ All positions saved';
         saveStatus.style.color = 'rgba(0,255,136,0.8)';
 
         setTimeout(() => {
@@ -1812,16 +1812,16 @@ async function saveAllPositions() {
         }, 3000);
     } catch (e) {
         saveStatus.style.display = 'block';
-        saveStatus.textContent = '✗ Ошибка сохранения';
+        saveStatus.textContent = '✗ Save error';
         saveStatus.style.color = 'rgba(255,100,100,0.8)';
     }
 
     saveBtn.disabled = false;
-    saveBtn.textContent = 'Сохранить все';
+    saveBtn.textContent = 'Save all';
 }
 
 function resetAllPositions() {
-    if (!confirm('Сбросить все позиции? Узлы будут расположены автоматически.')) {
+    if (!confirm('Reset all positions? Nodes will be laid out automatically.')) {
         return;
     }
 
@@ -1835,7 +1835,7 @@ function resetAllPositions() {
 
     const saveStatus = document.getElementById('saveStatus');
     saveStatus.style.display = 'block';
-    saveStatus.textContent = '↻ Позиции сброшены';
+    saveStatus.textContent = '↻ Positions reset';
     saveStatus.style.color = 'rgba(255,170,0,0.8)';
 
     setTimeout(() => {
@@ -1861,7 +1861,7 @@ function autoArrange() {
 
     const saveStatus = document.getElementById('saveStatus');
     saveStatus.style.display = 'block';
-    saveStatus.textContent = '⟳ Расположение узлов...';
+    saveStatus.textContent = '⟳ Laying out nodes...';
     saveStatus.style.color = 'rgba(0,255,255,0.8)';
 }
 
@@ -1885,7 +1885,7 @@ function applyLoadedPositions(positions) {
     return appliedCount;
 }
 
-// ============ ИНИЦИАЛИЗАЦИЯ ФИЛЬТРОВ ============
+// ============ FILTER INITIALIZATION ============
 function initializeFilters() {
     const typeCounts = {};
     let onlineCount = 0;
@@ -1917,7 +1917,7 @@ function initializeFilters() {
 
     const allItem = createFilterItem('all', {
         icon: '📊',
-        label: 'Все устройства',
+        label: 'All devices',
         class: 'icon-all'
     }, allNodes.length, true);
     container.appendChild(allItem);
@@ -2183,24 +2183,24 @@ document.getElementById('filterToggle').addEventListener('click', () => {
 document.getElementById('resetFilters').addEventListener('click', resetFilters);
 document.getElementById('invertFilters').addEventListener('click', invertFilters);
 
-// ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
+// ============ HELPER FUNCTIONS ============
 
 /**
- * ИСПРАВЛЕННАЯ функция остановки ping
+ * FIXED ping stop function
  */
 function stopPing() {
     console.log('stopPing called');
 
-    // Устанавливаем флаг неактивности
+    // Set the inactive flag
     pingActive = false;
 
-    // Отменяем текущий fetch запрос
+    // Cancel the current fetch request
     if (pingAbortController) {
         pingAbortController.abort();
         pingAbortController = null;
     }
 
-    // Очищаем интервал
+    // Clear the interval
     if (pingInterval) {
         clearInterval(pingInterval);
         pingInterval = null;
@@ -2242,7 +2242,7 @@ function getStatusText(d) {
 function getServiceStatusClass(service) {
     const status = service.status;
 
-    if (status === 'OK' || status === 'ОК') {
+    if (status === 'OK' || status === 'OK') {
         return 'status-ok';
     } else if (status === 'CRITICAL') {
         return 'status-critical';
@@ -2255,9 +2255,9 @@ function getServiceStatusClass(service) {
     }
 }
 
-// ============ СОЗДАНИЕ ГРАФА ============
+// ============ GRAPH CREATION ============
 
-// Создаём линии
+// Create lines
 linkElements = g.append("g")
     .attr("class", "links")
     .selectAll("line")
@@ -2270,7 +2270,7 @@ linkElements = g.append("g")
 linkElements.append("title")
     .text(d => d.segmentationReason || "No segmentation decision");
 
-// Создаём узлы
+// Create nodes
 nodeElements = g.append("g")
     .attr("class", "nodes")
     .selectAll("g")
@@ -2278,7 +2278,7 @@ nodeElements = g.append("g")
     .join("g")
     .attr("class", "node");
 
-// Пульсирующие кольца
+// Pulsing rings
 nodeElements.append("circle")
     .attr("class", "pulse-ring ring-1")
     .attr("r", 15);
@@ -2352,7 +2352,7 @@ nodeElements.each(function(d) {
     }
 });
 
-// Adjacency для hover эффектов
+// Adjacency for hover effects
 const adjacency = new Map();
 links.forEach(l => {
     const a = typeof l.source === 'object' ? l.source.id : l.source;
@@ -2384,7 +2384,7 @@ nodeElements.on('click', function(event, d) {
     showHostInfo(d);
 });
 
-// ============ ФУНКЦИИ ПОИСКА ============
+// ============ SEARCH FUNCTIONS ============
 
 function clearHighlightEffect() {
     if (highlightTimeout) {
@@ -2462,20 +2462,20 @@ function searchNodes(query) {
 }
 
 function highlightNode(node) {
-    // Закрываем результаты поиска
+    // Close search results
     document.getElementById('searchResults').style.display = 'none';
 
-    // Показываем toast с подсказкой
-    showToast(`Найден: ${node.data.name || node.data.ipaddr}. Кликните для информации`, 3000);
+    // Show a toast with a hint
+    showToast(`Found: ${node.data.name || node.data.ipaddr}. Click for details`, 3000);
 
-    // Анимация центрирования
+    // Centering animation
     centerOnNode(node, () => {
-        // Подсветка узла
+        // Node highlight
         highlightNodeWithEffect(node, 8000);
     });
 
-    // НЕ открываем модалку автоматически
-    // Пользователь кликнет на узел сам, если нужно
+    // Do NOT open the modal automatically
+    // The user will click the node if needed
 }
 
 
@@ -2489,7 +2489,7 @@ function displaySearchResults(results) {
     const resultsContainer = document.getElementById('searchResults');
 
     if (results.length === 0) {
-        resultsContainer.innerHTML = '<div class="search-result-item">Ничего не найдено</div>';
+        resultsContainer.innerHTML = '<div class="search-result-item">Nothing found</div>';
         resultsContainer.style.display = 'block';
         return;
     }
@@ -2514,7 +2514,7 @@ function displaySearchResults(results) {
     }).join('');
 
     if (results.length > 20) {
-        resultsContainer.innerHTML += `<div class="search-result-item" style="opacity: 0.6; text-align: center;">...и ещё ${results.length - 20}</div>`;
+        resultsContainer.innerHTML += `<div class="search-result-item" style="opacity: 0.6; text-align: center;">...and ${results.length - 20}</div>`;
     }
 
     resultsContainer.style.display = 'block';
@@ -2528,7 +2528,7 @@ function displaySearchResults(results) {
     });
 }
 
-// Поиск - обработчики событий
+// Search event handlers
 document.getElementById('searchBtn').addEventListener('click', () => {
     const query = document.getElementById('nodeSearch').value.trim();
     if (query) {
@@ -2569,7 +2569,7 @@ mapModeBtn.addEventListener('click', () => {
     mapPositionPanel.hidden = isOpen;
 });
 
-// ============ МОДАЛЬНЫЕ ОКНА ============
+// ============ MODAL WINDOWS ============
 
 function showHostInfo(d) {
     console.log("Node data:", d.data);
@@ -2589,7 +2589,7 @@ function showHostInfo(d) {
 
     let servicesHTML = '';
 if (d.data.services && d.data.services.length > 0) {
-    // Приоритеты служб (меньше = выше)
+    // Service priorities (lower = higher)
     const servicePriority = {
         'uptime': 1,
         'ping': 2,
@@ -2603,7 +2603,7 @@ if (d.data.services && d.data.services.length > 0) {
         for (const [key, priority] of Object.entries(servicePriority)) {
             if (lowerName.includes(key)) return priority;
         }
-        return 100; // Остальные в конец
+        return 100; // Others go to the end
     };
 
     const sortedServices = [...d.data.services].sort((a, b) => {
@@ -2614,7 +2614,7 @@ if (d.data.services && d.data.services.length > 0) {
             return priorityA - priorityB;
         }
 
-        // При равных приоритетах — по алфавиту
+        // For equal priorities — alphabetically
         return (a.name || '').localeCompare(b.name || '');
     });
 
@@ -2717,7 +2717,7 @@ function closeModal(modalId) {
 }
 
 /**
- * ИСПРАВЛЕННАЯ функция закрытия ping модального окна
+ * FIXED ping modal close function
  */
 function closePingModal() {
     console.log('closePingModal called');
@@ -2725,20 +2725,20 @@ function closePingModal() {
     const modal = document.getElementById('pingModal');
     modal.classList.remove('active');
 
-    // Останавливаем ping ПОСЛЕ удаления класса active
+    // Stop ping AFTER removing the active class
     stopPing();
 
-    // Очищаем вывод
+    // Clear output
     document.getElementById('pingOutput').innerHTML = '';
 }
 
 /**
- * ИСПРАВЛЕННАЯ функция ping с AbortController
+ * FIXED ping function with AbortController
  */
 async function startPing() {
     if (!currentHost) return;
 
-    // Сначала останавливаем предыдущий ping
+    // Stop the previous ping first
     stopPing();
 
     const pingBtn = document.getElementById('pingButton');
@@ -2753,18 +2753,18 @@ async function startPing() {
     pingTitle.textContent = `Pinging: ${currentHost.data.ipaddr}`;
     pingModal.classList.add('active');
 
-    // Устанавливаем флаг активности
+    // Set the active flag
     pingActive = true;
     pingCount = 0;
 
     async function executePing() {
-        // Проверяем флаг активности
+        // Check the active flag
         if (!pingActive) {
             console.log('Ping stopped - not active');
             return;
         }
 
-        // Проверяем, открыто ли модальное окно
+        // Check whether the modal window is open
         if (!pingModal.classList.contains('active')) {
             console.log('Ping stopped - modal closed');
             stopPing();
@@ -2783,17 +2783,17 @@ async function startPing() {
             return;
         }
 
-        // Создаём AbortController для этого запроса
+        // Create an AbortController for this request
         pingAbortController = new AbortController();
 
         try {
             const response = await fetch(`/ping/${currentHost.data.ipaddr}/`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
-                signal: pingAbortController.signal // ← Передаём signal
+                signal: pingAbortController.signal // ← Pass signal
             });
 
-            // Повторная проверка после fetch
+            // Repeat check after fetch
             if (!pingActive || !pingModal.classList.contains('active')) {
                 console.log('Ping stopped after fetch');
                 return;
@@ -2822,7 +2822,7 @@ async function startPing() {
             pingOutput.scrollTop = pingOutput.scrollHeight;
 
         } catch (error) {
-            // Проверяем, был ли запрос отменён
+            // Check whether the request was aborted
             if (error.name === 'AbortError') {
                 console.log('Ping request aborted');
                 return;
@@ -2840,14 +2840,14 @@ async function startPing() {
         }
     }
 
-    // Запускаем первый ping
+    // Start the first ping
     executePing();
 
-    // Запускаем интервал
+    // Start interval
     pingInterval = setInterval(executePing, 1000);
 }
 
-// ============ DRAG ФУНКЦИИ С СОХРАНЕНИЕМ ============
+// ============ DRAG FUNCTIONS WITH SAVING ============
 
 function drag(simulation) {
     function dragstarted(event, d) {
@@ -2884,7 +2884,7 @@ function drag(simulation) {
 function showSaveIndicator() {
     const saveStatus = document.getElementById('saveStatus');
     saveStatus.style.display = 'block';
-    saveStatus.textContent = '✓ Позиция сохранена';
+    saveStatus.textContent = '✓ Position saved';
     saveStatus.style.color = 'rgba(0,255,136,0.8)';
 
     setTimeout(() => {
@@ -2892,13 +2892,13 @@ function showSaveIndicator() {
     }, 1500);
 }
 
-// ============ ИНИЦИАЛИЗАЦИЯ ============
+// ============ INITIALIZATION ============
 
 const STARFIELD_STATES = ['running', 'paused', 'hidden'];
 const STARFIELD_LABELS = {
-    running: 'Звёзды: движутся',
-    paused: 'Звёзды: остановлены',
-    hidden: 'Звёзды: выключены'
+    running: 'Stars: moving',
+    paused: 'Stars: paused',
+    hidden: 'Stars: off'
 };
 
 function setStarfieldState(state) {
@@ -2941,7 +2941,7 @@ async function init() {
     const appliedCount = applyLoadedPositions(savedPositions);
     positionsLoaded = appliedCount > 0;
 
-    // Создаём симуляцию с узлами и связями
+    // Create a simulation with nodes and links
     simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links)
             .id(d => d.id)
@@ -2978,30 +2978,30 @@ async function init() {
     setupStatusFilters();
     setupQuickFilters();
 
-    // Обработчики кнопок управления позициями
+    // Position control button handlers
     document.getElementById('resetPositionsBtn').addEventListener('click', resetAllPositions);
     document.getElementById('savePositionsBtn').addEventListener('click', saveAllPositions);
     document.getElementById('autoArrangeBtn').addEventListener('click', autoArrange);
     initializeStarfieldControl();
 
-    // ============ ИСПРАВЛЕННЫЕ ОБРАБОТЧИКИ МОДАЛЬНЫХ ОКОН ============
+    // ============ FIXED MODAL WINDOW HANDLERS ============
 
-    // Кнопка закрытия host modal
+    // Host modal close button
     document.getElementById('closeHostModalBtn').addEventListener('click', () => {
         closeModal('hostModal');
     });
 
-    // Кнопка закрытия ping modal (X)
+    // Ping modal close button (X)
     document.getElementById('closePingModalBtn').addEventListener('click', () => {
         closePingModal();
     });
 
-    // Кнопка Close внизу ping modal
+    // Close button at the bottom of the ping modal
     document.getElementById('closePingBtn').addEventListener('click', () => {
         closePingModal();
     });
 
-    // Кнопка Ping
+    // Ping button
     document.getElementById('pingButton').addEventListener('click', () => {
         startPing();
     });
@@ -3019,10 +3019,10 @@ async function init() {
     });
 }
 
-// Запуск инициализации
+// Start initialization
 init();
 
-// ============ ГЛОБАЛЬНЫЕ ОБРАБОТЧИКИ СОБЫТИЙ ============
+// ============ GLOBAL EVENT HANDLERS ============
 
 document.addEventListener('click', (e) => {
     const searchPanel = document.querySelector('.search-panel');
@@ -3030,7 +3030,7 @@ document.addEventListener('click', (e) => {
         document.getElementById('searchResults').style.display = 'none';
     }
 
-    // Клик по overlay закрывает модальное окно
+    // Overlay click closes the modal window
     if (e.target.classList.contains('modal-overlay')) {
         if (e.target.id === 'pingModal') {
             closePingModal();
@@ -3059,7 +3059,7 @@ initSSHDropdown();
 </script>
 
 <style>
-/* Стиль для перетаскиваемого узла */
+/* Style for the dragged node */
 .node.dragging {
     cursor: grabbing !important;
 }
@@ -3074,7 +3074,7 @@ initSSHDropdown();
     opacity: 1;
 }
 
-/* Стили для кнопок панели позиций */
+/* Position panel button styles */
 .position-panel button:hover {
     filter: brightness(1.2);
     transform: translateY(-1px);
@@ -3090,7 +3090,7 @@ initSSHDropdown();
     transform: none;
 }
 
-/* Анимация точек загрузки */
+/* Loading dots animation */
 .loading-dots::after {
     content: '';
     animation: dots 1.5s steps(4, end) infinite;

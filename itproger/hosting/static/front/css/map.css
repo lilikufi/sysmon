@@ -22,42 +22,42 @@ body {
 }
 
 .backfeater {
-    background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 #map {
     width: 100%;
-    height: 100vh; /* Задаем высоту карты на весь экран */
+    height: 100vh; /* Set the map height to full screen */
 }
 
 /*}*/
 .custom-marker {
-    background: transparent; /* Прозрачный фон для контейнера */
-    border: none; /* Убираем границу */
-    box-shadow: none; /* Убираем стандартную тень */
+    background: transparent; /* Transparent container background */
+    border: none; /* Remove the border */
+    box-shadow: none; /* Remove the default shadow */
     position: relative;
 }
 
 .marker-icon {
     width: 40px;
     height: 41px;
-    background-size: cover; /* Чтобы изображение иконки полностью заполняло элемент */
+    background-size: cover; /* Make the icon image fully fill the element */
     position: relative;
-    z-index: 2; /* Иконка должна быть выше тени */
+    z-index: 2; /* The icon must be above the shadow */
 }
 
 .marker-shadow {
     width: 41px;
     height: 41px;
-    background-color: #14FF47FF; /* Цвет тени по умолчанию */
-    border-radius: 50%; /* Тень круглая */
+    background-color: #14FF47FF; /* Default shadow color */
+    border-radius: 50%; /* Round shadow */
     position: absolute;
     top: 50%;
     left: 60%;
-    transform: translate(-50%, -50%); /* Центрируем тень */
-    filter: blur(5px); /* Размытие для эффекта тени */
-    z-index: 1; /* Тень должна быть ниже иконки */
-    opacity: 0.5; /* Прозрачность тени */
+    transform: translate(-50%, -50%); /* Center the shadow */
+    filter: blur(5px); /* Blur for the shadow effect */
+    z-index: 1; /* The shadow must be below the icon */
+    opacity: 0.5; /* Shadow opacity */
 }
     .close {
         color: #aaa;
@@ -73,7 +73,7 @@ body {
         text-decoration: none;
     }
 
-    /* Стили для формы */
+    /* Form styles */
 
     #line-settings {
         display: flex;
@@ -103,9 +103,9 @@ body {
         display: flex;
         width: 300px;
         background: rgba(61, 62, 63, 0.76);
-        backdrop-filter: blur(10px); /* Размытие фона */
-        border: 1px solid rgba(255, 255, 255, 0.18); /* Легкая граница для эффекта стекла */
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Тень для глубины */
+        backdrop-filter: blur(10px); /* Background blur */
+        border: 1px solid rgba(255, 255, 255, 0.18); /* Light border for the glass effect */
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Depth shadow */
     }
 
     .save {
@@ -124,13 +124,13 @@ body {
         .pin_host {
         left: 55px;
         top: 10px;
-        position: absolute; /* или fixed, в зависимости от вашей задачи */
-        z-index: 9999; /* Устанавливаем высокое значение, чтобы элемент был поверх всех */
+        position: absolute; /* or fixed, depending on the task */
+        z-index: 9999; /* Set a high value so the element is above everything */
     }
 
     .route {
         left: 190px;
         top: 10px;
-        position: absolute; /* или fixed, в зависимости от вашей задачи */
-        z-index: 9999; /* Устанавливаем высокое значение, чтобы элемент был поверх всех */
+        position: absolute; /* or fixed, depending on the task */
+        z-index: 9999; /* Set a high value so the element is above everything */
     }

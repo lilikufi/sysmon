@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
     def _load_demo_data(self):
         answer = input('Load sample inventory? [y/N]: ').strip().lower()
-        if answer not in {'y', 'yes', 'д', 'да'}:
+        if answer not in {'y', 'yes', 'd', 'da'}:
             self.stdout.write('Sample data was not requested.')
             return
         if any(model.objects.exists() for model in (Host, Service, NodePosition, Category)):

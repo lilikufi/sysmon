@@ -9,7 +9,7 @@
 
 .backfeater {
      z-index: 2;
-    background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
     /*background: radial-gradient(circle, rgba(118, 119, 255, 0.55) 0%, #ffffff 100%);*/
     display: grid;
     /*padding-left: 15px;*/
@@ -477,7 +477,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #181a1b;
+        background: var(--sysmon-photo-bg);
 
     }
 

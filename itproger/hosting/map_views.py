@@ -34,7 +34,7 @@ def delete_coordinates(request, host_name):
     host.latitude = 0.0
     host.longitude = 0.0
     host.save(update_fields=['latitude', 'longitude'])
-    return JsonResponse({'success': True, 'message': 'Параметры хоста обнулены.'})
+    return JsonResponse({'success': True, 'message': 'Host parameters have been reset.'})
 
 
 @login_required

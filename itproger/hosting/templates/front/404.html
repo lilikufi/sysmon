@@ -169,12 +169,12 @@
             <div class="containter--text">
                 <div class="text">
                     <h1>404</h1>
-                    <h2>Не пугайтесь.</h2>
-                    <p>Страница, которую вы ищете, ускользнула в неизвестную область. Нажмите кнопку ниже, чтобы
-                        вернуться на главную страницу..</p>
+                    <h2>Do not worry.</h2>
+                    <p>The page you are looking for slipped into an unknown area. Click the button below to
+                        return to the home page.</p>
                     <div>
                         <a href="{% url 'scan' %}">
-                        <button  class="btn green">Домой</button>
+                        <button  class="btn green">Home</button>
                     </div>
 
                 </div>
@@ -199,7 +199,7 @@
 
             body {
 
-                background: #222233;
+                background: var(--sysmon-photo-bg);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -210,7 +210,7 @@
 
             }
             .backfeater{
-                background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+                background: var(--sysmon-photo-bg);
             }
 
             button {

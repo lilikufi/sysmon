@@ -10,10 +10,10 @@ class HostForm(forms.ModelForm):
         fields = ['ipaddr', 'hostname', 'cat']
         widgets = {
             'ipaddr': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'IP адрес'}
+                attrs={'class': 'form-control', 'placeholder': 'IP address'}
             ),
             'hostname': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Имя хоста'}
+                attrs={'class': 'form-control', 'placeholder': 'Host name'}
             ),
         }
 
@@ -51,10 +51,10 @@ class CheckForm(forms.ModelForm):
         ]
         widgets = {
             'ipaddr': forms.TextInput(
-                attrs={'class': 'form-control1', 'placeholder': 'IP адрес'}
+                attrs={'class': 'form-control1', 'placeholder': 'IP address'}
             ),
             'hostname': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Введите имя хоста'}
+                attrs={'class': 'form-control', 'placeholder': 'Enter host name'}
             ),
         }
 
@@ -71,7 +71,7 @@ class CheckForm1(forms.ModelForm):
         fields = ['hostname', 'cpu_5_min', 'uptime', 'mem_free', 'mem_used', 'mem_util']
         widgets = {
             'hostname': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Введите имя хоста'}
+                attrs={'class': 'form-control', 'placeholder': 'Enter host name'}
             ),
         }
 

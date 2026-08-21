@@ -7,7 +7,7 @@
 
 .backfeater {
 
-    background: radial-gradient(circle, #1316678c 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 body {
@@ -74,12 +74,12 @@ td {
 
 tr:nth-child(even) {
 
-    background-color: rgba(242, 242, 242, 0.01); /* Зебристый эффект */
-    /*background: linear-gradient( #E0E0E028 0%, #E0E0E028 100%); !* Зебристый эффект *!*/
+    background-color: rgba(242, 242, 242, 0.01); /* Striped effect */
+    /*background: linear-gradient( #E0E0E028 0%, #E0E0E028 100%); !* Striped effect *!*/
 }
 
 tr:hover {
-    background-color: rgba(224, 224, 224, 0.16); /* Подсветка строки при наведении */
+    background-color: rgba(224, 224, 224, 0.16); /* Row highlight on hover */
 }
 
 .table td, .table th {

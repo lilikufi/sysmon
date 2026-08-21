@@ -5,7 +5,7 @@
 {% block content %}
 <style>
     .backfeater {
-        background: radial-gradient(circle, #131667 0%, #1e1d1d 100%);
+        background: var(--sysmon-photo-bg);
     }
 
    #game {
@@ -33,11 +33,11 @@
     }
 
     .cell.bomb {
-        background-color: #f10041; /* цвет для клеток с бомбой */
+        background-color: #f10041; /* color for bomb cells */
     }
 
     .cell.neighboring-bomb {
-        background-color: #ffd600; /* цвет для клеток с соседней бомбой */
+        background-color: #ffd600; /* color for cells next to a bomb */
     }
 
 
@@ -78,24 +78,24 @@
 <div class="untitled-page root">
     <div class="snow-container"></div>
     <div class="backfeater">
-<!--        <div class="text">Игра Сапёр</div>-->
-<!--        <h1>Игра Сапёр</h1>-->
+<!--        <div class="text">Minesweeper</div>-->
+<!--        <h1>Minesweeper</h1>-->
         <div id="game"></div>
-        <button class="submit1  modal-add" id="restart-button">Заново</button>
+        <button class="submit1  modal-add" id="restart-button">Restart</button>
     </div>
 </div>
 <script>
     document.getElementById('restart-button').addEventListener('click', function () {
-        location.reload(); // Обновляет страницу
+        location.reload(); // Reloads the page
     });
 
-    const rows = 10; // количество строк
-    const cols = 10; // количество колонок
-    const totalBombs = 10; // количество бомб
+    const rows = 10; // row count
+    const cols = 10; // column count
+    const totalBombs = 10; // bomb count
     const gameArea = document.getElementById("game");
     let cells = [];
 
-    // Создание игрового поля
+    // Create the game field
     function createGameBoard() {
         for (let r = 0; r < rows; r++) {
             cells[r] = [];
@@ -105,14 +105,14 @@
                 cell.className = "cell";
                 cell.addEventListener("click", () => handleCellClick(r, c, cell));
                 gameArea.appendChild(cell);
-                cells[r][c].element = cell; // сохраняем элемент для дальнейшей работы
+                cells[r][c].element = cell; // save the element for later use
             }
         }
         placeBombs();
         calculateNeighboringBombs();
     }
 
-    // Размещение бомб
+    // Place bombs
     function placeBombs() {
         let bombsPlaced = 0;
         while (bombsPlaced < totalBombs) {
@@ -125,14 +125,14 @@
         }
     }
 
-    // Расчет соседних бомб
+    // Calculate adjacent bombs
     function calculateNeighboringBombs() {
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
                 let bombCount = 0;
                 for (let i = -1; i <= 1; i++) {
                     for (let j = -1; j <= 1; j++) {
-                        if (i === 0 && j === 0) continue; // пропускаем саму клетку
+                        if (i === 0 && j === 0) continue; // skip the current cell
                         const newRow = r + i;
                         const newCol = c + j;
                         if (isInBounds(newRow, newCol) && cells[newRow][newCol].isBomb) {
@@ -145,30 +145,30 @@
         }
     }
 
-    // Обработка клика по клетке
+    // Handle cell click
     function handleCellClick(row, col, cell) {
-        if (cells[row][col].opened) return; // выходим, если клетка уже открыта
+        if (cells[row][col].opened) return; // return if the cell is already open
         cells[row][col].opened = true;
         cell.classList.add("open");
 
         if (cells[row][col].isBomb) {
             cell.classList.add("bomb");
-            alert("Игра окончена! Вы попали на мину!");
+            alert("Game over! You hit a mine!");
         } else {
             if (cells[row][col].neighboringBombs > 0) {
-                // Если есть соседние мины, окрашиваем в желтый
+                // If there are adjacent mines, color it yellow
                 cell.style.backgroundColor = "#ffd600";
-                cell.innerText = cells[row][col].neighboringBombs; // показываем количество соседних бомб
+                cell.innerText = cells[row][col].neighboringBombs; // show the number of adjacent bombs
             }
         }
     }
 
-    // Проверка на выход за границы
+    // Bounds check
     function isInBounds(row, col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
 
-    // Запуск игры
+    // Start the game
     createGameBoard();
 </script>
 

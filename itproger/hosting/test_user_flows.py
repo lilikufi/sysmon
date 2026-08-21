@@ -232,7 +232,7 @@ class ExternalIntegrationFlowTests(TestCase):
         self.assertContains(response, 'srv-001')
         self.assertContains(response, 'PING OK')
         self.assertNotIn('demo', response.content.decode().lower())
-        self.assertNotContains(response, 'Ошибка чтения лога')
+        self.assertNotContains(response, 'Log read error')
 
     @patch('hosting.inventory_views.Path.read_text', side_effect=FileNotFoundError)
     def test_monitoring_log_explains_missing_live_file(self, _read_text):

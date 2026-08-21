@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='linesettings',
             name='line_type',
-            field=models.CharField(choices=[('solid', 'Сплошная'), ('dashed', 'Пунктирная'), ('dotted', 'Точечная'), ('dash-dot', 'Штрих-пунктирная')], default='solid', max_length=10),
+            field=models.CharField(choices=[('solid', 'Solid'), ('dashed', 'Dashed'), ('dotted', 'Dotted'), ('dash-dot', 'Dash-dot')], default='solid', max_length=10),
         ),
     ]

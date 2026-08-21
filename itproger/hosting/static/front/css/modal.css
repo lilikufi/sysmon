@@ -70,13 +70,13 @@
 .modal-footer{
     border: none;
     height: 15%;
-    position: fixed; /* Фиксированное позиционирование */
-    bottom: 0; /* Размещаем footer внизу */
-    width: 100%; /* Ширина 100% */
+    position: fixed; /* Fixed positioning */
+    bottom: 0; /* Place the footer at the bottom */
+    width: 100%; /* 100% width */
     display: flex;
-    justify-content: space-between; /* Распределить элементы внутри footer по краям */
+    justify-content: space-between; /* Distribute footer elements to the edges */
     padding: 10px 60px 0px 60px;
-    align-items: center; /* Выравнивание элементов по вертикали */
+    align-items: center; /* Vertical alignment of elements */
 }
 
 .grid {

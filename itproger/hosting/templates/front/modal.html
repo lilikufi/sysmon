@@ -1,6 +1,6 @@
 {% extends 'front/layout.html' %}
 {% load static %}
-{% block title%}Создание хоста{% endblock %}
+{% block title%}Create Host{% endblock %}
 
 {% block content %}
 
@@ -15,12 +15,12 @@
 
 <div class="untitled-page root">
     <div class="backfeater" style="color:#cce5ff ">
-        <!--           value="{{ form.ipaddr.value }}">  для отображения данных из бд      -->
+        <!--           value="{{ form.ipaddr.value }}">  for displaying data from the database      -->
         <div class="modal-container" id="modal-container">
             <div class="modal">
                 <img class="cross" id="close" src="{% static 'front/img/cross.svg' %}" alt="alt text"/>
                 <div class="header1"></div>
-                <!--                <input type="text" class="place-name" placeholder="Введите имя хоста" value="" required>-->
+                <!--                <input type="text" class="place-name" placeholder="Enter host name" value="" required>-->
 
 <!--                <div class="grid-check">-->
                     <form method="post">
@@ -31,12 +31,12 @@
                             <label for="{{ form.hostname.id_for_label }}">hostname:</label>
                             <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
                                    name="hostname"
-                                   placeholder="Введите имя хоста">
+                                   placeholder="Enter host name">
                         </div>
-                         <div class="text1">Выбор служб для мониторинга</div>
+                         <div class="text1">Select services to monitor</div>
                         <div class="grid">
                             <div>
-                                <label for="select-all">Выбрать все</label>
+                                <label for="select-all">Select all</label>
                                 <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">
 
                             </div>
@@ -75,14 +75,14 @@
 
                         <!--                        {{ form.ipaddr}}-->
                         <!--                        <input type="hidden" id="id_ipaddr" name="ipaddr" value="">-->
-                        <!-- Скрытое поле для передачи IP-адреса -->
+                        <!-- Hidden field for passing the IP address -->
                         <br>
 
                         <span>{{ error }}</span>
                         <div class="modal-footer">
-                            <button id="back" class="submit1  modal-back">Назад</button>
-                            <!--                            <button id="close" class="submit1 modal-create" type="submit">Создать хост</button>-->
-                            <button class="submit1 modal-create" type="submit">Создать хост</button>
+                            <button id="back" class="submit1  modal-back">Back</button>
+                            <!--                            <button id="close" class="submit1 modal-create" type="submit">Create Host</button>-->
+                            <button class="submit1 modal-create" type="submit">Create Host</button>
                         </div>
                     </form>
 <!--                </div>-->
@@ -97,18 +97,18 @@
                 el.addEventListener('click', function () {
                     const ip = this.querySelector('h3').textContent;
                     document.querySelector('.header1').textContent = ip;
-                    modal_container.classList.add('show'); // Открываем модальное окно при клике на любую плашку
+                    modal_container.classList.add('show'); // Open the modal window when any tile is clicked
                     document.getElementById('id_ipaddr').value = ip;
                 });
             });
 
             close.addEventListener('click', () => {
-                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Закрыть"
+                modal_container.classList.remove('show'); // Close the modal window when the "Close" button is clicked
             });
             const back = document.getElementById('back');
 
             back.addEventListener('click', () => {
-                modal_container.classList.remove('show'); // Закрываем модальное окно при нажатии на кнопку "Назад"
+                modal_container.classList.remove('show'); // Close the modal window when the "Back" button is clicked
             });
         </script>
 

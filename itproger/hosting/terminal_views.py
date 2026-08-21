@@ -62,7 +62,7 @@ def open_terminal(request):
     handler = handlers.get(system)
     if handler is None:
         return JsonResponse(
-            {'success': False, 'message': f'Неподдерживаемая ОС: {system}'},
+            {'success': False, 'message': f'Unsupported OS: {system}'},
             status=501,
         )
     return JsonResponse(handler(ip_address, protocol, username, port))
@@ -83,7 +83,7 @@ def _open_windows_terminal(ip_address, protocol, username, port):
             return _open_with_plink(ip_address, protocol, username, port, plink_path)
         return {
             'success': False,
-            'message': 'PuTTY не найден. Установите PuTTY и добавьте в PATH.',
+            'message': 'PuTTY was not found. Install PuTTY and add it to PATH.',
             'fallback': 'copy_command',
         }
 
@@ -91,7 +91,7 @@ def _open_windows_terminal(ip_address, protocol, username, port):
         command = [putty_path, '-ssh', f'{username}@{ip_address}', '-P', str(port)]
     else:
         command = [putty_path, '-telnet', ip_address, '-P', str(port)]
-    return _spawn_terminal(command, f'PuTTY открыт для {ip_address}', windows=True)
+    return _spawn_terminal(command, f'PuTTY opened for {ip_address}', windows=True)
 
 
 def _open_with_plink(ip_address, protocol, username, port, plink_path):
@@ -99,7 +99,7 @@ def _open_with_plink(ip_address, protocol, username, port, plink_path):
         command = [plink_path, '-ssh', f'{username}@{ip_address}', '-P', str(port)]
     else:
         command = [plink_path, '-telnet', ip_address, '-P', str(port)]
-    return _spawn_terminal(command, f'Plink открыт для {ip_address}', windows=True)
+    return _spawn_terminal(command, f'Plink opened for {ip_address}', windows=True)
 
 
 def _open_linux_terminal(ip_address, protocol, username, port):
@@ -118,7 +118,7 @@ def _open_linux_terminal(ip_address, protocol, username, port):
     if selected is None:
         return {
             'success': False,
-            'message': 'Терминал не найден. Установите gnome-terminal, konsole или xterm.',
+            'message': 'Terminal not found. Install gnome-terminal, konsole, or xterm.',
             'fallback': 'copy_command',
         }
 
@@ -132,7 +132,7 @@ def _open_linux_terminal(ip_address, protocol, username, port):
         command = terminal_command + [' '.join(connection_command)]
     else:
         command = terminal_command + connection_command
-    return _spawn_terminal(command, f'{terminal_name} открыт для {ip_address}')
+    return _spawn_terminal(command, f'{terminal_name} opened for {ip_address}')
 
 
 def _open_macos_terminal(ip_address, protocol, username, port):
@@ -148,7 +148,7 @@ def _open_macos_terminal(ip_address, protocol, username, port):
     )
     return _spawn_terminal(
         ['osascript', '-e', script],
-        f'Terminal.app открыт для {ip_address}',
+        f'Terminal.app opened for {ip_address}',
     )
 
 
@@ -163,5 +163,5 @@ def _spawn_terminal(command, success_message, windows=False):
     try:
         subprocess.Popen(command, **kwargs)
     except (FileNotFoundError, OSError) as exc:
-        return {'success': False, 'message': f'Ошибка запуска терминала: {exc}'}
+        return {'success': False, 'message': f'Terminal launch error: {exc}'}
     return {'success': True, 'message': success_message}

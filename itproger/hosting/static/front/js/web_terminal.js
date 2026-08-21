@@ -13,7 +13,7 @@ class WebTerminal {
     }
 
     initModal() {
-        // Создаём модальное окно
+        // Create the modal window
         const modalHTML = `
             <div class="terminal-modal" id="terminalModal">
                 <div class="terminal-window">
@@ -65,7 +65,7 @@ class WebTerminal {
 
         document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-        // Обработчики событий
+        // Event handlers
         document.getElementById('terminalClose').addEventListener('click', () => this.close());
         document.getElementById('terminalReconnect').addEventListener('click', () => this.reconnect());
         document.getElementById('sshLoginForm').addEventListener('submit', (e) => {
@@ -73,7 +73,7 @@ class WebTerminal {
             this.connectSSH();
         });
 
-        // Закрытие по Escape
+        // Close on Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.getElementById('terminalModal').classList.contains('active')) {
                 this.close();
@@ -103,7 +103,7 @@ class WebTerminal {
         this.disconnect();
         document.getElementById('terminalModal').classList.remove('active');
 
-        // Очищаем терминал
+        // Clear the terminal
         if (this.terminal) {
             this.terminal.dispose();
             this.terminal = null;
@@ -160,13 +160,13 @@ class WebTerminal {
         this.setStatus('connecting');
 
         try {
-            // Инициализируем терминал
+            // Initialize terminal
             await this.initTerminal();
 
-            // Подключаемся к WebSocket
+            // Connect to WebSocket
             await this.connectWebSocket();
 
-            // Отправляем команду подключения
+            // Send the connection command
             this.socket.send(JSON.stringify({
                 type: 'connect',
                 host: host,
@@ -188,14 +188,14 @@ class WebTerminal {
     }
 
     async initTerminal() {
-        // Загружаем xterm.js динамически, если ещё не загружен
+        // Load xterm.js dynamically if it is not loaded
         if (!window.Terminal) {
             await this.loadScript('https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js');
             await this.loadScript('https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js');
             await this.loadCSS('https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css');
         }
 
-        // Создаём терминал
+        // Create terminal
         this.terminal = new Terminal({
             cursorBlink: true,
             cursorStyle: 'block',
@@ -235,12 +235,12 @@ class WebTerminal {
         container.innerHTML = '';
         this.terminal.open(container);
 
-        // Подгоняем размер
+        // Fit size
         setTimeout(() => {
             this.fitAddon.fit();
         }, 100);
 
-        // Обработка ввода
+        // Handle input
         this.terminal.onData(data => {
             if (this.socket && this.isConnected) {
                 this.socket.send(JSON.stringify({
@@ -250,7 +250,7 @@ class WebTerminal {
             }
         });
 
-        // Обработка изменения размера
+        // Handle resize
         window.addEventListener('resize', () => {
             if (this.fitAddon && this.terminal) {
                 this.fitAddon.fit();
@@ -393,5 +393,5 @@ class WebTerminal {
     }
 }
 
-// Создаём глобальный экземпляр
+// Create a global instance
 const webTerminal = new WebTerminal();

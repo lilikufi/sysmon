@@ -106,8 +106,8 @@ def monitoring_log(request):
             lines = _sample_log_lines()
         else:
             lines = [
-                'INFO: Файл nagios.log пока недоступен. '
-                'Настройте NAGIOS_STATUS_HOST_DIR и синхронизацию с Nagios.'
+                'INFO: nagios.log is not available yet. '
+                'Configure NAGIOS_STATUS_HOST_DIR and Nagios synchronization.'
             ]
     else:
         processed = []
@@ -162,7 +162,7 @@ def scan(request):
         'front/scan.html',
         {
             'form': form,
-            'error': '' if form.is_valid() or not form.is_bound else 'Форма была не верной',
+            'error': '' if form.is_valid() or not form.is_bound else 'The form was invalid',
             'today_hosts': today_hosts,
             'all_hosts': all_hosts,
             'search_query': search_query,

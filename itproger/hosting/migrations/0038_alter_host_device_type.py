@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='host',
             name='device_type',
-            field=models.CharField(blank=True, choices=[('servers', 'Сервер'), ('switches', 'Коммутатор'), ('routers', 'Маршрутизатор'), ('computers', 'Компьютер'), ('network-printers', 'Принтер'), ('UPS', 'ИБП')], default=False, max_length=50, null=True),
+            field=models.CharField(blank=True, choices=[('servers', 'Server'), ('switches', 'Switch'), ('routers', 'Router'), ('computers', 'Computer'), ('network-printers', 'Printer'), ('UPS', 'UPS')], default=False, max_length=50, null=True),
         ),
     ]

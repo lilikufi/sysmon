@@ -1,5 +1,5 @@
 .backfeater {
-    background: radial-gradient(circle, #131667 0%, #1e1d1d 100%);
+    background: var(--sysmon-photo-bg);
 }
 
 .theader {
@@ -36,26 +36,26 @@
     display: block;
 }
 
-/* Стили для всего блока ошибки */
+/* Styles for the whole error block */
 .error {
-    color: red; /* Цвет текста ошибки */
-    font-size: 12px; /* Размер текста ошибки */
-    margin-top: 5px; /* Отступ сверху */
+    color: red; /* Error text color */
+    font-size: 12px; /* Error text size */
+    margin-top: 5px; /* Top margin */
 }
 
-/* Стили для всех полей формы с ошибками */
+/* Styles for all form fields with errors */
 input.error, select.error, textarea.error {
-    border: 2px solid red; /* Красная рамка вокруг поля */
-    background-color: #ffe6e6; /* Светло-красный фон для поля */
+    border: 2px solid red; /* Red border around the field */
+    background-color: #ffe6e6; /* Light red field background */
 }
 
-/* Стили для общего блока ошибок формы (non_field_errors) */
+/* Styles for the general form error block (non_field_errors) */
 .non-field-errors {
-    background-color: #ffebeb; /* Светло-красный фон */
-    border: 1px solid red; /* Красная рамка */
-    color: red; /* Цвет текста */
-    padding: 10px; /* Отступы внутри блока */
-    margin-bottom: 15px; /* Отступ снизу */
+    background-color: #ffebeb; /* Light red background */
+    border: 1px solid red; /* Red border */
+    color: red; /* Text color */
+    padding: 10px; /* Padding inside the block */
+    margin-bottom: 15px; /* Bottom margin */
 }
 
 /*ÃÂºÃÂ°Ã‘ÂÃ‘â€šÃÂ¾ÃÂ¼ Ã‘â€¡ÃÂµÃÂºÃÂ±ÃÂ¾ÃÂºÃ‘Â*/
@@ -448,7 +448,7 @@ input[type="checkbox"]:checked {
     /* transform: translate(-50%, -20%); */
     font: 400 16px/1.57 Roboto, Helvetica, Arial, serif;
     color: #cce5ff;
-    text-shadow: 2px 2px 8px rgba(11, 11, 96, 0.72), /* Основная тень */ -2px -2px 8px rgba(250, 250, 250, 0.7);
+    text-shadow: 2px 2px 8px rgba(11, 11, 96, 0.72), /* Main shadow */ -2px -2px 8px rgba(250, 250, 250, 0.7);
     white-space: pre-line;
     /* width: 60%; */
 }
@@ -486,7 +486,7 @@ input[type="checkbox"]:checked {
 }
 
 .check-snmp-link:hover img {
-    transform: translateY(0); /* Поддерживает изначальное положение */
+    transform: translateY(0); /* Keeps the initial position */
 }
 
 .hidden {
