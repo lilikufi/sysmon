@@ -8,6 +8,10 @@ Sysmon is a Django-based network node inventory and monitoring system. The proje
 
 ![Interactive Sysmon network map](docs/map.png)
 
+### Display Controls and Filters
+
+![Map filters and controls](docs/map_2.png)
+
 ### Host Statuses
 
 ![Host statuses on the map](docs/host_status_map.png)
