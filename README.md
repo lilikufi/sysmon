@@ -196,4 +196,5 @@ For production, set `DJANGO_DEBUG=false`, a long random `DJANGO_SECRET_KEY`, rea
 
 ## License
 
-Sysmon is available under the [MIT License](LICENSE).
+Copyright (c) 2026 lilikufi. All rights reserved. The source code is publicly
+available for viewing and evaluation only; see [LICENSE](LICENSE).
