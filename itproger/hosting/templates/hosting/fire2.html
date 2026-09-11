@@ -1,0 +1,26 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title%} {{ title }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href= "main/css/fire.scss" />
+<link rel="stylesheet" href="{% static 'main/css/fire.scss' %}">
+    <div class="fire">
+        <div class="fire-left">
+            <div class="main-fire"></div>
+            <div class="particle-fire"></div>
+        </div>
+
+        <div class="fire-center">
+            <div class="main-fire"></div>
+            <div class="particle-fire"></div>
+        </div>
+        <div class="fire-right">
+            <div class="main-fire"></div>
+            <div class="particle-fire"></div>
+        </div>
+        <div class="fire-bottom">
+            <div class="main-fire"></div>
+        </div>
+    </div>
+{% endblock %}

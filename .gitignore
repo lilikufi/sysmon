@@ -1,0 +1,51 @@
+# IDE
+.idea/
+.gigaide/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+*.log.*
+log/
+
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Runtime data and generated assets
+*.sqlite3
+itproger/uploads/
+itproger/staticfiles/
+itproger/nagios_stat/status.dat
+nagios_stat/*
+!nagios_stat/.gitkeep
+snmpwalk.txt
+
+# Local SSH credentials
+*.pem
+*.key
+docker/certs/*.crt
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# Temporary files
+*.json
+!itproger/hosting/fixtures/*.json
+!itproger/hosting/fixtures/demo_nagios.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db

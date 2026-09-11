@@ -1,0 +1,10 @@
+[1767225600] INFO: Nagios Core 4.x starting
+[1767225660] HOST ALERT: srv-001;UP;HARD;1;PING OK - Packet loss = 0%, RTA = 1.20 ms
+[1767225720] SERVICE ALERT: srv-002;CPU Load;OK;HARD;1;CPU load is within the normal range
+[1767225780] SERVICE ALERT: srv-003;Disk Usage;WARNING;SOFT;1;Disk usage is above the warning threshold
+[1767225840] HOST ALERT: sw-002;DOWN;HARD;1;CRITICAL - Host unreachable
+[1767225900] HOST NOTIFICATION: monitoring-admin;sw-002;DOWN;email;Host unreachable
+[1767225960] HOST ALERT: sw-002;UP;HARD;1;PING OK - Packet loss = 0%, RTA = 2.40 ms
+[1767226020] SERVICE ALERT: srv-004;Memory Usage;CRITICAL;HARD;1;Memory utilization is above the critical threshold
+[1767226080] SERVICE ALERT: srv-004;Memory Usage;OK;HARD;1;Memory utilization returned to normal
+[1767226140] INFO: Monitoring cycle completed successfully

@@ -1,0 +1,6339 @@
+[
+  {
+    "model": "hosting.category",
+    "pk": 1,
+    "fields": {
+      "name": "Infrastructure"
+    }
+  },
+  {
+    "model": "hosting.category",
+    "pk": 2,
+    "fields": {
+      "name": "Workstations"
+    }
+  },
+  {
+    "model": "hosting.category",
+    "pk": 3,
+    "fields": {
+      "name": "Peripherals"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 1,
+    "fields": {
+      "ipaddr": "192.0.2.1",
+      "hostname": "srv-001",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 1,
+    "fields": {
+      "ipaddr": "192.0.2.1",
+      "x": 700.7705519058803,
+      "y": 273.8939789418585,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 2,
+    "fields": {
+      "ipaddr": "192.0.2.2",
+      "hostname": "srv-002",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 2,
+    "fields": {
+      "ipaddr": "192.0.2.2",
+      "x": 974.5314632886814,
+      "y": 288.8657146063124,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 3,
+    "fields": {
+      "ipaddr": "192.0.2.3",
+      "hostname": "srv-003",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 3,
+    "fields": {
+      "ipaddr": "192.0.2.3",
+      "x": 1146.054210537795,
+      "y": 392.36986491482253,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 4,
+    "fields": {
+      "ipaddr": "192.0.2.4",
+      "hostname": "srv-004",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 4,
+    "fields": {
+      "ipaddr": "192.0.2.4",
+      "x": 1114.8630945701825,
+      "y": 523.775102378567,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 5,
+    "fields": {
+      "ipaddr": "192.0.2.5",
+      "hostname": "srv-005",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 5,
+    "fields": {
+      "ipaddr": "192.0.2.5",
+      "x": 899.2294480941197,
+      "y": 606.1060210581416,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 6,
+    "fields": {
+      "ipaddr": "192.0.2.6",
+      "hostname": "srv-006",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 6,
+    "fields": {
+      "ipaddr": "192.0.2.6",
+      "x": 625.4685367113186,
+      "y": 591.1342853936876,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 7,
+    "fields": {
+      "ipaddr": "192.0.2.7",
+      "hostname": "srv-007",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 7,
+    "fields": {
+      "ipaddr": "192.0.2.7",
+      "x": 453.9457894622052,
+      "y": 487.63013508517747,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 8,
+    "fields": {
+      "ipaddr": "192.0.2.8",
+      "hostname": "srv-008",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 8,
+    "fields": {
+      "ipaddr": "192.0.2.8",
+      "x": 485.1369054298175,
+      "y": 356.224897621433,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 9,
+    "fields": {
+      "ipaddr": "192.0.2.9",
+      "hostname": "srv-009",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 9,
+    "fields": {
+      "ipaddr": "192.0.2.9",
+      "x": 749.8976836543765,
+      "y": 268.88167772145664,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 10,
+    "fields": {
+      "ipaddr": "192.0.2.10",
+      "hostname": "srv-010",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 10,
+    "fields": {
+      "ipaddr": "192.0.2.10",
+      "x": 1016.6534083347374,
+      "y": 301.9957838638278,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 11,
+    "fields": {
+      "ipaddr": "192.0.2.11",
+      "hostname": "srv-011",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 11,
+    "fields": {
+      "ipaddr": "192.0.2.11",
+      "x": 1156.4965047469655,
+      "y": 415.9508881541007,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 12,
+    "fields": {
+      "ipaddr": "192.0.2.12",
+      "hostname": "srv-012",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 12,
+    "fields": {
+      "ipaddr": "192.0.2.12",
+      "x": 1087.5087836170255,
+      "y": 543.993636000674,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 13,
+    "fields": {
+      "ipaddr": "192.0.2.13",
+      "hostname": "srv-013",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 13,
+    "fields": {
+      "ipaddr": "192.0.2.13",
+      "x": 850.1023163456235,
+      "y": 611.1183222785434,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 14,
+    "fields": {
+      "ipaddr": "192.0.2.14",
+      "hostname": "srv-014",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 14,
+    "fields": {
+      "ipaddr": "192.0.2.14",
+      "x": 583.3465916652627,
+      "y": 578.0042161361722,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 15,
+    "fields": {
+      "ipaddr": "192.0.2.15",
+      "hostname": "srv-015",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 15,
+    "fields": {
+      "ipaddr": "192.0.2.15",
+      "x": 443.5034952530347,
+      "y": 464.04911184589935,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 16,
+    "fields": {
+      "ipaddr": "192.0.2.16",
+      "hostname": "srv-016",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 16,
+    "fields": {
+      "ipaddr": "192.0.2.16",
+      "x": 512.4912163829745,
+      "y": 336.00636399932614,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 17,
+    "fields": {
+      "ipaddr": "192.0.2.17",
+      "hostname": "srv-017",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 17,
+    "fields": {
+      "ipaddr": "192.0.2.17",
+      "x": 800.0,
+      "y": 267.20000000000005,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 18,
+    "fields": {
+      "ipaddr": "192.0.2.18",
+      "hostname": "sw-001",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": null,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 18,
+    "fields": {
+      "ipaddr": "192.0.2.18",
+      "x": 800.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 19,
+    "fields": {
+      "ipaddr": "192.0.2.19",
+      "hostname": "srv-018",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 19,
+    "fields": {
+      "ipaddr": "192.0.2.19",
+      "x": 1054.5584412271571,
+      "y": 317.8119482109646,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 20,
+    "fields": {
+      "ipaddr": "192.0.2.20",
+      "hostname": "sw-002",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 20,
+    "fields": {
+      "ipaddr": "192.0.2.20",
+      "x": 800.0,
+      "y": 339.2,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 21,
+    "fields": {
+      "ipaddr": "192.0.2.21",
+      "hostname": "sw-003",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 21,
+    "fields": {
+      "ipaddr": "192.0.2.21",
+      "x": 948.492424049175,
+      "y": 368.72363645639604,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 22,
+    "fields": {
+      "ipaddr": "192.0.2.22",
+      "hostname": "sw-004",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 22,
+    "fields": {
+      "ipaddr": "192.0.2.22",
+      "x": 1010.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 23,
+    "fields": {
+      "ipaddr": "192.0.2.23",
+      "hostname": "sw-005",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 23,
+    "fields": {
+      "ipaddr": "192.0.2.23",
+      "x": 948.492424049175,
+      "y": 511.27636354360396,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 24,
+    "fields": {
+      "ipaddr": "192.0.2.24",
+      "hostname": "srv-019",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 24,
+    "fields": {
+      "ipaddr": "192.0.2.24",
+      "x": 1160.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 25,
+    "fields": {
+      "ipaddr": "192.0.2.25",
+      "hostname": "sw-006",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 25,
+    "fields": {
+      "ipaddr": "192.0.2.25",
+      "x": 800.0,
+      "y": 540.8,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 26,
+    "fields": {
+      "ipaddr": "192.0.2.26",
+      "hostname": "sw-007",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 26,
+    "fields": {
+      "ipaddr": "192.0.2.26",
+      "x": 651.5075759508251,
+      "y": 511.276363543604,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 27,
+    "fields": {
+      "ipaddr": "192.0.2.27",
+      "hostname": "sw-008",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 27,
+    "fields": {
+      "ipaddr": "192.0.2.27",
+      "x": 590.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 28,
+    "fields": {
+      "ipaddr": "192.0.2.28",
+      "hostname": "srv-020",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 28,
+    "fields": {
+      "ipaddr": "192.0.2.28",
+      "x": 1054.5584412271571,
+      "y": 562.1880517890354,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 29,
+    "fields": {
+      "ipaddr": "192.0.2.29",
+      "hostname": "srv-021",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 29,
+    "fields": {
+      "ipaddr": "192.0.2.29",
+      "x": 800.0,
+      "y": 612.8,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 30,
+    "fields": {
+      "ipaddr": "192.0.2.30",
+      "hostname": "srv-022",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 30,
+    "fields": {
+      "ipaddr": "192.0.2.30",
+      "x": 545.4415587728429,
+      "y": 562.1880517890354,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 31,
+    "fields": {
+      "ipaddr": "192.0.2.31",
+      "hostname": "srv-023",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 31,
+    "fields": {
+      "ipaddr": "192.0.2.31",
+      "x": 440.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 32,
+    "fields": {
+      "ipaddr": "192.0.2.32",
+      "hostname": "srv-024",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 32,
+    "fields": {
+      "ipaddr": "192.0.2.32",
+      "x": 545.4415587728429,
+      "y": 317.8119482109646,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 33,
+    "fields": {
+      "ipaddr": "192.0.2.33",
+      "hostname": "srv-025",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 33,
+    "fields": {
+      "ipaddr": "192.0.2.33",
+      "x": 850.1023163456235,
+      "y": 268.88167772145664,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 34,
+    "fields": {
+      "ipaddr": "192.0.2.34",
+      "hostname": "srv-026",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 34,
+    "fields": {
+      "ipaddr": "192.0.2.34",
+      "x": 1087.5087836170255,
+      "y": 336.0063639993261,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 35,
+    "fields": {
+      "ipaddr": "192.0.2.35",
+      "hostname": "srv-027",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 35,
+    "fields": {
+      "ipaddr": "192.0.2.35",
+      "x": 1156.4965047469655,
+      "y": 464.0491118458993,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 36,
+    "fields": {
+      "ipaddr": "192.0.2.36",
+      "hostname": "srv-028",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 36,
+    "fields": {
+      "ipaddr": "192.0.2.36",
+      "x": 1016.6534083347374,
+      "y": 578.0042161361722,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 37,
+    "fields": {
+      "ipaddr": "192.0.2.37",
+      "hostname": "srv-029",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 37,
+    "fields": {
+      "ipaddr": "192.0.2.37",
+      "x": 749.8976836543765,
+      "y": 611.1183222785434,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 38,
+    "fields": {
+      "ipaddr": "192.0.2.38",
+      "hostname": "srv-030",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 38,
+    "fields": {
+      "ipaddr": "192.0.2.38",
+      "x": 512.4912163829745,
+      "y": 543.9936360006739,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 39,
+    "fields": {
+      "ipaddr": "192.0.2.39",
+      "hostname": "srv-031",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 39,
+    "fields": {
+      "ipaddr": "192.0.2.39",
+      "x": 443.5034952530347,
+      "y": 415.95088815410065,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 40,
+    "fields": {
+      "ipaddr": "192.0.2.40",
+      "hostname": "srv-032",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 40,
+    "fields": {
+      "ipaddr": "192.0.2.40",
+      "x": 583.3465916652626,
+      "y": 301.9957838638278,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 41,
+    "fields": {
+      "ipaddr": "192.0.2.41",
+      "hostname": "srv-033",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 41,
+    "fields": {
+      "ipaddr": "192.0.2.41",
+      "x": 899.2294480941197,
+      "y": 273.8939789418585,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 42,
+    "fields": {
+      "ipaddr": "192.0.2.42",
+      "hostname": "srv-034",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 42,
+    "fields": {
+      "ipaddr": "192.0.2.42",
+      "x": 1114.8630945701825,
+      "y": 356.22489762143294,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 43,
+    "fields": {
+      "ipaddr": "192.0.2.43",
+      "hostname": "srv-035",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 43,
+    "fields": {
+      "ipaddr": "192.0.2.43",
+      "x": 1146.054210537795,
+      "y": 487.63013508517747,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 44,
+    "fields": {
+      "ipaddr": "192.0.2.44",
+      "hostname": "srv-036",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 44,
+    "fields": {
+      "ipaddr": "192.0.2.44",
+      "x": 974.5314632886814,
+      "y": 591.1342853936876,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 45,
+    "fields": {
+      "ipaddr": "192.0.2.45",
+      "hostname": "srv-037",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 45,
+    "fields": {
+      "ipaddr": "192.0.2.45",
+      "x": 700.7705519058803,
+      "y": 606.1060210581416,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 46,
+    "fields": {
+      "ipaddr": "192.0.2.46",
+      "hostname": "srv-038",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 46,
+    "fields": {
+      "ipaddr": "192.0.2.46",
+      "x": 485.13690542981755,
+      "y": 523.775102378567,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 47,
+    "fields": {
+      "ipaddr": "192.0.2.47",
+      "hostname": "srv-039",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 47,
+    "fields": {
+      "ipaddr": "192.0.2.47",
+      "x": 453.9457894622052,
+      "y": 392.3698649148226,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 48,
+    "fields": {
+      "ipaddr": "192.0.2.48",
+      "hostname": "srv-040",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 48,
+    "fields": {
+      "ipaddr": "192.0.2.48",
+      "x": 625.4685367113187,
+      "y": 288.8657146063124,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 49,
+    "fields": {
+      "ipaddr": "192.0.2.49",
+      "hostname": "pc-001",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 49,
+    "fields": {
+      "ipaddr": "192.0.2.49",
+      "x": 675.9631898823504,
+      "y": 232.36747367732312,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 50,
+    "fields": {
+      "ipaddr": "192.0.2.50",
+      "hostname": "srv-041",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 50,
+    "fields": {
+      "ipaddr": "192.0.2.50",
+      "x": 1018.1643291108517,
+      "y": 251.08214325789052,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 51,
+    "fields": {
+      "ipaddr": "192.0.2.51",
+      "hostname": "srv-042",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 51,
+    "fields": {
+      "ipaddr": "192.0.2.51",
+      "x": 1232.5677631722435,
+      "y": 380.46233114352816,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 52,
+    "fields": {
+      "ipaddr": "192.0.2.52",
+      "hostname": "srv-043",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 52,
+    "fields": {
+      "ipaddr": "192.0.2.52",
+      "x": 1193.5788682127281,
+      "y": 544.7188779732088,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 53,
+    "fields": {
+      "ipaddr": "192.0.2.53",
+      "hostname": "srv-044",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 53,
+    "fields": {
+      "ipaddr": "192.0.2.53",
+      "x": 924.0368101176496,
+      "y": 647.6325263226769,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 54,
+    "fields": {
+      "ipaddr": "192.0.2.54",
+      "hostname": "srv-045",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 54,
+    "fields": {
+      "ipaddr": "192.0.2.54",
+      "x": 581.8356708891483,
+      "y": 628.9178567421095,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 55,
+    "fields": {
+      "ipaddr": "192.0.2.55",
+      "hostname": "srv-046",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 55,
+    "fields": {
+      "ipaddr": "192.0.2.55",
+      "x": 367.43223682775647,
+      "y": 499.53766885647184,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 56,
+    "fields": {
+      "ipaddr": "192.0.2.56",
+      "hostname": "srv-047",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 56,
+    "fields": {
+      "ipaddr": "192.0.2.56",
+      "x": 406.42113178727186,
+      "y": 335.2811220267912,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 57,
+    "fields": {
+      "ipaddr": "192.0.2.57",
+      "hostname": "srv-048",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 57,
+    "fields": {
+      "ipaddr": "192.0.2.57",
+      "x": 737.3721045679706,
+      "y": 226.1020971518208,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 58,
+    "fields": {
+      "ipaddr": "192.0.2.58",
+      "hostname": "srv-049",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 58,
+    "fields": {
+      "ipaddr": "192.0.2.58",
+      "x": 1070.8167604184218,
+      "y": 267.4947298297848,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 59,
+    "fields": {
+      "ipaddr": "192.0.2.59",
+      "hostname": "srv-050",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 59,
+    "fields": {
+      "ipaddr": "192.0.2.59",
+      "x": 1245.6206309337067,
+      "y": 409.93861019262584,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 60,
+    "fields": {
+      "ipaddr": "192.0.2.60",
+      "hostname": "srv-051",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 60,
+    "fields": {
+      "ipaddr": "192.0.2.60",
+      "x": 1159.3859795212818,
+      "y": 569.9920450008424,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 61,
+    "fields": {
+      "ipaddr": "192.0.2.61",
+      "hostname": "srv-052",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 61,
+    "fields": {
+      "ipaddr": "192.0.2.61",
+      "x": 862.6278954320295,
+      "y": 653.8979028481792,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 62,
+    "fields": {
+      "ipaddr": "192.0.2.62",
+      "hostname": "srv-053",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 62,
+    "fields": {
+      "ipaddr": "192.0.2.62",
+      "x": 529.1832395815784,
+      "y": 612.5052701702153,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 63,
+    "fields": {
+      "ipaddr": "192.0.2.63",
+      "hostname": "srv-054",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 63,
+    "fields": {
+      "ipaddr": "192.0.2.63",
+      "x": 354.3793690662934,
+      "y": 470.0613898073742,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 64,
+    "fields": {
+      "ipaddr": "192.0.2.64",
+      "hostname": "srv-055",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 64,
+    "fields": {
+      "ipaddr": "192.0.2.64",
+      "x": 440.61402047871815,
+      "y": 310.0079549991576,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 65,
+    "fields": {
+      "ipaddr": "192.0.2.65",
+      "hostname": "srv-056",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 65,
+    "fields": {
+      "ipaddr": "192.0.2.65",
+      "x": 800.0,
+      "y": 224.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 66,
+    "fields": {
+      "ipaddr": "192.0.2.66",
+      "hostname": "srv-057",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 66,
+    "fields": {
+      "ipaddr": "192.0.2.66",
+      "x": 1118.1980515339465,
+      "y": 287.26493526370575,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 67,
+    "fields": {
+      "ipaddr": "192.0.2.67",
+      "hostname": "srv-058",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 67,
+    "fields": {
+      "ipaddr": "192.0.2.67",
+      "x": 1250.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 68,
+    "fields": {
+      "ipaddr": "192.0.2.68",
+      "hostname": "sw-009",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": true,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 18,
+      "segment": null,
+      "device_type": "switches",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 68,
+    "fields": {
+      "ipaddr": "192.0.2.68",
+      "x": 651.507575950825,
+      "y": 368.72363645639604,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 69,
+    "fields": {
+      "ipaddr": "192.0.2.69",
+      "hostname": "srv-059",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 69,
+    "fields": {
+      "ipaddr": "192.0.2.69",
+      "x": 1118.1980515339465,
+      "y": 592.7350647362942,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 70,
+    "fields": {
+      "ipaddr": "192.0.2.70",
+      "hostname": "srv-060",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 70,
+    "fields": {
+      "ipaddr": "192.0.2.70",
+      "x": 800.0,
+      "y": 656.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 71,
+    "fields": {
+      "ipaddr": "192.0.2.71",
+      "hostname": "srv-061",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 71,
+    "fields": {
+      "ipaddr": "192.0.2.71",
+      "x": 481.80194846605366,
+      "y": 592.7350647362942,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 72,
+    "fields": {
+      "ipaddr": "192.0.2.72",
+      "hostname": "srv-062",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 72,
+    "fields": {
+      "ipaddr": "192.0.2.72",
+      "x": 350.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 73,
+    "fields": {
+      "ipaddr": "192.0.2.73",
+      "hostname": "srv-063",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 73,
+    "fields": {
+      "ipaddr": "192.0.2.73",
+      "x": 481.80194846605355,
+      "y": 287.26493526370575,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 74,
+    "fields": {
+      "ipaddr": "192.0.2.74",
+      "hostname": "srv-064",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 74,
+    "fields": {
+      "ipaddr": "192.0.2.74",
+      "x": 862.6278954320295,
+      "y": 226.1020971518208,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 75,
+    "fields": {
+      "ipaddr": "192.0.2.75",
+      "hostname": "srv-065",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 75,
+    "fields": {
+      "ipaddr": "192.0.2.75",
+      "x": 1159.3859795212818,
+      "y": 310.00795499915756,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 76,
+    "fields": {
+      "ipaddr": "192.0.2.76",
+      "hostname": "srv-066",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 76,
+    "fields": {
+      "ipaddr": "192.0.2.76",
+      "x": 1245.6206309337067,
+      "y": 470.06138980737416,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 77,
+    "fields": {
+      "ipaddr": "192.0.2.77",
+      "hostname": "srv-067",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 77,
+    "fields": {
+      "ipaddr": "192.0.2.77",
+      "x": 1070.8167604184218,
+      "y": 612.5052701702152,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 78,
+    "fields": {
+      "ipaddr": "192.0.2.78",
+      "hostname": "srv-068",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 78,
+    "fields": {
+      "ipaddr": "192.0.2.78",
+      "x": 737.3721045679706,
+      "y": 653.8979028481792,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 79,
+    "fields": {
+      "ipaddr": "192.0.2.79",
+      "hostname": "pc-002",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 79,
+    "fields": {
+      "ipaddr": "192.0.2.79",
+      "x": 440.6140204787182,
+      "y": 569.9920450008424,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 80,
+    "fields": {
+      "ipaddr": "192.0.2.80",
+      "hostname": "prn-001",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 80,
+    "fields": {
+      "ipaddr": "192.0.2.80",
+      "x": 354.3793690662934,
+      "y": 409.93861019262584,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 81,
+    "fields": {
+      "ipaddr": "192.0.2.81",
+      "hostname": "srv-069",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 81,
+    "fields": {
+      "ipaddr": "192.0.2.81",
+      "x": 529.1832395815783,
+      "y": 267.4947298297848,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 82,
+    "fields": {
+      "ipaddr": "192.0.2.82",
+      "hostname": "pc-003",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": false,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 82,
+    "fields": {
+      "ipaddr": "192.0.2.82",
+      "x": 924.0368101176496,
+      "y": 232.36747367732312,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 83,
+    "fields": {
+      "ipaddr": "192.0.2.83",
+      "hostname": "srv-070",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 83,
+    "fields": {
+      "ipaddr": "192.0.2.83",
+      "x": 1193.5788682127281,
+      "y": 335.2811220267912,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 84,
+    "fields": {
+      "ipaddr": "192.0.2.84",
+      "hostname": "srv-071",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 84,
+    "fields": {
+      "ipaddr": "192.0.2.84",
+      "x": 1232.5677631722435,
+      "y": 499.53766885647184,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 85,
+    "fields": {
+      "ipaddr": "192.0.2.85",
+      "hostname": "srv-072",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 85,
+    "fields": {
+      "ipaddr": "192.0.2.85",
+      "x": 1018.1643291108517,
+      "y": 628.9178567421095,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 86,
+    "fields": {
+      "ipaddr": "192.0.2.86",
+      "hostname": "srv-073",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 86,
+    "fields": {
+      "ipaddr": "192.0.2.86",
+      "x": 675.9631898823504,
+      "y": 647.6325263226769,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 87,
+    "fields": {
+      "ipaddr": "192.0.2.87",
+      "hostname": "srv-074",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 87,
+    "fields": {
+      "ipaddr": "192.0.2.87",
+      "x": 406.4211317872719,
+      "y": 544.7188779732088,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 88,
+    "fields": {
+      "ipaddr": "192.0.2.88",
+      "hostname": "srv-075",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 88,
+    "fields": {
+      "ipaddr": "192.0.2.88",
+      "x": 367.43223682775647,
+      "y": 380.4623311435282,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 89,
+    "fields": {
+      "ipaddr": "192.0.2.89",
+      "hostname": "srv-076",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 89,
+    "fields": {
+      "ipaddr": "192.0.2.89",
+      "x": 581.8356708891484,
+      "y": 251.08214325789046,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 90,
+    "fields": {
+      "ipaddr": "192.0.2.90",
+      "hostname": "srv-077",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 90,
+    "fields": {
+      "ipaddr": "192.0.2.90",
+      "x": 651.1558278588205,
+      "y": 190.84096841278776,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 91,
+    "fields": {
+      "ipaddr": "192.0.2.91",
+      "hostname": "prn-002",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 91,
+    "fields": {
+      "ipaddr": "192.0.2.91",
+      "x": 1061.7971949330222,
+      "y": 213.29857190946862,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 92,
+    "fields": {
+      "ipaddr": "192.0.2.92",
+      "hostname": "prn-003",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 92,
+    "fields": {
+      "ipaddr": "192.0.2.92",
+      "x": 1319.0813158066921,
+      "y": 368.5547973722338,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 93,
+    "fields": {
+      "ipaddr": "192.0.2.93",
+      "hostname": "srv-078",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 93,
+    "fields": {
+      "ipaddr": "192.0.2.93",
+      "x": 1272.2946418552738,
+      "y": 565.6626535678506,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 94,
+    "fields": {
+      "ipaddr": "192.0.2.94",
+      "hostname": "srv-079",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 94,
+    "fields": {
+      "ipaddr": "192.0.2.94",
+      "x": 948.8441721411796,
+      "y": 689.1590315872122,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 95,
+    "fields": {
+      "ipaddr": "192.0.2.95",
+      "hostname": "prn-004",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 95,
+    "fields": {
+      "ipaddr": "192.0.2.95",
+      "x": 538.202805066978,
+      "y": 666.7014280905314,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 96,
+    "fields": {
+      "ipaddr": "192.0.2.96",
+      "hostname": "prn-005",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 96,
+    "fields": {
+      "ipaddr": "192.0.2.96",
+      "x": 280.91868419330785,
+      "y": 511.4452026277662,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 97,
+    "fields": {
+      "ipaddr": "192.0.2.97",
+      "hostname": "pc-004",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 97,
+    "fields": {
+      "ipaddr": "192.0.2.97",
+      "x": 327.70535814472623,
+      "y": 314.3373464321495,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 98,
+    "fields": {
+      "ipaddr": "192.0.2.98",
+      "hostname": "prn-006",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 98,
+    "fields": {
+      "ipaddr": "192.0.2.98",
+      "x": 724.8465254815648,
+      "y": 183.32251658218496,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 99,
+    "fields": {
+      "ipaddr": "192.0.2.99",
+      "hostname": "prn-007",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 99,
+    "fields": {
+      "ipaddr": "192.0.2.99",
+      "x": 1124.980112502106,
+      "y": 232.9936757957417,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 100,
+    "fields": {
+      "ipaddr": "192.0.2.100",
+      "hostname": "prn-008",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 100,
+    "fields": {
+      "ipaddr": "192.0.2.100",
+      "x": 1334.744757120448,
+      "y": 403.92633223115104,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 101,
+    "fields": {
+      "ipaddr": "192.0.2.101",
+      "hostname": "pc-005",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 101,
+    "fields": {
+      "ipaddr": "192.0.2.101",
+      "x": 1231.263175425538,
+      "y": 595.9904540010109,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 102,
+    "fields": {
+      "ipaddr": "192.0.2.102",
+      "hostname": "prn-009",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 102,
+    "fields": {
+      "ipaddr": "192.0.2.102",
+      "x": 875.1534745184354,
+      "y": 696.677483417815,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 103,
+    "fields": {
+      "ipaddr": "192.0.2.103",
+      "hostname": "srv-080",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 103,
+    "fields": {
+      "ipaddr": "192.0.2.103",
+      "x": 475.01988749789405,
+      "y": 647.0063242042584,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 104,
+    "fields": {
+      "ipaddr": "192.0.2.104",
+      "hostname": "prn-010",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 104,
+    "fields": {
+      "ipaddr": "192.0.2.104",
+      "x": 265.25524287955204,
+      "y": 476.073667768849,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 105,
+    "fields": {
+      "ipaddr": "192.0.2.105",
+      "hostname": "prn-011",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 105,
+    "fields": {
+      "ipaddr": "192.0.2.105",
+      "x": 368.73682457446176,
+      "y": 284.00954599898915,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 106,
+    "fields": {
+      "ipaddr": "192.0.2.106",
+      "hostname": "prn-012",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 106,
+    "fields": {
+      "ipaddr": "192.0.2.106",
+      "x": 800.0,
+      "y": 180.8,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 107,
+    "fields": {
+      "ipaddr": "192.0.2.107",
+      "hostname": "pc-006",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 107,
+    "fields": {
+      "ipaddr": "192.0.2.107",
+      "x": 1181.8376618407356,
+      "y": 256.7179223164469,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 108,
+    "fields": {
+      "ipaddr": "192.0.2.108",
+      "hostname": "prn-013",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 108,
+    "fields": {
+      "ipaddr": "192.0.2.108",
+      "x": 1340.0,
+      "y": 440.0,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 109,
+    "fields": {
+      "ipaddr": "192.0.2.109",
+      "hostname": "srv-081",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 109,
+    "fields": {
+      "ipaddr": "192.0.2.109",
+      "x": 1181.8376618407356,
+      "y": 623.2820776835531,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 110,
+    "fields": {
+      "ipaddr": "192.0.2.110",
+      "hostname": "pc-007",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 110,
+    "fields": {
+      "ipaddr": "192.0.2.110",
+      "x": 800.0,
+      "y": 699.2,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 111,
+    "fields": {
+      "ipaddr": "192.0.2.111",
+      "hostname": "prn-014",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 111,
+    "fields": {
+      "ipaddr": "192.0.2.111",
+      "x": 418.1623381592644,
+      "y": 623.2820776835531,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 112,
+    "fields": {
+      "ipaddr": "192.0.2.112",
+      "hostname": "prn-015",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 112,
+    "fields": {
+      "ipaddr": "192.0.2.112",
+      "x": 260.0,
+      "y": 440.00000000000006,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 113,
+    "fields": {
+      "ipaddr": "192.0.2.113",
+      "hostname": "prn-016",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 113,
+    "fields": {
+      "ipaddr": "192.0.2.113",
+      "x": 418.16233815926427,
+      "y": 256.7179223164469,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 114,
+    "fields": {
+      "ipaddr": "192.0.2.114",
+      "hostname": "pc-008",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 114,
+    "fields": {
+      "ipaddr": "192.0.2.114",
+      "x": 875.1534745184354,
+      "y": 183.32251658218496,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 115,
+    "fields": {
+      "ipaddr": "192.0.2.115",
+      "hostname": "prn-017",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 115,
+    "fields": {
+      "ipaddr": "192.0.2.115",
+      "x": 1231.263175425538,
+      "y": 284.0095459989891,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 116,
+    "fields": {
+      "ipaddr": "192.0.2.116",
+      "hostname": "prn-018",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 116,
+    "fields": {
+      "ipaddr": "192.0.2.116",
+      "x": 1334.744757120448,
+      "y": 476.07366776884896,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 117,
+    "fields": {
+      "ipaddr": "192.0.2.117",
+      "hostname": "pc-009",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 117,
+    "fields": {
+      "ipaddr": "192.0.2.117",
+      "x": 1124.980112502106,
+      "y": 647.0063242042584,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 118,
+    "fields": {
+      "ipaddr": "192.0.2.118",
+      "hostname": "pc-010",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 118,
+    "fields": {
+      "ipaddr": "192.0.2.118",
+      "x": 724.8465254815648,
+      "y": 696.677483417815,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 119,
+    "fields": {
+      "ipaddr": "192.0.2.119",
+      "hostname": "prn-019",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 119,
+    "fields": {
+      "ipaddr": "192.0.2.119",
+      "x": 368.7368245744618,
+      "y": 595.9904540010109,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 120,
+    "fields": {
+      "ipaddr": "192.0.2.120",
+      "hostname": "prn-020",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 120,
+    "fields": {
+      "ipaddr": "192.0.2.120",
+      "x": 265.25524287955204,
+      "y": 403.92633223115104,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 121,
+    "fields": {
+      "ipaddr": "192.0.2.121",
+      "hostname": "prn-021",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 121,
+    "fields": {
+      "ipaddr": "192.0.2.121",
+      "x": 475.01988749789393,
+      "y": 232.9936757957417,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 122,
+    "fields": {
+      "ipaddr": "192.0.2.122",
+      "hostname": "prn-022",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 122,
+    "fields": {
+      "ipaddr": "192.0.2.122",
+      "x": 948.8441721411796,
+      "y": 190.84096841278776,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 123,
+    "fields": {
+      "ipaddr": "192.0.2.123",
+      "hostname": "prn-023",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 123,
+    "fields": {
+      "ipaddr": "192.0.2.123",
+      "x": 1272.2946418552738,
+      "y": 314.33734643214945,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 124,
+    "fields": {
+      "ipaddr": "192.0.2.124",
+      "hostname": "pc-011",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 124,
+    "fields": {
+      "ipaddr": "192.0.2.124",
+      "x": 1319.0813158066921,
+      "y": 511.4452026277662,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 125,
+    "fields": {
+      "ipaddr": "192.0.2.125",
+      "hostname": "prn-024",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 125,
+    "fields": {
+      "ipaddr": "192.0.2.125",
+      "x": 1061.7971949330222,
+      "y": 666.7014280905314,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 126,
+    "fields": {
+      "ipaddr": "192.0.2.126",
+      "hostname": "pc-012",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 126,
+    "fields": {
+      "ipaddr": "192.0.2.126",
+      "x": 651.1558278588205,
+      "y": 689.1590315872122,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 127,
+    "fields": {
+      "ipaddr": "192.0.2.127",
+      "hostname": "pc-013",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 127,
+    "fields": {
+      "ipaddr": "192.0.2.127",
+      "x": 327.7053581447263,
+      "y": 565.6626535678506,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 128,
+    "fields": {
+      "ipaddr": "192.0.2.128",
+      "hostname": "prn-025",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 128,
+    "fields": {
+      "ipaddr": "192.0.2.128",
+      "x": 280.91868419330785,
+      "y": 368.55479737223385,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 129,
+    "fields": {
+      "ipaddr": "192.0.2.129",
+      "hostname": "pc-014",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 129,
+    "fields": {
+      "ipaddr": "192.0.2.129",
+      "x": 538.202805066978,
+      "y": 213.29857190946856,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 130,
+    "fields": {
+      "ipaddr": "192.0.2.130",
+      "hostname": "srv-082",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 130,
+    "fields": {
+      "ipaddr": "192.0.2.130",
+      "x": 626.3484658352907,
+      "y": 149.3144631482524,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 131,
+    "fields": {
+      "ipaddr": "192.0.2.131",
+      "hostname": "pc-015",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 131,
+    "fields": {
+      "ipaddr": "192.0.2.131",
+      "x": 1105.4300607551922,
+      "y": 175.51500056104675,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 132,
+    "fields": {
+      "ipaddr": "192.0.2.132",
+      "hostname": "prn-026",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 132,
+    "fields": {
+      "ipaddr": "192.0.2.132",
+      "x": 1405.594868441141,
+      "y": 356.6472636009395,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 133,
+    "fields": {
+      "ipaddr": "192.0.2.133",
+      "hostname": "pc-016",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 133,
+    "fields": {
+      "ipaddr": "192.0.2.133",
+      "x": 1351.0104154978194,
+      "y": 586.6064291624923,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 134,
+    "fields": {
+      "ipaddr": "192.0.2.134",
+      "hostname": "srv-083",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 134,
+    "fields": {
+      "ipaddr": "192.0.2.134",
+      "x": 973.6515341647095,
+      "y": 730.6855368517477,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 135,
+    "fields": {
+      "ipaddr": "192.0.2.135",
+      "hostname": "prn-027",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 135,
+    "fields": {
+      "ipaddr": "192.0.2.135",
+      "x": 494.5699392448077,
+      "y": 704.4849994389533,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 136,
+    "fields": {
+      "ipaddr": "192.0.2.136",
+      "hostname": "pc-017",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 136,
+    "fields": {
+      "ipaddr": "192.0.2.136",
+      "x": 194.40513155885913,
+      "y": 523.3527363990605,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 137,
+    "fields": {
+      "ipaddr": "192.0.2.137",
+      "hostname": "prn-028",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 137,
+    "fields": {
+      "ipaddr": "192.0.2.137",
+      "x": 248.9895845021806,
+      "y": 293.3935708375077,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 138,
+    "fields": {
+      "ipaddr": "192.0.2.138",
+      "hostname": "pc-018",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 138,
+    "fields": {
+      "ipaddr": "192.0.2.138",
+      "x": 712.3209463951588,
+      "y": 140.54293601254915,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 139,
+    "fields": {
+      "ipaddr": "192.0.2.139",
+      "hostname": "pc-019",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 139,
+    "fields": {
+      "ipaddr": "192.0.2.139",
+      "x": 1179.1434645857905,
+      "y": 198.49262176169867,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 140,
+    "fields": {
+      "ipaddr": "192.0.2.140",
+      "hostname": "srv-084",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 140,
+    "fields": {
+      "ipaddr": "192.0.2.140",
+      "x": 1427.2725981093768,
+      "y": 411.8919620549518,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 141,
+    "fields": {
+      "ipaddr": "192.0.2.141",
+      "hostname": "prn-029",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 141,
+    "fields": {
+      "ipaddr": "192.0.2.141",
+      "x": 1284.9557582689617,
+      "y": 633.0279954955168,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 142,
+    "fields": {
+      "ipaddr": "192.0.2.142",
+      "hostname": "pc-020",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 142,
+    "fields": {
+      "ipaddr": "192.0.2.142",
+      "x": 858.5584123855172,
+      "y": 741.0908470925008,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 143,
+    "fields": {
+      "ipaddr": "192.0.2.143",
+      "hostname": "prn-030",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 143,
+    "fields": {
+      "ipaddr": "192.0.2.143",
+      "x": 397.85834271767317,
+      "y": 672.7787639691016,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 144,
+    "fields": {
+      "ipaddr": "192.0.2.144",
+      "hostname": "prn-031",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 144,
+    "fields": {
+      "ipaddr": "192.0.2.144",
+      "x": 172.72740189062324,
+      "y": 468.1080379450482,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 145,
+    "fields": {
+      "ipaddr": "192.0.2.145",
+      "hostname": "prn-032",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 145,
+    "fields": {
+      "ipaddr": "192.0.2.145",
+      "x": 315.0442417310383,
+      "y": 246.97200450448315,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 146,
+    "fields": {
+      "ipaddr": "192.0.2.146",
+      "hostname": "pc-021",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 146,
+    "fields": {
+      "ipaddr": "192.0.2.146",
+      "x": 800.0,
+      "y": 137.60000000000002,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 147,
+    "fields": {
+      "ipaddr": "192.0.2.147",
+      "hostname": "pc-022",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 147,
+    "fields": {
+      "ipaddr": "192.0.2.147",
+      "x": 1245.477272147525,
+      "y": 226.17090936918805,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 148,
+    "fields": {
+      "ipaddr": "192.0.2.148",
+      "hostname": "prn-033",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 148,
+    "fields": {
+      "ipaddr": "192.0.2.148",
+      "x": 1427.2725981093768,
+      "y": 468.1080379450482,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 149,
+    "fields": {
+      "ipaddr": "192.0.2.149",
+      "hostname": "srv-085",
+      "cat": 1,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "servers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 149,
+    "fields": {
+      "ipaddr": "192.0.2.149",
+      "x": 1202.1416572823268,
+      "y": 672.7787639691016,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 150,
+    "fields": {
+      "ipaddr": "192.0.2.150",
+      "hostname": "pc-023",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 150,
+    "fields": {
+      "ipaddr": "192.0.2.150",
+      "x": 741.441587614483,
+      "y": 741.0908470925008,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 151,
+    "fields": {
+      "ipaddr": "192.0.2.151",
+      "hostname": "pc-024",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 151,
+    "fields": {
+      "ipaddr": "192.0.2.151",
+      "x": 315.0442417310384,
+      "y": 633.027995495517,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 152,
+    "fields": {
+      "ipaddr": "192.0.2.152",
+      "hostname": "prn-034",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 152,
+    "fields": {
+      "ipaddr": "192.0.2.152",
+      "x": 172.72740189062324,
+      "y": 411.8919620549519,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 153,
+    "fields": {
+      "ipaddr": "192.0.2.153",
+      "hostname": "prn-035",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 153,
+    "fields": {
+      "ipaddr": "192.0.2.153",
+      "x": 397.85834271767305,
+      "y": 207.22123603089847,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 154,
+    "fields": {
+      "ipaddr": "192.0.2.154",
+      "hostname": "prn-036",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 154,
+    "fields": {
+      "ipaddr": "192.0.2.154",
+      "x": 887.6790536048412,
+      "y": 140.54293601254915,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 155,
+    "fields": {
+      "ipaddr": "192.0.2.155",
+      "hostname": "prn-037",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 155,
+    "fields": {
+      "ipaddr": "192.0.2.155",
+      "x": 1303.1403713297946,
+      "y": 258.0111369988206,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 156,
+    "fields": {
+      "ipaddr": "192.0.2.156",
+      "hostname": "prn-038",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 22,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 156,
+    "fields": {
+      "ipaddr": "192.0.2.156",
+      "x": 1405.594868441141,
+      "y": 523.3527363990605,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 157,
+    "fields": {
+      "ipaddr": "192.0.2.157",
+      "hostname": "prn-039",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 23,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 157,
+    "fields": {
+      "ipaddr": "192.0.2.157",
+      "x": 1105.4300607551922,
+      "y": 704.4849994389533,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 158,
+    "fields": {
+      "ipaddr": "192.0.2.158",
+      "hostname": "pc-025",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 25,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 158,
+    "fields": {
+      "ipaddr": "192.0.2.158",
+      "x": 626.3484658352907,
+      "y": 730.6855368517477,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 159,
+    "fields": {
+      "ipaddr": "192.0.2.159",
+      "hostname": "pc-026",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 26,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 159,
+    "fields": {
+      "ipaddr": "192.0.2.159",
+      "x": 248.98958450218072,
+      "y": 586.6064291624923,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 160,
+    "fields": {
+      "ipaddr": "192.0.2.160",
+      "hostname": "prn-040",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone D",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 27,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 160,
+    "fields": {
+      "ipaddr": "192.0.2.160",
+      "x": 194.40513155885913,
+      "y": 356.6472636009395,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 161,
+    "fields": {
+      "ipaddr": "192.0.2.161",
+      "hostname": "prn-041",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone A",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 68,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 161,
+    "fields": {
+      "ipaddr": "192.0.2.161",
+      "x": 494.5699392448078,
+      "y": 175.5150005610467,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 162,
+    "fields": {
+      "ipaddr": "192.0.2.162",
+      "hostname": "pc-027",
+      "cat": 2,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone B",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 20,
+      "segment": null,
+      "device_type": "computers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 162,
+    "fields": {
+      "ipaddr": "192.0.2.162",
+      "x": 973.6515341647095,
+      "y": 149.3144631482524,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.host",
+    "pk": 163,
+    "fields": {
+      "ipaddr": "192.0.2.163",
+      "hostname": "prn-042",
+      "cat": 3,
+      "time_create": "2026-01-01T00:00:00Z",
+      "time_update": "2026-01-01T00:00:00Z",
+      "online": true,
+      "SNMP": false,
+      "com_str": null,
+      "place": "Zone C",
+      "nagios_flag": true,
+      "hide_flag": false,
+      "parents": 21,
+      "segment": null,
+      "device_type": "network-printers",
+      "latitude": 0.0,
+      "longitude": 0.0
+    }
+  },
+  {
+    "model": "hosting.nodeposition",
+    "pk": 163,
+    "fields": {
+      "ipaddr": "192.0.2.163",
+      "x": 1351.0104154978194,
+      "y": 293.3935708375077,
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 1,
+    "fields": {
+      "host": 1,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 2,
+    "fields": {
+      "host": 2,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 3,
+    "fields": {
+      "host": 3,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 4,
+    "fields": {
+      "host": 4,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 5,
+    "fields": {
+      "host": 5,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 6,
+    "fields": {
+      "host": 6,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 7,
+    "fields": {
+      "host": 7,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 8,
+    "fields": {
+      "host": 8,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 9,
+    "fields": {
+      "host": 9,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 10,
+    "fields": {
+      "host": 10,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 11,
+    "fields": {
+      "host": 11,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 12,
+    "fields": {
+      "host": 12,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 13,
+    "fields": {
+      "host": 13,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 14,
+    "fields": {
+      "host": 14,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 15,
+    "fields": {
+      "host": 15,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 16,
+    "fields": {
+      "host": 16,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 17,
+    "fields": {
+      "host": 17,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 18,
+    "fields": {
+      "host": 18,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 19,
+    "fields": {
+      "host": 19,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 20,
+    "fields": {
+      "host": 20,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 21,
+    "fields": {
+      "host": 21,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 22,
+    "fields": {
+      "host": 22,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 23,
+    "fields": {
+      "host": 23,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 24,
+    "fields": {
+      "host": 24,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 25,
+    "fields": {
+      "host": 25,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 26,
+    "fields": {
+      "host": 26,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 27,
+    "fields": {
+      "host": 27,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 28,
+    "fields": {
+      "host": 28,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 29,
+    "fields": {
+      "host": 29,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 30,
+    "fields": {
+      "host": 30,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 31,
+    "fields": {
+      "host": 31,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 32,
+    "fields": {
+      "host": 32,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 33,
+    "fields": {
+      "host": 33,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 34,
+    "fields": {
+      "host": 34,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 35,
+    "fields": {
+      "host": 35,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 36,
+    "fields": {
+      "host": 36,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 37,
+    "fields": {
+      "host": 37,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 38,
+    "fields": {
+      "host": 38,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 39,
+    "fields": {
+      "host": 39,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 40,
+    "fields": {
+      "host": 40,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 41,
+    "fields": {
+      "host": 41,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 42,
+    "fields": {
+      "host": 42,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 43,
+    "fields": {
+      "host": 43,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 44,
+    "fields": {
+      "host": 44,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 45,
+    "fields": {
+      "host": 45,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 46,
+    "fields": {
+      "host": 46,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 47,
+    "fields": {
+      "host": 47,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 48,
+    "fields": {
+      "host": 48,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 49,
+    "fields": {
+      "host": 49,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 50,
+    "fields": {
+      "host": 50,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 51,
+    "fields": {
+      "host": 51,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 52,
+    "fields": {
+      "host": 52,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 53,
+    "fields": {
+      "host": 53,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 54,
+    "fields": {
+      "host": 54,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 55,
+    "fields": {
+      "host": 55,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 56,
+    "fields": {
+      "host": 55,
+      "description": "Uptime",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Uptime: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 57,
+    "fields": {
+      "host": 56,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 58,
+    "fields": {
+      "host": 57,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 59,
+    "fields": {
+      "host": 58,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 60,
+    "fields": {
+      "host": 59,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 61,
+    "fields": {
+      "host": 60,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 62,
+    "fields": {
+      "host": 61,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 63,
+    "fields": {
+      "host": 62,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 64,
+    "fields": {
+      "host": 63,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 65,
+    "fields": {
+      "host": 64,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 66,
+    "fields": {
+      "host": 65,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 67,
+    "fields": {
+      "host": 66,
+      "description": "Memory Free",
+      "status": "UNKNOWN",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Memory Free: UNKNOWN"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 68,
+    "fields": {
+      "host": 66,
+      "description": "Memory Used",
+      "status": "UNKNOWN",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Memory Used: UNKNOWN"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 69,
+    "fields": {
+      "host": 66,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 70,
+    "fields": {
+      "host": 66,
+      "description": "Uptime",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Uptime: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 71,
+    "fields": {
+      "host": 67,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 72,
+    "fields": {
+      "host": 68,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 73,
+    "fields": {
+      "host": 69,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 74,
+    "fields": {
+      "host": 70,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 75,
+    "fields": {
+      "host": 71,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 76,
+    "fields": {
+      "host": 72,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 77,
+    "fields": {
+      "host": 73,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 78,
+    "fields": {
+      "host": 74,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 79,
+    "fields": {
+      "host": 75,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 80,
+    "fields": {
+      "host": 76,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 81,
+    "fields": {
+      "host": 77,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 82,
+    "fields": {
+      "host": 78,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 83,
+    "fields": {
+      "host": 79,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 84,
+    "fields": {
+      "host": 80,
+      "description": "PING",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 85,
+    "fields": {
+      "host": 80,
+      "description": "Printer Status",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Printer Status: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 86,
+    "fields": {
+      "host": 81,
+      "description": "Current Load",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Current Load: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 87,
+    "fields": {
+      "host": 81,
+      "description": "Current Users",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Current Users: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 88,
+    "fields": {
+      "host": 81,
+      "description": "HTTP",
+      "status": "WARNING",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "HTTP: WARNING"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 89,
+    "fields": {
+      "host": 81,
+      "description": "PING",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "PING: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 90,
+    "fields": {
+      "host": 81,
+      "description": "Root Partition",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Root Partition: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 91,
+    "fields": {
+      "host": 81,
+      "description": "SSH",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "SSH: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 92,
+    "fields": {
+      "host": 81,
+      "description": "Swap Usage",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Swap Usage: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 93,
+    "fields": {
+      "host": 81,
+      "description": "Total Processes",
+      "status": "OK",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Total Processes: OK"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 94,
+    "fields": {
+      "host": 82,
+      "description": "C:\\ Drive Space",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "C:\\ Drive Space: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 95,
+    "fields": {
+      "host": 82,
+      "description": "CPU Load",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "CPU Load: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 96,
+    "fields": {
+      "host": 82,
+      "description": "Explorer",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Explorer: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 97,
+    "fields": {
+      "host": 82,
+      "description": "Memory Usage",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Memory Usage: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 98,
+    "fields": {
+      "host": 82,
+      "description": "NSClient++ Version",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "NSClient++ Version: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 99,
+    "fields": {
+      "host": 82,
+      "description": "Uptime",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "Uptime: CRITICAL"
+    }
+  },
+  {
+    "model": "hosting.service",
+    "pk": 100,
+    "fields": {
+      "host": 82,
+      "description": "W3SVC",
+      "status": "CRITICAL",
+      "last_checked": "2026-01-01T00:00:00Z",
+      "status_information": "W3SVC: CRITICAL"
+    }
+  }
+]

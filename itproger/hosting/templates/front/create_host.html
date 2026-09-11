@@ -1,0 +1,538 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Create Host{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>
+<script src="{% static 'front/js/create.js' %}"></script>
+<!--<script> alert(" Parent selection is temporarily unavailable");</script>-->
+<div class="untitled-page root">
+ {% block search %}
+    {% endblock %}
+    <div class="backfeater" style="color:#cce5ff ">
+        <div class="modal">
+            <form method="post" class="check-form" action="{{ request.path}}">
+                {% block header %}<div class="theader">New Host Form</div>{% endblock %}
+                {% csrf_token %}
+
+                <div class="header">
+
+                    <div class="form-ip">
+                        {{ form.ipaddr.errors }}
+                        <label for="{{ form.ipaddr.id_for_label }}" class="ip-label">IP address:</label>
+                        <input type="text" id="{{ form.ipaddr.id_for_label }}" name="ipaddr"
+                               class="form-control ip-read"
+                               placeholder="Enter IP address"
+                               pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+                               title="Enter an IP address in XXX.XXX.XXX.XXX format" autocomplete="on">
+
+                        <!--                <div id="warning-message" style="display: none; color: red;">-->
+                    </div>
+                    <div class="form-ip">
+                        {{ form.hostname.errors }}
+                        <label for="{{ form.hostname.id_for_label }}">Host name:</label>
+                        <input type="text" id="{{ form.hostname.id_for_label }}" class="form-control hostname"
+                               name="hostname"
+                               placeholder="Enter host name"
+                        >
+                    </div>
+
+                   <div class="form-ip">
+                        {{ form.parents.errors }}
+                        <label for="{{ form.parents.id_for_label }}">Parent:</label>
+                        <select id="{{ form.parents.id_for_label }}" class="form-control hostname" name="parents">
+
+                            {% if host.parents %}
+                            <option value="{{ host.id }}"> {{ host.parents.ipaddr }}</option>
+                             {% else %}
+                            <option value="">Select parent</option>
+                             {% endif %}
+                            {% for host in available_hosts %}
+                            <option value="{{ host.id }}" >
+                                {{ host.ipaddr }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="choi">
+                        <label for="device_type">Device type:</label>
+
+                        <select name="device_type" id="device_type" class="choices form-ip ">
+<!--                            <option value="switches">Switch</option>-->
+<!--                            <option value="servers">Server</option>-->
+                             <option value="switches" {% if host.device_type == "switches" %}selected{% endif %} >Switch</option>
+                            <option value="servers" {% if host.device_type == "servers" %}selected{% endif %} >Server</option>
+                            <option value="UPS" {% if host.device_type == "ups" %}selected{% endif %} >UPS</option>
+
+                            <option value="network-printers" {% if host.device_type == "network-printers" %}selected{% endif %} >Printer</option>
+                            <!--                            <option value="printers">Printer</option>-->
+                        </select>
+                    </div>
+
+                    <div class="form-ip">
+                        {{ form.com_str.errors }}
+                        <label for="{{ form.com_str.id_for_label }}">community string:</label>
+                        <input type="text" id="{{ form.com_str.id_for_label }}" class="form-control hostname"
+                               name="com_str"
+                               placeholder="Enter community string" value="public">
+                    </div>
+
+                    <a href="#" class="check-snmp-link" data-url="{% url 'check_snmp' %}" data-ip=""
+                       title="Check SNMP name for the entered IP">
+                        <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">
+                        <span class="loader"></span>
+                    </a>
+
+                    <!--                                                <img class="refresh" src="{% static 'front/img/refresh.svg' %}" alt="refresh name">-->
+
+
+                </div>
+
+                <div class="body">
+                    <div class="result-text"></div>
+
+
+                    <!--                <img class="arrow-check" src="{% static 'front/img/arrow_1.svg' %}" alt="refresh name">-->
+
+                    <p class="check-snmp-text">check host <br> with SNMP </p>
+                    <div class="ttt"></div>
+                    <div class="text1">Select services to monitor</div>
+                    <p class="check-snmp-text1">Host with address {{ host.ipaddr }} already exists. Go to the <a
+                            href="{% url 'scan' %}">Scan page</a>. </p>
+
+                    <div class="grid">
+<!--                        <div>-->
+<!--                            <label for="select-all">Select all</label>-->
+<!--                            <input type="checkbox" id="select-all" class="all-check" onclick="selectAll()">-->
+
+<!--                        </div>-->
+<!--                        <div></div>-->
+<!--                        <div></div>-->
+                        <div class="cpu_5_min">
+                            {{ form.cpu_5_min.errors }}
+                            <label for="{{ form.cpu_5_min.id_for_label }}">CPU 5 Min:</label>
+                            {{ form.cpu_5_min }}
+                        </div>
+
+                        <div class="uptime">
+                            {{ form.uptime.errors }}
+                            <label for="{{ form.uptime.id_for_label }}">Uptime:</label>
+                            {{ form.uptime }}
+                        </div>
+                        <div class="mem_fr">
+                            {{ form.mem_free.errors }}
+                            <label for="{{ form.mem_free.id_for_label }}">Memory Free:</label>
+                            {{ form.mem_free }}
+                        </div>
+
+                        <div class="mem_us">
+                            {{ form.mem_used.errors }}
+                            <label for="{{ form.mem_used.id_for_label }}">Memory Used:</label>
+                            {{ form.mem_used }}
+                        </div>
+                        <div  class="mem_util" style="display: none">
+                            {{ form.mem_util.errors }}
+                            <label for="{{ form.mem_util.id_for_label }}">Memory Utilization:</label>
+                            {{ form.mem_util }}
+                        </div>
+                        <div class="bat_temp">
+                            {{ form.bat_temp.errors }}
+                            <label for="{{ form.bat_temp.id_for_label }}">Battery Temperature:</label>
+                            {{ form.bat_temp }}
+                        </div>
+                        <div class="bat_time_work" >
+                            {{ form.bat_time_work.errors }}
+                            <label for="{{ form.bat_time_work.id_for_label }}">Battery Time Work:</label>
+                            {{ form.bat_time_work }}
+                        </div>
+
+                        <div class="bat_vol">
+                            {{ form.bat_vol.errors }}
+                            <label for="{{ form.bat_vol.id_for_label }}">Battery Voltage:</label>
+                            {{ form.bat_vol }}
+                        </div>
+                        <div class="run_reman">
+                            {{ form.run_reman.errors }}
+                            <label for="{{ form.run_reman.id_for_label }}">Runtime Remaining:</label>
+                            {{ form.run_reman }}
+                        </div>
+                        <div class="stat_charge">
+                            {{ form.stat_charge.errors }}
+                            <label for="{{ form.stat_charge.id_for_label }}">State of Charge:</label>
+                            {{ form.stat_charge }}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="osver1"></div>
+
+
+                <div>
+                    <button type="submit" class="submit1  modal-add">Save</button>
+                </div>
+
+                {% if form.errors %}
+                <div class="error-message">
+                    <p><strong>Oops! There was an error:</strong></p>
+                    {{ form.errors }}
+                </div>
+
+                {% endif %}
+                {% if error %}
+                <p class="error-message">{{ error }}</p>
+                {% endif %}
+                {% if form.is_bound %}
+                <div class="error-message">
+                    <strong> Cannot save an empty form </strong>
+                </div>
+                {% endif %}
+
+
+            </form>
+
+            <a href="{% url 'scan' %}">
+                <button type="submit" class="submit1  modal-back ">Back</button>
+            </a>
+        </div>
+
+    </div>
+    <script>
+
+        document.querySelector('.check-snmp-link').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Get IP and com_str
+            let ip = document.querySelector('.ip-read').value;
+            let communityString = document.querySelector('input[name="com_str"]').value;
+
+            // Check that IP and com_str are not empty
+            if (ip.trim() === '') {
+                alert('Please enter an IP address');
+                return;
+            }
+            if (communityString.trim() === '') {
+                alert('Please enter com_str');
+                return;
+            }
+
+            // Build a URL with IP and com_str parameters
+            let url = this.dataset.url + '?ipaddr=' + encodeURIComponent(ip) + '&com_str=' + encodeURIComponent(communityString);
+
+            // Find the icon and loader
+            let icon = this.querySelector('.refresh');
+            let loader = this.querySelector('.loader');
+
+            // Show the loader and hide the icon
+            if (loader) {
+                loader.style.display = 'block';
+            }
+
+            icon.style.display = 'none';
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    loader.style.display = 'none';
+
+                    function extractHostName(data) {
+                        // find the start index of the phrase "Host name"
+                        let hostNameIndex = data.indexOf("Host name");
+                        // if the phrase is found
+                        if (hostNameIndex !== -1) {
+                            // separate the string after "Host name"
+                            let afterHostName = data.substring(hostNameIndex + "Host name".length).trim();
+                            // find the end of the first word after "Host name"
+                            let nextSpaceIndex = afterHostName.indexOf(' ');
+
+                            // if there is a space, take the word before it; otherwise, take the rest of the string
+                            let hostName = (nextSpaceIndex !== -1) ?
+                                afterHostName.substring(0, nextSpaceIndex).trim() : // trim extra spaces
+                                afterHostName.trim();
+                            console.log(hostName); // log the extracted host name
+                            // Get the input element
+                            return hostName;
+                        } else {
+                            console.log("Phrase 'Host name' was not found in the string.");
+                        }
+
+                    }
+
+                    function extractHostNameups(data) {
+                        // find the start index of the phrase "Host name"
+                        let hostNameIndex = data.indexOf("Host name");
+
+                        // if the phrase is found
+                        if (hostNameIndex !== -1) {
+                            // separate the string after "Host name"
+                            let afterHostName = data.substring(hostNameIndex + "Host name".length).trim();
+
+                            // find the first quote index
+                            let startQuoteIndex = afterHostName.indexOf('"');
+
+                            // if the quote is found
+                            if (startQuoteIndex !== -1) {
+                                // find the second quote index
+                                let endQuoteIndex = afterHostName.indexOf('"', startQuoteIndex + 1);
+
+                                // if the second quote is found
+                                if (endQuoteIndex !== -1) {
+                                    // extract the host name between quotes
+                                    let hostName = afterHostName.substring(startQuoteIndex + 1, endQuoteIndex).trim();
+                                    console.log(hostName); // log the extracted host name
+                                    return hostName;
+                                } else {
+                                    console.log("The second quote was not found after the host name.");
+                                }
+                            } else {
+                                console.log("The first quote was not found after the host name.");
+                            }
+                        } else {
+                            console.log("Phrase 'Host name' was not found in the string.");
+                        }
+                    }
+
+                    if (data === 'SNMP is not configured') {
+                        // alert('Starting SNMP setup...');
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.ttt').style.display = 'none';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').innerText = `SNMP check failed for ${ip}.
+                         Check that the fields are filled in correctly.`;
+                    } else if (data === 'Host is offline. Service selection is unavailable') {
+                        // alert('Starting setup 22222...');
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'display';
+                        document.querySelector('.ttt').innerText = ` ${data}`;
+                    } else if (data === 'already exists') {
+                        // alert('Already exists');
+                        document.querySelector('.ttt').style.display = 'none';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').innerText = `Host already exists.
+                         Click "Edit" to open the edit form`;
+                        document.querySelector('.modal-add').innerText = `Edit`;
+                    }
+
+                    // Switch variants
+                    else if (data.indexOf('SNMP is configured.') === 0) {
+                        document.querySelector('.osver1').innerText = ` dlink`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` ${data}`;
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP is configured. nexus') === 0) {
+                        document.querySelector('.osver1').innerText = ` nexus`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP is configured. qtech') === 0) {
+                        document.querySelector('.osver1').innerText = ` qtech`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+
+                    } else if (data.indexOf('SNMP is configured. lenovo') === 0) {
+                        // alert(`Starting setup 5555...  ${data}`);
+                        document.querySelector('.osver1').innerText = ` lenovo`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    } else if (data.indexOf('SNMP is configured.') === 0) {
+                        // document.querySelector('.osver1').innerText = ` lenovo`;
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        // document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, but there are no MIBs for this model`;
+
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.bat_temp').style.display = 'block';
+                        document.querySelector('.bat_time_work').style.display = 'block';
+                        document.querySelector('.bat_vol').style.display = 'block';
+                        document.querySelector('.run_reman').style.display = 'block';
+                        document.querySelector('.stat_charge').style.display = 'block';
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        document.querySelector('.mem_util').style.display = 'none';
+                        document.querySelector('.uptime').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    }else if (data.indexOf('SNMP is configured. ups') === 0) {
+                        document.getElementById('device_type').selectedIndex = 2 ;
+
+                        // alert('data')
+                        // document.querySelector('.osver1').innerText = ` lenovo`;
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        // document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, but there are no MIBs for this model`;
+                        const hostName = extractHostNameups(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    }
+                    else if (data.indexOf('SNMP is configured. APC') === 0) {
+                        document.getElementById('device_type').selectedIndex = 2 ;
+
+                        document.querySelector('.osver1').innerText = ` APC`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.bat_temp').style.display = 'block';
+                        document.querySelector('.bat_time_work').style.display = 'block';
+                        document.querySelector('.bat_vol').style.display = 'block';
+                        document.querySelector('.run_reman').style.display = 'block';
+                        document.querySelector('.stat_charge').style.display = 'block';
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        document.querySelector('.mem_util').style.display = 'none';
+                        document.querySelector('.uptime').style.display = 'none';
+
+
+                        const hostName = extractHostNameups(data);
+
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    }
+                    else if (data.indexOf('SNMP is configured. apc36CA32') === 0) {
+                        document.getElementById('device_type').selectedIndex = 2 ;
+
+                        document.querySelector('.osver1').innerText = ` apc36CA32`;
+                        document.querySelector('.check-snmp-text1').style.display = 'none';
+                        document.querySelector('.text1').style.display = 'block';
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        document.querySelector('.grid').classList.remove('hidden');
+                        document.querySelector('.bat_temp').style.display = 'block';
+                        document.querySelector('.bat_time_work').style.display = 'block';
+                        document.querySelector('.bat_vol').style.display = 'block';
+                        document.querySelector('.run_reman').style.display = 'block';
+                        document.querySelector('.stat_charge').style.display = 'block';
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        document.querySelector('.mem_util').style.display = 'none';
+                        document.querySelector('.uptime').style.display = 'none';
+
+
+                        const hostName = extractHostNameups(data);
+
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    }
+                    else if (data.indexOf('SNMP apc_hw05_aos_513.') === 0) {
+                        document.getElementById('device_type').selectedIndex = 2 ;
+                        document.querySelector('.osver1').innerText = ` apc_hw05_aos_513`;
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').innerText = `SNMP is configured, services are temporarily unavailable`;
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+
+                        const hostName = extractHostNameups(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                        inputElement.value = hostName;
+                    }
+
+                    else {
+                        // alert(`Starting setup 5555...  ${data}`);
+                        document.querySelector('.refresh').style.display = 'block';
+                        document.querySelector('.check-snmp-text1').style.display = 'block';
+                        document.querySelector('.check-snmp-text').style.display = 'block';
+                        // document.querySelector('.ttt').innerText = ` SNMP is configured`;
+                        document.querySelector('.chck-snmp-text1').innerText = `Services are temporarily unavailable for monitoring`
+                        document.querySelector('.mem_fr').style.display = 'none';
+                        document.querySelector('.mem_us').style.display = 'none';
+                        document.querySelector('.bat_temp').style.display = 'none';
+                        document.querySelector('.bat_time_work').style.display = 'none';
+                        document.querySelector('.bat_vol').style.display = 'none';
+                        document.querySelector('.run_reman').style.display = 'none';
+                        document.querySelector('.stat_charge').style.display = 'none';
+                        const hostName = extractHostName(data);
+                        const inputElement = document.querySelector('.form-ip input[name="hostname"]');
+                            inputElement.value = hostName;
+                    }
+                })
+                .catch(error => {
+                    console.error('SNMP check error:', error);
+                    loader.style.display = 'none';
+                    icon.style.display = 'block';
+                });
+        });
+
+        // Initially hide checkboxes and show the label
+        document.querySelector('.text1').style.display = 'none';
+        document.querySelector('.grid').classList.add('hidden');
+        document.querySelector('.check-snmp-text').style.display = 'block';
+        document.querySelector('.check-snmp-text1').style.display = 'none';
+        document.querySelector('.cpu_5_min').style.display = 'none';
+
+        // document.querySelector('.mem_fr').style.display = 'none';
+        // document.querySelector('.mem_us').style.display = 'none';
+        // document.querySelector('.mem_util').style.display = 'none';
+
+        document.querySelector('.bat_temp').style.display = 'none';
+        document.querySelector('.bat_time_work').style.display = 'none';
+        document.querySelector('.bat_vol').style.display = 'none';
+        document.querySelector('.run_reman').style.display = 'none';
+        document.querySelector('.stat_charge').style.display = 'none';
+
+
+
+    </script>
+    <script>
+        <!--        replace commas with dots -->
+        document.getElementById('{{ form.ipaddr.id_for_label }}').addEventListener('input', function () {
+            this.value = this.value.replace(/,/g, '.');
+        });
+        document.getElementById('{{ form.parents.id_for_label }}').addEventListener('input', function () {
+            this.value = this.value.replace(/,/g, '.');
+        });
+    </script>
+
+<!--    -->
+    <script>
+        document.querySelectorAll('.osver').forEach(function (element) {
+            var osver = element.innerText;
+            osver = osver.replace("sw", "");
+            element.innerText = osver;
+        });
+    </script>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+.map-gradient-page {
+    min-height: 100vh;
+    background: var(--sysmon-photo-bg);
+}
+
+.map-gradient-page > .backfeater,
+.map-gradient-page main,
+.map-gradient-page main > .untitled-page.root,
+.map-gradient-page main .backfeater {
+    background: transparent;
+    background-image: none;
+}
+
+.map-gradient-page .backheader {
+    z-index: 10;
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.map-gradient-page .dropdown-menu-container {
+    z-index: 1000;
+}
+
+@media (min-width: 851px) {
+    .map-gradient-page .dropdown-menu-container {
+        top: 26px;
+    }
+
+    .map-gradient-page .dropdown-toggle {
+        margin-top: 0;
+    }
+
+    .map-gradient-page .search {
+        top: 26px;
+    }
+
+    .map-gradient-page .log-search-wrapper {
+        margin-top: 0;
+    }
+}
+
+.map-gradient-page.logs-page::before {
+    display: none;
+}

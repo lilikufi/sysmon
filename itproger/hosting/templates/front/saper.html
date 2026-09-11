@@ -1,0 +1,178 @@
+{% extends 'front/layout.html' %}
+{% load static %}
+{% block title%}Scan{% endblock %}
+
+{% block content %}
+<style>
+    .backfeater {
+        background: var(--sysmon-photo-bg);
+    }
+
+   #game {
+    position: absolute;
+    top: 5%;
+    left: 33%;
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+}
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .cell.open {
+        background-color: #ddd;
+    }
+
+    .cell.bomb {
+        background-color: #f10041; /* color for bomb cells */
+    }
+
+    .cell.neighboring-bomb {
+        background-color: #ffd600; /* color for cells next to a bomb */
+    }
+
+
+.modal-add {
+    opacity: 1;
+    width: 115px;
+    height: 30px;
+    border-radius: 12px 12px 12px 12px;
+    /* background: rgb(0, 32, 255); */
+    background: rgb(40 89 197);
+    color: #fffaf0;
+    border-color: rgba(104, 116, 139, 0);
+    font: 400 14px/1.57 Roboto, Helvetica, Arial, serif;
+    position: absolute;
+    /* bottom: 30px; */
+    top: 561px;
+    left: 42%;
+}
+.text{
+     position: absolute;
+    top: 20px;
+    left: 40%;
+    font: 400 30px bold Roboto, Helvetica, Arial, serif;
+    color: #FFFFFF;
+}
+</style>
+<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>-->
+<!--<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'front/css/create-form.css' %}"/>-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'front/css/scan.css' %}"/>-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'front/css/modal.css' %}"/>-->
+<script src="{% static 'front/js/create.js' %}"></script>
+{% block sidebar %}
+<div class="tscan"><a href="{% url 'snake' %}">
+        <li> snake</li>
+    </a></div>
+ {% endblock %}
+<div class="untitled-page root">
+    <div class="snow-container"></div>
+    <div class="backfeater">
+<!--        <div class="text">Minesweeper</div>-->
+<!--        <h1>Minesweeper</h1>-->
+        <div id="game"></div>
+        <button class="submit1  modal-add" id="restart-button">Restart</button>
+    </div>
+</div>
+<script>
+    document.getElementById('restart-button').addEventListener('click', function () {
+        location.reload(); // Reloads the page
+    });
+
+    const rows = 10; // row count
+    const cols = 10; // column count
+    const totalBombs = 10; // bomb count
+    const gameArea = document.getElementById("game");
+    let cells = [];
+
+    // Create the game field
+    function createGameBoard() {
+        for (let r = 0; r < rows; r++) {
+            cells[r] = [];
+            for (let c = 0; c < cols; c++) {
+                cells[r][c] = {isBomb: false, opened: false, neighboringBombs: 0};
+                const cell = document.createElement("div");
+                cell.className = "cell";
+                cell.addEventListener("click", () => handleCellClick(r, c, cell));
+                gameArea.appendChild(cell);
+                cells[r][c].element = cell; // save the element for later use
+            }
+        }
+        placeBombs();
+        calculateNeighboringBombs();
+    }
+
+    // Place bombs
+    function placeBombs() {
+        let bombsPlaced = 0;
+        while (bombsPlaced < totalBombs) {
+            const r = Math.floor(Math.random() * rows);
+            const c = Math.floor(Math.random() * cols);
+            if (!cells[r][c].isBomb) {
+                cells[r][c].isBomb = true;
+                bombsPlaced++;
+            }
+        }
+    }
+
+    // Calculate adjacent bombs
+    function calculateNeighboringBombs() {
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                let bombCount = 0;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        if (i === 0 && j === 0) continue; // skip the current cell
+                        const newRow = r + i;
+                        const newCol = c + j;
+                        if (isInBounds(newRow, newCol) && cells[newRow][newCol].isBomb) {
+                            bombCount++;
+                        }
+                    }
+                }
+                cells[r][c].neighboringBombs = bombCount;
+            }
+        }
+    }
+
+    // Handle cell click
+    function handleCellClick(row, col, cell) {
+        if (cells[row][col].opened) return; // return if the cell is already open
+        cells[row][col].opened = true;
+        cell.classList.add("open");
+
+        if (cells[row][col].isBomb) {
+            cell.classList.add("bomb");
+            alert("Game over! You hit a mine!");
+        } else {
+            if (cells[row][col].neighboringBombs > 0) {
+                // If there are adjacent mines, color it yellow
+                cell.style.backgroundColor = "#ffd600";
+                cell.innerText = cells[row][col].neighboringBombs; // show the number of adjacent bombs
+            }
+        }
+    }
+
+    // Bounds check
+    function isInBounds(row, col) {
+        return row >= 0 && row < rows && col >= 0 && col < cols;
+    }
+
+    // Start the game
+    createGameBoard();
+</script>
+
+{% endblock %}
+<!--
+;
+-->
